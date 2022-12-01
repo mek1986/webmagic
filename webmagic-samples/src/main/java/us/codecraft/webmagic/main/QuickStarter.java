@@ -7,6 +7,7 @@ import us.codecraft.webmagic.model.samples.News163;
 import us.codecraft.webmagic.model.samples.OschinaBlog;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.pipeline.MultiPagePipeline;
+import us.codecraft.webmagic.samples.InfoQMiniBookProcessor;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,10 +27,12 @@ public class QuickStarter {
         clazzMap.put("1", OschinaBlog.class);
         clazzMap.put("2", IteyeBlog.class);
         clazzMap.put("3", News163.class);
+        clazzMap.put("4", InfoQMiniBookProcessor.class);
         urlMap = new LinkedHashMap<String, String>();
         urlMap.put("1", "http://my.oschina.net/flashsword/blog");
         urlMap.put("2", "http://flashsword20.iteye.com/");
         urlMap.put("3", "http://news.163.com/");
+        urlMap.put("4", "http://www.infoq.com/cn/minibooks");
     }
 
     public static void main(String[] args) {
