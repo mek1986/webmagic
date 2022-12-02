@@ -10,29 +10,35 @@ import java.util.*;
  * Date: 2022\12\1 0001
  * Time: 15:37
  * vx: 250023777
- * Description: 菜单模型
+ * Description: save menu info
  * @version: 1.0
  */
 public class TdtMenuModel {
     /**
-     * id冲突解决器
+     * id creator
      */
     private Integer externIdCounter = 50000;
 
     /**
-     * 菜单项列表
+     * menu item list
      */
     private final List<JSONObject> MENU_ITEMS;
 
     /**
      * id TO MENU_ITEMS map
      */
-    private final Map<Integer, Integer> ID2_MENU_ITEMS = new HashMap<>();
+    private final Map<String, Integer> ID2_MENU_ITEMS = new HashMap<>();
 
     /**
      * name to MENU_ITEMS map
      */
     private final Map<String, Integer> NAME2_MENU_ITEMS = new HashMap<>();
+
+    /**
+     * url to MENU_ITEMS map
+     */
+    private final Map<String, Integer> URL2_MENU_ITEMS = new HashMap<>();
+
     /**
      * page url set
      */
@@ -43,17 +49,19 @@ public class TdtMenuModel {
         if (MENU_ITEMS != null && MENU_ITEMS.size() > 0) {
             int size = MENU_ITEMS.size();
             for (int i = 0; i < size; i++) {
-                int idKey = MENU_ITEMS.get(i).getInteger("id");
+                String idKey = String.valueOf(MENU_ITEMS.get(i).getInteger("id"));
                 if (MENU_ITEMS.get(i).containsKey("file")) {
+                    String url = MENU_ITEMS.get(i).getString("file");
                     //向集合中添加待抓取页面url
-                    PAGE_URLS.add(MENU_ITEMS.get(i).getString("file"));
+                    PAGE_URLS.add(url);
+                    URL2_MENU_ITEMS.put(url, i);
                 }
 
                 //id重复
                 if (ID2_MENU_ITEMS.containsKey(idKey)) {
                     //设置新的id
                     MENU_ITEMS.get(i).put("id", externIdCounter);
-                    ID2_MENU_ITEMS.put(externIdCounter, i);
+                    ID2_MENU_ITEMS.put(externIdCounter + "", i);
                     NAME2_MENU_ITEMS.put(MENU_ITEMS.get(i).getString("name"), i);
                     externIdCounter++;
 
@@ -67,7 +75,7 @@ public class TdtMenuModel {
     }
 
     /**
-     * 向page对象中添加url
+     * add url to Page object,so crawler can continue download page.
      *
      * @param page page对象
      */
@@ -75,6 +83,73 @@ public class TdtMenuModel {
         for (String url :
                 PAGE_URLS) {
             page.addTargetRequest(TdtConfig.CONTENT_PAGE_PREFIX + url);
+        }
+    }
+
+    /**
+     * get menu item by key
+     *
+     * @param key  key
+     * @param type key type[id|url|name]
+     * @return item
+     */
+    public JSONObject getItem(String key, KEY_TYPE_ENUM type) {
+        if (type.value == 1) {
+            //id
+
+            return getItem(ID2_MENU_ITEMS.get(key));
+        } else if (type.value == 2) {
+            //url
+
+            return getItem(URL2_MENU_ITEMS.get(key));
+        } else if (type.value == 3) {
+            //name
+
+            return getItem(NAME2_MENU_ITEMS.get(key));
+        }
+
+        return null;
+    }
+
+    /**
+     * get item by index
+     *
+     * @param i index
+     * @return menu item
+     */
+    private JSONObject getItem(Integer i) {
+        if (i == null) {
+            return null;
+        }
+
+        //deep clone
+        return JSONObject.parseObject(MENU_ITEMS.get(i).toString());
+    }
+
+    /**
+     * MENU_ITEM key enum
+     */
+    public static enum KEY_TYPE_ENUM {
+        /**
+         * id type
+         */
+        ID(1),
+        /**
+         * url type
+         */
+        URL(2),
+        /**
+         * name type
+         */
+        NAME(3);
+
+        /**
+         * enum value
+         */
+        private final int value;
+
+        private KEY_TYPE_ENUM(int value) {
+            this.value = value;
         }
     }
 }

@@ -16,16 +16,16 @@ import java.util.regex.Pattern;
  * Date: 2022\11\30 0030
  * Time: 16:49
  * vx: 250023777
- * Description: 爬虫处理器
+ * Description: download page, init menu model and parse page
  * @version: 1.0
  */
 public class TdtProcessor implements PageProcessor {
     /**
-     * 站点
+     * web site
      */
     private Site site;
     /**
-     * 菜单模型
+     * menu model
      */
     private volatile TdtMenuModel menuModel = null;
 
@@ -46,12 +46,14 @@ public class TdtProcessor implements PageProcessor {
 
             return;
         }
+
+        new TdtPageModel(menuModel).parsePage(page);
     }
 
     /**
-     * 初始化菜单模型
+     * init menu model with Page object
      *
-     * @param page 页面对象
+     * @param page Page object
      */
     private void initMenuModel(Page page) {
         String sourceText = page.getRawText();
@@ -85,7 +87,7 @@ public class TdtProcessor implements PageProcessor {
      */
     @Override
     public Site getSite() {
-        //site定义抽取配置，以及开始url等
+        //init web site
         if (site == null) {
             site = Site.me().setDomain(TdtConfig.DOMAIN).
                     setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
