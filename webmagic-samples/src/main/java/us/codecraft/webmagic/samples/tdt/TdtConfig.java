@@ -39,4 +39,6 @@ final public class TdtConfig {
      * debug print prefix text
      */
     public final static String DEBUG_PREFIX_TEXT = "DEBUG: ";
+
+    public final static Integer EXIT_CODE = 1000;
 }

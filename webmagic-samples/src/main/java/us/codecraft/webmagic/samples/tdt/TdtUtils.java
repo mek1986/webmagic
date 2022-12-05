@@ -30,12 +30,12 @@ final public class TdtUtils {
      *
      * @param texts content texts
      */
-    public static void printDebug(List<String> texts) {
-        for (String text :
+    public static <T> void printDebug(List<T> texts) {
+        System.out.println("[tdt DEBUG info]");
+        for (T text :
                 texts) {
-            System.out.println("[tdt DEBUG info]");
-            System.out.println(TdtConfig.DEBUG_PREFIX_TEXT + text);
-            System.out.println("[end tdt DEBUG]");
+            System.out.println(TdtConfig.DEBUG_PREFIX_TEXT + text.toString());
         }
+        System.out.println("[end tdt DEBUG]");
     }
 }
