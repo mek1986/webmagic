@@ -1,6 +1,7 @@
 package us.codecraft.webmagic.samples.tdt;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import us.codecraft.webmagic.Page;
 
 import java.util.*;
@@ -51,7 +52,7 @@ public class TdtMenuModel {
             for (int i = 0; i < size; i++) {
                 String idKey = String.valueOf(MENU_ITEMS.get(i).getInteger("id"));
                 if (MENU_ITEMS.get(i).containsKey("file")) {
-                    String url = MENU_ITEMS.get(i).getString("file");
+                    String url = TdtConfig.CONTENT_PAGE_PREFIX + MENU_ITEMS.get(i).getString("file");
                     //向集合中添加待抓取页面url
                     PAGE_URLS.add(url);
                     URL2_MENU_ITEMS.put(url, i);
@@ -82,7 +83,7 @@ public class TdtMenuModel {
     public void addUrlToPage(Page page) {
         for (String url :
                 PAGE_URLS) {
-            page.addTargetRequest(TdtConfig.CONTENT_PAGE_PREFIX + url);
+            page.addTargetRequest(url);
         }
     }
 
@@ -127,6 +128,41 @@ public class TdtMenuModel {
     }
 
     /**
+     * get class module name by pid
+     *
+     * @param pid pid
+     * @return module list:(1[,2]),1 is first module name,2 is second module name
+     */
+    public List<String> getModuleNameByPid(String pid) {
+        if (Strings.isNullOrEmpty(pid)) {
+            return null;
+        }
+
+        LinkedList<String> ret = new LinkedList<>();
+
+        JSONObject item = getItem(ID2_MENU_ITEMS.get(pid));
+        if (item == null) {
+            return null;
+        }
+
+        ret.add(item.getString("name"));
+
+        if (item.getInteger("pId") == 0) {
+            return ret;
+        }
+
+        item = getItem(ID2_MENU_ITEMS.get(item.getInteger("pId") + ""));
+
+        if (item == null) {
+            return ret;
+        }
+
+        ret.addFirst(item.getString("name"));
+
+        return ret;
+    }
+
+    /**
      * MENU_ITEM key enum
      */
     public static enum KEY_TYPE_ENUM {
@@ -151,5 +187,14 @@ public class TdtMenuModel {
         private KEY_TYPE_ENUM(int value) {
             this.value = value;
         }
+    }
+
+    /**
+     * get page model size
+     *
+     * @return size
+     */
+    public int getPageModelSize() {
+        return URL2_MENU_ITEMS.size();
     }
 }

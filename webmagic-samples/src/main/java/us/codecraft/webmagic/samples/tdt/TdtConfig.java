@@ -10,6 +10,11 @@ package us.codecraft.webmagic.samples.tdt;
  */
 final public class TdtConfig {
     /**
+     * debug mode
+     */
+    public static boolean DEBUG = true;
+
+    /**
      * domain
      */
     public final static String DOMAIN = "lbs.tianditu.gov.cn";
@@ -31,7 +36,7 @@ final public class TdtConfig {
     public final static String CONTENT_PAGE_PREFIX = SITE_URL + "api/js4.0/";
 
     /**
-     * menu init synchronized key
+     * debug print prefix text
      */
-    public final static String MENU_INIT_KEY = "menu_init_key";
+    public final static String DEBUG_PREFIX_TEXT = "DEBUG: ";
 }

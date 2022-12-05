@@ -24,10 +24,13 @@ public class TdtProcessor implements PageProcessor {
      * web site
      */
     private Site site;
+
     /**
      * menu model
      */
-    private volatile TdtMenuModel menuModel = null;
+    private TdtMenuModel menuModel = null;
+
+    private TdtDbManage dbManage = new TdtDbManage();
 
     /**
      * Processes the page, extract URLs to fetch, extract the data and store.
@@ -37,17 +40,23 @@ public class TdtProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         if (menuModel == null) {
-            synchronized (TdtConfig.MENU_INIT_KEY.intern()) {
-                if (menuModel == null) {
-                    initMenuModel(page);
-                    menuModel.addUrlToPage(page);
-                }
-            }
+            initMenuModel(page);
+            menuModel.addUrlToPage(page);
 
             return;
         }
 
-        new TdtPageModel(menuModel).parsePage(page);
+        dbManage.addPageData(new TdtPageModel(menuModel).parsePage(page));
+        if (dbManage.getPageDataList().size() >= menuModel.getPageModelSize()) {
+            //all page have parse
+
+            if (dbManage.save()) {
+                System.out.println("all data save to db success");
+                return;
+            }
+
+            System.out.println("some error happen when save data to db");
+        }
     }
 
     /**
@@ -67,8 +76,7 @@ public class TdtProcessor implements PageProcessor {
             matcherStr = matcherStr.replaceAll("!0", "false")
                     .replaceAll("!1", "false");
 
-            System.out.println(matcherStr);
-            System.out.println("******");
+            TdtUtils.printDebug(matcherStr);
             List<JSONObject> list = new Json(matcherStr).toList(JSONObject.class);
 
             //设置菜单模型
