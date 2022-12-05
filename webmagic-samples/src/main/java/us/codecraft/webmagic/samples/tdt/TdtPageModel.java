@@ -107,7 +107,6 @@ public class TdtPageModel {
         }
 
         if (indexList.isEmpty()) {
-            TdtUtils.printDebug("can not find attr in option detail");
             return null;
         }
 
@@ -161,6 +160,7 @@ public class TdtPageModel {
         Map<String, String> title2NameMap = new HashMap<>();
         title2NameMap.put("常量", "const_value");
         title2NameMap.put("说明", "const_value_desc");
+        title2NameMap.put("描述", "const_value_desc");
         Map<Integer, String> ans = new HashMap<>();
         int size = titleNodes.size();
         String content;
@@ -292,6 +292,7 @@ public class TdtPageModel {
         title2NameMap.put("属性", "attr_name");
         title2NameMap.put("类型", "attr_type");
         title2NameMap.put("说明", "attr_desc");
+        title2NameMap.put("描述", "attr_desc");
         title2NameMap.put("默认值", "attr_default_value");
         Map<Integer, String> ans = new HashMap<>();
         int size = titleNodes.size();
