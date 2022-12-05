@@ -1,6 +1,7 @@
 package us.codecraft.webmagic.samples.tdt;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -20,6 +21,11 @@ import java.util.regex.Pattern;
  * @version: 1.0
  */
 public class TdtProcessor implements PageProcessor {
+    /**
+     * spider
+     */
+    private Spider SPIDER;
+
     /**
      * web site
      */
@@ -105,8 +111,10 @@ public class TdtProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new TdtProcessor())
-                .thread(5)
+        Spider spider = Spider.create(new TdtProcessor());
+        TdtGlobalService.SPIDER = spider;
+        spider.setSpiderListeners(Lists.newArrayList(new TdtSpiderErrorListener()));
+        spider.thread(5)
                 .addUrl(TdtConfig.MENU_PAGE_PREFIX + "initTree.js")
                 .run();
 
