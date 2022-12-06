@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : 本地
  Source Server Type    : MySQL
  Source Server Version : 50726
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 06/12/2022 17:07:25
+ Date: 06/12/2022 21:54:51
 */
 
 SET NAMES utf8mb4;
@@ -58,9 +58,11 @@ CREATE TABLE `t_enum`  (
   `const_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '常量名',
   `const_value_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '常量值描述',
   `const_value` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '常量值',
+  `module_name1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属1级模块名称',
+  `module_name2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '所属2级模块名称',
   `from_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抓取网页',
-  `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
+  `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '常量描述表' ROW_FORMAT = Dynamic;
 
@@ -115,13 +117,15 @@ CREATE TABLE `t_module`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '模块描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_options
+-- Table structure for t_option
 -- ----------------------------
-DROP TABLE IF EXISTS `t_options`;
-CREATE TABLE `t_options`  (
+DROP TABLE IF EXISTS `t_option`;
+CREATE TABLE `t_option`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `obj_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象名',
   `obj_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '对象描述',
+  `module_name1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属1级模块名称',
+  `module_name2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '所属2级模块名称',
   `from_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抓取网页',
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
@@ -129,10 +133,10 @@ CREATE TABLE `t_options`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_options_detail
+-- Table structure for t_option_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `t_options_detail`;
-CREATE TABLE `t_options_detail`  (
+DROP TABLE IF EXISTS `t_option_detail`;
+CREATE TABLE `t_option_detail`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `obj_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象名称',
   `attr_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象属性名称',

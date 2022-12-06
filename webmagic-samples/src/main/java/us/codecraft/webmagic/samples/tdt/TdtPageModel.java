@@ -22,6 +22,7 @@ public class TdtPageModel {
     private TdtMenuModel menuModel;
     private JSONObject clazzObj;
     private JSONObject optionObj;
+    private JSONObject moduleNames = new JSONObject();
     private List<JSONObject> enumList;
     private List<JSONObject> methodList;
     private List<JSONObject> eventList;
@@ -680,6 +681,10 @@ public class TdtPageModel {
 
         String name = item.getString("name");
 
+        List<String> names = menuModel.getModuleNameByPid(item.getInteger("pId") + "");
+        //set module name
+        setModuleNames(this.moduleNames, names);
+
         //parse clazz
         this.clazzObj = parseClazzInfo(selectables, url, name, item);
         //parse enum
@@ -714,25 +719,32 @@ public class TdtPageModel {
 
         obj.put("class_desc", nodes.get(0).regex("<p>([\\s\\S]+)</p>").get());
 
-        List<String> moduleNames = menuModel.getModuleNameByPid(item.getInteger("pId") + "");
-        if (moduleNames == null || moduleNames.isEmpty()) {
+        return obj;
+    }
+
+    /**
+     * set object's module names
+     *
+     * @param obj   object
+     * @param names name list
+     */
+    private void setModuleNames(JSONObject obj, List<String> names) {
+        if (names == null || names.isEmpty()) {
             //must have module
-            return null;
+            throw new IllegalArgumentException("can not find module");
         }
 
-        int moduleSize = moduleNames.size();
+        int moduleSize = names.size();
         //first module
-        obj.put("module1", moduleNames.get(0));
+        obj.put("module1", names.get(0));
 
         if (moduleSize == 1) {
             //don't have second module
             obj.put("module2", "无");
         } else {
             //second module
-            obj.put("module2", moduleNames.get(1));
+            obj.put("module2", names.get(1));
         }
-
-        return obj;
     }
 
     public JSONObject getClazzObj() {
