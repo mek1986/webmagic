@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 05/12/2022 17:22:50
+ Date: 06/12/2022 17:07:25
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `t_class`;
 CREATE TABLE `t_class`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `class_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类名',
-  `calss_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '类描述',
+  `class_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '类描述',
   `module_name1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属1级模块名称',
   `module_name2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '所属2级模块名称',
   `from_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抓取网页',
