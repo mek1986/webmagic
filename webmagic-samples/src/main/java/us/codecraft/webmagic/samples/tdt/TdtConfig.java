@@ -46,12 +46,12 @@ final public class TdtConfig {
     public final static Integer EXIT_CODE = 1000;
 
     /**
-     * table title regex string
+     * title regex string
      */
-    public final static String TABLE_TITLE_REGEX_STRING = ">([^<>]+)<";
+    public final static String TITLE_REGEX_STRING = ">([^<>]+)<";
 
     /**
-     * table content regex string
+     * content regex string
      */
-    public final static String TABLE_CONTENT_REGEX_STRING = ">([\\s\\S]+)<";
+    public final static String CONTENT_REGEX_STRING = ">([\\s\\S]+)<";
 }

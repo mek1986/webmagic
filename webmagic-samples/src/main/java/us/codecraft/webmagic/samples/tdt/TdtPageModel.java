@@ -93,7 +93,7 @@ public class TdtPageModel {
 
             for (Selectable node :
                     tdNodes) {
-                String title = node.regex(TdtConfig.TABLE_TITLE_REGEX_STRING).get().trim();
+                String title = node.regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
                 if (Objects.equals("方法", title)) {
                     method = true;
                     continue;
@@ -162,7 +162,7 @@ public class TdtPageModel {
 
             for (Selectable node :
                     tdNodes) {
-                String title = node.regex(TdtConfig.TABLE_TITLE_REGEX_STRING).get().trim();
+                String title = node.regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
                 if (title.contains("事件")) {
                     indexList.add(i);
                 }
@@ -219,7 +219,7 @@ public class TdtPageModel {
         int size = titleNodes.size();
         String content;
         for (int i = 0; i < size; i++) {
-            content = titleNodes.get(i).regex(TdtConfig.TABLE_TITLE_REGEX_STRING).toString().trim();
+            content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is method in enum");
@@ -264,7 +264,7 @@ public class TdtPageModel {
 
             for (Selectable node :
                     tdNodes) {
-                String title = node.regex(TdtConfig.TABLE_TITLE_REGEX_STRING).get().trim();
+                String title = node.regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
                 if (title.contains("方法") || title.contains("函数")) {
                     method = true;
                     continue;
@@ -321,7 +321,7 @@ public class TdtPageModel {
                 if (h3 == null) {
                     obj.put("方法", array);
                 } else {
-                    obj.put(h3.regex(TdtConfig.TABLE_TITLE_REGEX_STRING).get().trim(), array);
+                    obj.put(h3.regex(TdtConfig.TITLE_REGEX_STRING).get().trim(), array);
                 }
             }
 
@@ -356,7 +356,7 @@ public class TdtPageModel {
         int size = titleNodes.size();
         String content;
         for (int i = 0; i < size; i++) {
-            content = titleNodes.get(i).regex(TdtConfig.TABLE_TITLE_REGEX_STRING).toString().trim();
+            content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is method in enum");
@@ -379,10 +379,9 @@ public class TdtPageModel {
      *
      * @param selectables selectables
      * @param url         url
-     * @param name        name
      * @return enum list
      */
-    private List<JSONObject> parseEnumList(List<List<Selectable>> selectables, String url, String name) {
+    private List<JSONObject> parseEnumList(List<List<Selectable>> selectables, String url) {
         JSONObject item = menuModel.getItem(url, TdtMenuModel.KEY_TYPE_ENUM.URL);
         if (item == null) {
             return null;
@@ -394,7 +393,7 @@ public class TdtPageModel {
         List<Integer> indexList = new ArrayList<>();
         //find enum
         for (int i = 0; i < tableSize; i++) {
-            String title = tableNodes.get(i).xpath("tr").nodes().get(0).xpath("td").nodes().get(0).regex(TdtConfig.TABLE_TITLE_REGEX_STRING).get().trim();
+            String title = tableNodes.get(i).xpath("tr").nodes().get(0).xpath("td").nodes().get(0).regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
             if (Objects.equals("常量", title)) {
                 indexList.add(i);
                 break;
@@ -411,6 +410,7 @@ public class TdtPageModel {
         //parse enum list
         for (Integer index :
                 indexList) {
+            String name = selectables.get(1).get(index).regex(TdtConfig.CONTENT_REGEX_STRING).toString();
             Selectable enumTable = tableNodes.get(index);
             List<Selectable> trNodes = enumTable.xpath("tr").nodes();
             if (trNodes == null || trNodes.size() <= 1) {
@@ -452,7 +452,7 @@ public class TdtPageModel {
             tdNodes = trNodes.get(i).xpath("td").nodes();
             int size = tdNodes.size();
             for (int j = 0; j < size; j++) {
-                List<Selectable> nodes = tdNodes.get(j).regex(TdtConfig.TABLE_CONTENT_REGEX_STRING).nodes();
+                List<Selectable> nodes = tdNodes.get(j).regex(TdtConfig.CONTENT_REGEX_STRING).nodes();
 
                 if (nodes == null || nodes.size() == 0) {
                     obj.put(map.get(j), "无");
@@ -505,7 +505,7 @@ public class TdtPageModel {
         int size = titleNodes.size();
         String content;
         for (int i = 0; i < size; i++) {
-            content = titleNodes.get(i).regex(TdtConfig.TABLE_TITLE_REGEX_STRING).toString().trim();
+            content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is empty in enum");
@@ -540,7 +540,7 @@ public class TdtPageModel {
         //parse option
         this.optionObj = parseOptionInfo(name, selectables, url, item);
         //parse enum
-        this.enumList = parseEnumList(selectables, url, name);
+        this.enumList = parseEnumList(selectables, url);
     }
 
     /**
@@ -578,7 +578,7 @@ public class TdtPageModel {
         int index = -1;
         //find attr
         for (int i = 0; i < tableSize; i++) {
-            String title = tableNodes.get(i).xpath("tr").nodes().get(0).xpath("td").nodes().get(0).regex(TdtConfig.TABLE_TITLE_REGEX_STRING).get().trim();
+            String title = tableNodes.get(i).xpath("tr").nodes().get(0).xpath("td").nodes().get(0).regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
             if (Objects.equals("属性", title) || Objects.equals("方法", title)) {
                 index = i;
                 break;
@@ -631,7 +631,7 @@ public class TdtPageModel {
         int size = titleNodes.size();
         String content;
         for (int i = 0; i < size; i++) {
-            content = titleNodes.get(i).regex(TdtConfig.TABLE_TITLE_REGEX_STRING).toString().trim();
+            content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is empty in option detail");
@@ -688,11 +688,15 @@ public class TdtPageModel {
         //parse clazz
         this.clazzObj = parseClazzInfo(selectables, url, name, item);
         //parse enum
-        this.enumList = parseEnumList(selectables, url, name);
+        this.enumList = parseEnumList(selectables, url);
         //parse method
         this.methodList = parseMethodList(selectables, url, name);
         //parse event
         this.eventList = parseEventList(selectables, url, name);
+    }
+
+    public JSONObject getModuleNames() {
+        return moduleNames;
     }
 
     /**
