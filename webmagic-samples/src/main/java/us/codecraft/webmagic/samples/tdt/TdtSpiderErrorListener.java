@@ -22,6 +22,7 @@ public class TdtSpiderErrorListener implements SpiderListener {
         System.out.println(request.getUrl() + " parse error");
         if (TdtConfig.DEBUG) {
             TdtUtils.printDebug(e.toString());
+            e.printStackTrace();
         }
         TdtGlobalService.SPIDER.close();
     }
