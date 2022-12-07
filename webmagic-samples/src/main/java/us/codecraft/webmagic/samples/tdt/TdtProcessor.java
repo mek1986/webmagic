@@ -22,11 +22,6 @@ import java.util.regex.Pattern;
  */
 public class TdtProcessor implements PageProcessor {
     /**
-     * spider
-     */
-    private Spider SPIDER;
-
-    /**
      * web site
      */
     private Site site;
@@ -36,7 +31,7 @@ public class TdtProcessor implements PageProcessor {
      */
     private TdtMenuModel menuModel = null;
 
-    private TdtDbManage dbManage = new TdtDbManage();
+    private final TdtDbManage dbManage = new TdtDbManage();
 
     /**
      * Processes the page, extract URLs to fetch, extract the data and store.
@@ -54,10 +49,9 @@ public class TdtProcessor implements PageProcessor {
 
         dbManage.addPageData(new TdtPageModel(menuModel).parsePage(page));
         if (dbManage.getPageDataList().size() >= menuModel.getPageModelSize()) {
-            //all page have parse
+            System.out.println("download finish");
 
             if (dbManage.save()) {
-                System.out.println("all data save to db success");
                 return;
             }
 

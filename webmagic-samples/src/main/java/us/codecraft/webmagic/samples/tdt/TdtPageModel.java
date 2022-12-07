@@ -405,32 +405,33 @@ public class TdtPageModel {
             return null;
         }
 
+        if (indexList.size() > 1) {
+            throw new IllegalArgumentException("more than one enum");
+        }
+
         //return value
         List<JSONObject> ans = new ArrayList<>();
         //parse enum list
-        for (Integer index :
-                indexList) {
-            String name = selectables.get(1).get(index).regex(TdtConfig.CONTENT_REGEX_STRING).toString();
-            Selectable enumTable = tableNodes.get(index);
-            List<Selectable> trNodes = enumTable.xpath("tr").nodes();
-            if (trNodes == null || trNodes.size() <= 1) {
-                TdtUtils.printDebug("enum table is invalid");
-                continue;
-            }
 
-            List<Selectable> titleNodes = trNodes.get(0).xpath("td").nodes();
-            //td index to attr name
-            Map<Integer, String> index2EnumNameMap = parseEnumTitles(titleNodes);
-            JSONArray array = new JSONArray();
-
-            //parse tr
-            parseTableTr(name, array, trNodes, index2EnumNameMap);
-
-            JSONObject obj = new JSONObject();
-            obj.put(name, array);
-
-            ans.add(obj);
+        String name = selectables.get(1).get(0).regex(TdtConfig.CONTENT_REGEX_STRING).toString();
+        Selectable enumTable = tableNodes.get(indexList.get(0));
+        List<Selectable> trNodes = enumTable.xpath("tr").nodes();
+        if (trNodes == null || trNodes.size() <= 1) {
+            throw new IllegalArgumentException("enum table is invalid");
         }
+
+        List<Selectable> titleNodes = trNodes.get(0).xpath("td").nodes();
+        //td index to attr name
+        Map<Integer, String> index2EnumNameMap = parseEnumTitles(titleNodes);
+        JSONArray array = new JSONArray();
+
+        //parse tr
+        parseTableTr(name, array, trNodes, index2EnumNameMap);
+
+        JSONObject obj = new JSONObject();
+        obj.put(name, array);
+
+        ans.add(obj);
 
         return ans;
     }

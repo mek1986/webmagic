@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,10 +67,58 @@ public class TdtDbManage {
         parseOptionArray(version);
         parseEnumArray(version);
         parseMethodArray(version);
+        parseEventArray(version);
 
         isSave = false;
 
+        System.out.println("end save! success");
+
         return true;
+    }
+
+    /**
+     * parse event array
+     *
+     * @param version version
+     */
+    private void parseEventArray(String version) {
+        for (TdtPageModel pageModel : pageDataList) {
+            List<JSONObject> eventList = pageModel.getEnumList();
+            if (eventList != null && eventList.size() > 0) {
+                parseEventList(eventList, version);
+            }
+        }
+    }
+
+    /**
+     * parse event list
+     *
+     * @param eventList event list
+     * @param version   version
+     */
+    private void parseEventList(List<JSONObject> eventList, String version) {
+        for (JSONObject eventObj : eventList) {
+            parseEvent(eventObj, version);
+        }
+    }
+
+    /**
+     * parse evetn
+     *
+     * @param eventObj event object
+     * @param version  version
+     */
+    private void parseEvent(JSONObject eventObj, String version) {
+        JSONObject obj = new JSONObject();
+
+        obj.put("eventName", eventObj.getString("event_name"));
+        obj.put("belongClassName", eventObj.getString("name"));
+        obj.put("params", eventObj.getString("params"));
+        obj.put("eventDesc", eventObj.getOrDefault("event_desc", "无"));
+
+        setIdUrlAddTimeVersion(obj, version);
+
+        eventArray.add(obj);
     }
 
     /**
@@ -101,7 +146,7 @@ public class TdtDbManage {
     private Object parseClass(JSONObject clazzObj, JSONObject moduleNames, String version) {
         JSONObject obj = new JSONObject();
 
-        obj.put("className", clazzObj.get("name"));
+        obj.put("className", clazzObj.getString("name"));
         obj.put("classDesc", clazzObj.getOrDefault("class_desc", "无"));
         setIdUrlAddTimeVersion(clazzObj, version);
         setModuleNames(clazzObj, moduleNames);
@@ -147,9 +192,9 @@ public class TdtDbManage {
     private JSONObject parseOptionDetail(JSONObject detailObj, String version) {
         JSONObject obj = new JSONObject();
 
-        obj.put("objName", detailObj.get("name"));
-        obj.put("attrName", detailObj.get("attr_name"));
-        obj.put("attrType", detailObj.get("attr_type"));
+        obj.put("objName", detailObj.getString("name"));
+        obj.put("attrName", detailObj.getString("attr_name"));
+        obj.put("attrType", detailObj.getString("attr_type"));
         obj.put("attrDesc", detailObj.getOrDefault("attr_desc", "无"));
         obj.put("attrDefaultValue", detailObj.getOrDefault("attr_default_value", "无"));
         setIdUrlAddTimeVersion(detailObj, version);
@@ -168,7 +213,7 @@ public class TdtDbManage {
     private JSONObject parseOption(JSONObject optionObj, JSONObject moduleNames, String version) {
         JSONObject obj = new JSONObject();
 
-        obj.put("objName", optionObj.get("name"));
+        obj.put("objName", optionObj.getString("name"));
         obj.put("objDesc", optionObj.getOrDefault("obj_desc", "无"));
         setIdUrlAddTimeVersion(optionObj, version);
         setModuleNames(optionObj, moduleNames);
@@ -212,13 +257,13 @@ public class TdtDbManage {
      */
     private void parseEnum(JSONObject enumObj, JSONObject moduleNames, String version) {
         String key = enumObj.keySet().toArray(new String[0])[0];
-        JSONObject[] jsonArray = (JSONObject[]) enumObj.getJSONArray(key).toArray();
+        JSONObject[] jsonArray = (JSONObject[]) enumObj.getJSONArray(key).toArray(new JSONObject[0]);
 
         for (JSONObject jsonObject : jsonArray) {
             JSONObject obj = new JSONObject();
 
             obj.put("constName", key);
-            obj.put("constValue", jsonObject.get("const_value"));
+            obj.put("constValue", jsonObject.getString("const_value"));
             obj.put("constDesc", jsonObject.getOrDefault("const_desc", "无"));
             setIdUrlAddTimeVersion(jsonObject, version);
             setModuleNames(jsonObject, moduleNames);
@@ -228,6 +273,7 @@ public class TdtDbManage {
     }
 
     private void setIdUrlAddTimeVersion(JSONObject obj, String version) {
+        obj.put("id", UUID.randomUUID().toString());
         obj.put("fromUrl", obj.getOrDefault("url", "无"));
         obj.put("addTime", new Date());
         obj.put("version", version);
@@ -285,9 +331,9 @@ public class TdtDbManage {
         for (JSONObject jsonObject : jsonObjects) {
             obj = new JSONObject();
 
-            obj.put("belongClassName", jsonObject.get("name"));
-            obj.put("returnType", jsonObject.get("return_type"));
-            obj.put("rawMethodSign", jsonObject.get("raw_method_sign"));
+            obj.put("belongClassName", jsonObject.getString("name"));
+            obj.put("returnType", jsonObject.getString("return_type"));
+            obj.put("rawMethodSign", jsonObject.getString("raw_method_sign"));
             obj.put("methodDesc", jsonObject.getOrDefault("method_desc", "无"));
             obj.put("methodCate", cate);
 
