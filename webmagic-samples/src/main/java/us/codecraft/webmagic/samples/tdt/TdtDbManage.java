@@ -441,7 +441,7 @@ public class TdtDbManage {
             }
         }
 
-        throw new IllegalArgumentException("invalid method sign");
+        throw new IllegalArgumentException("invalid method sign:" + methodObj.toString());
     }
 
     public static void main(String[] args) {
