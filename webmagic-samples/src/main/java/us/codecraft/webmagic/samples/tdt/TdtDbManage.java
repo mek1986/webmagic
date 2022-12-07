@@ -2,18 +2,22 @@ package us.codecraft.webmagic.samples.tdt;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.jetbrains.annotations.NotNull;
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author: mek
  * Date: 2022\12\3 0003
  * Time: 10:03
  * vx: 250023777
- * Description: manage db
+ * Description: db manager
  * @version: 1.0
  */
 public class TdtDbManage {
@@ -21,13 +25,13 @@ public class TdtDbManage {
 
     private boolean isSave = false;
 
-    private JSONArray classArray = new JSONArray();
-    private JSONArray optionArray = new JSONArray();
-    private JSONArray optionDetailArray = new JSONArray();
-    private JSONArray enumArray = new JSONArray();
-    private JSONArray methodArray = new JSONArray();
-    private JSONArray eventArray = new JSONArray();
-    private JSONArray moduleArray = new JSONArray();
+    private final JSONArray classArray = new JSONArray();
+    private final JSONArray optionArray = new JSONArray();
+    private final JSONArray optionDetailArray = new JSONArray();
+    private final JSONArray enumArray = new JSONArray();
+    private final JSONArray methodArray = new JSONArray();
+    private final JSONArray eventArray = new JSONArray();
+    private final JSONArray moduleArray = new JSONArray();
 
     public List<TdtPageModel> getPageDataList() {
         return pageDataList;
@@ -63,6 +67,9 @@ public class TdtDbManage {
         String version = String.valueOf(System.currentTimeMillis());
 
         parseClassArray(version);
+        parseOptionArray(version);
+        parseEnumArray(version);
+        parseMethodArray(version);
 
         isSave = false;
 
@@ -96,7 +103,7 @@ public class TdtDbManage {
 
         obj.put("className", clazzObj.get("name"));
         obj.put("classDesc", clazzObj.getOrDefault("class_desc", "无"));
-        setUrlAddTimeVersion(clazzObj, version);
+        setIdUrlAddTimeVersion(clazzObj, version);
         setModuleNames(clazzObj, moduleNames);
 
         return obj;
@@ -124,7 +131,7 @@ public class TdtDbManage {
      * @param version version
      */
     private void parseOptionDetailArray(JSONArray array, String version) {
-        JSONObject[] jsonObjects = (JSONObject[]) array.toArray();
+        JSONObject[] jsonObjects = (JSONObject[]) array.toArray(new JSONObject[0]);
         for (JSONObject detailObj : jsonObjects) {
             optionDetailArray.add(parseOptionDetail(detailObj, version));
         }
@@ -145,7 +152,7 @@ public class TdtDbManage {
         obj.put("attrType", detailObj.get("attr_type"));
         obj.put("attrDesc", detailObj.getOrDefault("attr_desc", "无"));
         obj.put("attrDefaultValue", detailObj.getOrDefault("attr_default_value", "无"));
-        setUrlAddTimeVersion(detailObj, version);
+        setIdUrlAddTimeVersion(detailObj, version);
 
         return obj;
     }
@@ -163,7 +170,7 @@ public class TdtDbManage {
 
         obj.put("objName", optionObj.get("name"));
         obj.put("objDesc", optionObj.getOrDefault("obj_desc", "无"));
-        setUrlAddTimeVersion(optionObj, version);
+        setIdUrlAddTimeVersion(optionObj, version);
         setModuleNames(optionObj, moduleNames);
 
         return obj;
@@ -192,7 +199,7 @@ public class TdtDbManage {
      */
     private void parseEnumList(List<JSONObject> enumList, JSONObject moduleNames, String version) {
         for (JSONObject enumObj : enumList) {
-            enumArray.add(parseEnum(enumObj, moduleNames, version));
+            parseEnum(enumObj, moduleNames, version);
         }
     }
 
@@ -202,21 +209,25 @@ public class TdtDbManage {
      * @param enumObj     enum object
      * @param moduleNames module names
      * @param version     version
-     * @return enum
      */
-    private JSONObject parseEnum(JSONObject enumObj, JSONObject moduleNames, String version) {
-        JSONObject obj = new JSONObject();
+    private void parseEnum(JSONObject enumObj, JSONObject moduleNames, String version) {
+        String key = enumObj.keySet().toArray(new String[0])[0];
+        JSONObject[] jsonArray = (JSONObject[]) enumObj.getJSONArray(key).toArray();
 
-        obj.put("constName", enumObj.get("name"));
-        obj.put("constValue", enumObj.get("const_value"));
-        obj.put("constDesc", enumObj.getOrDefault("const_desc", "无"));
-        setUrlAddTimeVersion(enumObj, version);
-        setModuleNames(enumObj, moduleNames);
+        for (JSONObject jsonObject : jsonArray) {
+            JSONObject obj = new JSONObject();
 
-        return obj;
+            obj.put("constName", key);
+            obj.put("constValue", jsonObject.get("const_value"));
+            obj.put("constDesc", jsonObject.getOrDefault("const_desc", "无"));
+            setIdUrlAddTimeVersion(jsonObject, version);
+            setModuleNames(jsonObject, moduleNames);
+
+            enumArray.add(obj);
+        }
     }
 
-    private void setUrlAddTimeVersion(JSONObject obj, String version) {
+    private void setIdUrlAddTimeVersion(JSONObject obj, String version) {
         obj.put("fromUrl", obj.getOrDefault("url", "无"));
         obj.put("addTime", new Date());
         obj.put("version", version);
@@ -225,5 +236,184 @@ public class TdtDbManage {
     private void setModuleNames(JSONObject obj, JSONObject moduleNames) {
         obj.put("moduleName1", moduleNames.getString("module1"));
         obj.put("moduleName2", moduleNames.getString("module2"));
+    }
+
+    /**
+     * parse method array
+     *
+     * @param version version
+     */
+    private void parseMethodArray(String version) {
+        for (TdtPageModel pageModel : pageDataList) {
+            List<JSONObject> methodList = pageModel.getMethodList();
+            if (methodList != null && methodList.size() > 0) {
+                parseMethodList(methodList, version);
+            }
+        }
+    }
+
+    /**
+     * parse method list
+     *
+     * @param methodList method list
+     * @param version    version
+     */
+    private void parseMethodList(List<JSONObject> methodList, String version) {
+        for (JSONObject methodObj : methodList) {
+            parseMethod(methodObj, version);
+        }
+    }
+
+    /**
+     * parse method object
+     *
+     * @param methodObj method
+     * @param version   version
+     */
+    private void parseMethod(JSONObject methodObj, String version) {
+        Set<String> keys = methodObj.keySet();
+
+        for (String key :
+                keys) {
+            parseMethod(methodObj.getJSONArray(key), version, key);
+        }
+    }
+
+    private void parseMethod(JSONArray methodArray, String version, String cate) {
+        JSONObject[] jsonObjects = (JSONObject[]) methodArray.toArray(new JSONObject[0]);
+        JSONObject obj;
+        for (JSONObject jsonObject : jsonObjects) {
+            obj = new JSONObject();
+
+            obj.put("belongClassName", jsonObject.get("name"));
+            obj.put("returnType", jsonObject.get("return_type"));
+            obj.put("rawMethodSign", jsonObject.get("raw_method_sign"));
+            obj.put("methodDesc", jsonObject.getOrDefault("method_desc", "无"));
+            obj.put("methodCate", cate);
+
+            parseMethodNameAndParams(obj);
+
+            setIdUrlAddTimeVersion(jsonObject, version);
+
+            methodArray.add(obj);
+        }
+    }
+
+    /**
+     * parse method name  and method params
+     *
+     * @param methodObj method object
+     */
+    public void parseMethodNameAndParams(JSONObject methodObj) {
+        String methodSign = methodObj.getString("rawMethodSign");
+
+        String pattern = "([a-zA-Z0-9]+)\\(([^\\(\\))]*)\\)";
+        Pattern compile = Pattern.compile(pattern);
+        Matcher matcher = compile.matcher(methodSign);
+
+
+        if (matcher.find()) {
+            //parse method name
+            methodObj.put("method_name", matcher.group(1).toString());
+
+            String params = matcher.group(2);
+
+            if (Strings.isNullOrEmpty(params)) {
+                methodObj.put("params", new JSONObject());
+                return;
+            }
+
+            pattern = "([^\\[\\]]+)(\\[[^\\[\\]]+\\])?";
+            compile = Pattern.compile(pattern);
+            matcher = compile.matcher(params);
+
+            //parse param info
+            if (matcher.find()) {
+                //parse param type name
+                String necessaryParams = matcher.group(1);
+                String noNecessaryParams = matcher.group(2);
+                String methodDesc = methodObj.getString("methodDesc");
+
+
+                String[] split = necessaryParams.split(",");
+                JSONObject paramObj = new JSONObject();
+                //parse necessary params
+                for (String s : split) {
+                    String[] param = s.split(":");
+                    JSONObject tempObj = new JSONObject();
+
+                    tempObj.put("type", param[1]);
+                    tempObj.put("need", true);
+                    paramObj.put(param[0], tempObj);
+
+                    if (Objects.equal(methodDesc, "无")) {
+                        tempObj.put("desc", "无");
+                    }
+                }
+
+                if (!Strings.isNullOrEmpty(noNecessaryParams)) {
+                    //parse no necessary params
+                    noNecessaryParams = noNecessaryParams.replace("[,", "").replace("]", "");
+                    split = noNecessaryParams.split(",");
+
+                    for (String s : split) {
+                        String[] param = s.split(":");
+                        JSONObject tempObj = new JSONObject();
+
+                        tempObj.put("type", param[1]);
+                        tempObj.put("need", false);
+                        paramObj.put(param[0], tempObj);
+
+                        if (Objects.equal(methodDesc, "无")) {
+                            tempObj.put("desc", "无");
+                        }
+                    }
+                }
+
+                //parse param desc
+                if (!Objects.equal(methodDesc, "无")) {
+                    Set<String> keys = paramObj.keySet();
+
+                    for (String key : keys) {
+                        pattern = key + "(:|：)([^：：</]+)<?";
+                        compile = Pattern.compile(pattern);
+                        matcher = compile.matcher(methodDesc);
+
+                        if (matcher.find()) {
+                            paramObj.getJSONObject(key).put("desc", matcher.group(2));
+                            continue;
+                        }
+
+                        paramObj.getJSONObject(key).put("desc", "无");
+                    }
+                }
+
+                methodObj.put("params", paramObj);
+
+                //return
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException("invalid method sign");
+    }
+
+    public static void main(String[] args) {
+        TdtDbManage tdtDbManage = new TdtDbManage();
+        JSONObject methodObj = new JSONObject();
+        methodObj.put("rawMethodSign", "Map(container:String|HTMLElement[,opts:MapOptions])");
+        methodObj.put("methodDesc", "在指定的容器内创建地图实例，之后需要调用Map.centerAndZoom()方法对地图进行初始化。未进行初始化的地图将不能进行任何操作。<br />参数说明：<br />container：用于显示地图的DIV对象。<br />opts：地图属性对象，请参考MapOptions。");
+
+        tdtDbManage.parseMethodNameAndParams(methodObj);
+
+        System.out.println(methodObj.toString());
+
+        methodObj = new JSONObject();
+        methodObj.put("rawMethodSign", "getDistance(start:LngLat,end:LngLat)");
+        methodObj.put("methodDesc", "返回两点之间的距离，单位是米。<br />参数说明：<br />start：起点地理坐标。<br />end：终点地理坐标。");
+
+        tdtDbManage.parseMethodNameAndParams(methodObj);
+
+        System.out.println(methodObj.toString());
     }
 }

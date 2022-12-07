@@ -553,7 +553,7 @@ public class TdtPageModel {
      * @return clazz obj
      */
     private JSONObject parseOptionInfo(String name, List<List<Selectable>> selectables, String url, JSONObject item) {
-        //opton object
+        //option object
         JSONObject obj = new JSONObject();
 
         obj.put("name", name);
