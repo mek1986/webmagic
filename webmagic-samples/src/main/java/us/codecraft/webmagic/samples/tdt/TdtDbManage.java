@@ -28,7 +28,7 @@ public class TdtDbManage {
     private final JSONArray enumArray = new JSONArray();
     private final JSONArray methodArray = new JSONArray();
     private final JSONArray eventArray = new JSONArray();
-    private final JSONArray moduleArray = new JSONArray();
+    private final JSONObject modules = new JSONObject();
 
     public List<TdtPageModel> getPageDataList() {
         return pageDataList;
@@ -145,10 +145,58 @@ public class TdtDbManage {
             if (clazzObj != null) {
                 classArray.add(parseClass(clazzObj, pageModel.getModuleNames(), version, pageModel.getPageUrl()));
             }
+
+            parseModule(pageModel.getModuleNames(), version);
         }
 
         if (TdtConfig.DEBUG) {
             TdtUtils.printDebug("parse class array success");
+        }
+    }
+
+    private void parseModule(JSONObject moduleNames, String version) {
+        JSONObject obj = new JSONObject();
+
+        obj.put("id", UUID.randomUUID());
+        obj.put("addTime", new Date());
+        obj.put("version", version);
+
+        String[] keys = moduleNames.keySet().toArray(new String[0]);
+        if (keys.length == 1) {
+            //super module
+            String module1 = moduleNames.getString(keys[0]);
+            if (!TdtConfig.MODULE_NAME_2_FILE_NAME.containsKey(module1)) {
+                throw new IllegalArgumentException("can not find module1" + module1);
+            }
+
+            obj.put("moduleName", module1);
+            obj.put("fileMame", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
+            obj.put("pModuleName", "0");
+
+            if (!this.modules.containsKey(module1)) {
+                //do not repeat
+                this.modules.put(module1, obj);
+            }
+
+            return;
+        }
+
+        //super module and sub module
+        String module1 = moduleNames.getString(keys[0]);
+        String module2 = moduleNames.getString(keys[1]);
+        if (!TdtConfig.MODULE_NAME_2_FILE_NAME.containsKey(module1)) {
+            throw new IllegalArgumentException("can not find module1" + module1);
+        }
+
+        obj.put("moduleName", module1);
+        obj.put("fileMame", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
+        obj.put("pModuleName", module2);
+
+        String key = module1 + "-" + module2;
+
+        if (!this.modules.containsKey(key)) {
+            //do not repeat
+            this.modules.put(key, obj);
         }
     }
 

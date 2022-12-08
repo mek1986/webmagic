@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class TdtPageModel {
     private String pageUrl;
-    private TdtMenuModel menuModel;
+    private final TdtMenuModel menuModel;
     private JSONObject clazzObj;
 
     public TdtMenuModel getMenuModel() {
@@ -28,7 +28,7 @@ public class TdtPageModel {
     }
 
     private JSONObject optionObj;
-    private JSONObject moduleNames = new JSONObject();
+    private final JSONObject moduleNames = new JSONObject();
     private List<JSONObject> enumList;
     private List<JSONObject> methodList;
     private List<JSONObject> eventList;

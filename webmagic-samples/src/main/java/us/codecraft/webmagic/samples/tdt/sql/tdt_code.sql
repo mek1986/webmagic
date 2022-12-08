@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 06/12/2022 21:54:51
+ Date: 09/12/2022 07:26:23
 */
 
 SET NAMES utf8mb4;
@@ -110,7 +110,6 @@ CREATE TABLE `t_module`  (
   `module_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模块名称',
   `file_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模块所属文件名称',
   `p_module_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '父模块名称',
-  `from_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抓取网页',
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
