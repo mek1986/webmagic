@@ -92,9 +92,9 @@ public class TdtDbManage {
      */
     private void parseEventArray(String version) {
         for (TdtPageModel pageModel : pageDataList) {
-            List<JSONObject> eventList = pageModel.getEnumList();
+            List<JSONObject> eventList = pageModel.getEventList();
             if (eventList != null && eventList.size() > 0) {
-                parseEventList(eventList, version);
+                parseEventList(eventList, version, pageModel.getPageUrl());
             }
         }
 
@@ -109,9 +109,9 @@ public class TdtDbManage {
      * @param eventList event list
      * @param version   version
      */
-    private void parseEventList(List<JSONObject> eventList, String version) {
+    private void parseEventList(List<JSONObject> eventList, String version, String url) {
         for (JSONObject eventObj : eventList) {
-            parseEvent(eventObj, version);
+            parseEvent(eventObj, version, url);
         }
     }
 
@@ -121,7 +121,7 @@ public class TdtDbManage {
      * @param eventObj event object
      * @param version  version
      */
-    private void parseEvent(JSONObject eventObj, String version) {
+    private void parseEvent(JSONObject eventObj, String version, String url) {
         JSONObject obj = new JSONObject();
 
         obj.put("eventName", eventObj.getString("event_name"));
@@ -129,7 +129,7 @@ public class TdtDbManage {
         obj.put("params", eventObj.getString("params"));
         obj.put("eventDesc", eventObj.getOrDefault("event_desc", "无"));
 
-        setIdUrlAddTimeVersion(obj, version);
+        setIdUrlAddTimeVersion(obj, version, url);
 
         eventArray.add(obj);
     }
@@ -143,7 +143,7 @@ public class TdtDbManage {
         for (TdtPageModel pageModel : pageDataList) {
             JSONObject clazzObj = pageModel.getClazzObj();
             if (clazzObj != null) {
-                classArray.add(parseClass(clazzObj, pageModel.getModuleNames(), version));
+                classArray.add(parseClass(clazzObj, pageModel.getModuleNames(), version, pageModel.getPageUrl()));
             }
         }
 
@@ -160,13 +160,13 @@ public class TdtDbManage {
      * @param version     version
      * @return class
      */
-    private Object parseClass(JSONObject clazzObj, JSONObject moduleNames, String version) {
+    private Object parseClass(JSONObject clazzObj, JSONObject moduleNames, String version, String url) {
         JSONObject obj = new JSONObject();
 
         obj.put("className", clazzObj.getString("name"));
         obj.put("classDesc", clazzObj.getOrDefault("class_desc", "无"));
-        setIdUrlAddTimeVersion(clazzObj, version);
-        setModuleNames(clazzObj, moduleNames);
+        setIdUrlAddTimeVersion(obj, version, url);
+        setModuleNames(obj, moduleNames);
 
         return obj;
     }
@@ -180,8 +180,8 @@ public class TdtDbManage {
         for (TdtPageModel pageModel : pageDataList) {
             JSONObject optionObj = pageModel.getOptionObj();
             if (optionObj != null) {
-                optionArray.add(parseOption(optionObj, pageModel.getModuleNames(), version));
-                parseOptionDetailArray(optionObj.getJSONArray("detail"), version);
+                optionArray.add(parseOption(optionObj, pageModel.getModuleNames(), version, pageModel.getPageUrl()));
+                parseOptionDetailArray(optionObj.getJSONArray("detail"), version, pageModel.getPageUrl());
             }
         }
 
@@ -195,11 +195,12 @@ public class TdtDbManage {
      *
      * @param array   option detail array
      * @param version version
+     * @param url     url
      */
-    private void parseOptionDetailArray(JSONArray array, String version) {
+    private void parseOptionDetailArray(JSONArray array, String version, String url) {
         JSONObject[] jsonObjects = (JSONObject[]) array.toArray(new JSONObject[0]);
         for (JSONObject detailObj : jsonObjects) {
-            optionDetailArray.add(parseOptionDetail(detailObj, version));
+            optionDetailArray.add(parseOptionDetail(detailObj, version, url));
         }
 
         if (TdtConfig.DEBUG) {
@@ -214,7 +215,7 @@ public class TdtDbManage {
      * @param version   version
      * @return option detail object
      */
-    private JSONObject parseOptionDetail(JSONObject detailObj, String version) {
+    private JSONObject parseOptionDetail(JSONObject detailObj, String version, String url) {
         JSONObject obj = new JSONObject();
 
         obj.put("objName", detailObj.getString("name"));
@@ -222,7 +223,7 @@ public class TdtDbManage {
         obj.put("attrType", detailObj.getString("attr_type"));
         obj.put("attrDesc", detailObj.getOrDefault("attr_desc", "无"));
         obj.put("attrDefaultValue", detailObj.getOrDefault("attr_default_value", "无"));
-        setIdUrlAddTimeVersion(detailObj, version);
+        setIdUrlAddTimeVersion(obj, version, url);
 
         return obj;
     }
@@ -235,13 +236,13 @@ public class TdtDbManage {
      * @param version     version
      * @return option object
      */
-    private JSONObject parseOption(JSONObject optionObj, JSONObject moduleNames, String version) {
+    private JSONObject parseOption(JSONObject optionObj, JSONObject moduleNames, String version, String url) {
         JSONObject obj = new JSONObject();
 
         obj.put("objName", optionObj.getString("name"));
         obj.put("objDesc", optionObj.getOrDefault("obj_desc", "无"));
-        setIdUrlAddTimeVersion(optionObj, version);
-        setModuleNames(optionObj, moduleNames);
+        setIdUrlAddTimeVersion(obj, version, url);
+        setModuleNames(obj, moduleNames);
 
         return obj;
     }
@@ -255,7 +256,7 @@ public class TdtDbManage {
         for (TdtPageModel pageModel : pageDataList) {
             List<JSONObject> enumList = pageModel.getEnumList();
             if (enumList != null && enumList.size() > 0) {
-                parseEnumList(enumList, pageModel.getModuleNames(), version);
+                parseEnumList(enumList, pageModel.getModuleNames(), version, pageModel.getPageUrl());
             }
         }
 
@@ -271,9 +272,9 @@ public class TdtDbManage {
      * @param moduleNames module names
      * @param version     version
      */
-    private void parseEnumList(List<JSONObject> enumList, JSONObject moduleNames, String version) {
+    private void parseEnumList(List<JSONObject> enumList, JSONObject moduleNames, String version, String url) {
         for (JSONObject enumObj : enumList) {
-            parseEnum(enumObj, moduleNames, version);
+            parseEnum(enumObj, moduleNames, version, url);
         }
     }
 
@@ -284,7 +285,7 @@ public class TdtDbManage {
      * @param moduleNames module names
      * @param version     version
      */
-    private void parseEnum(JSONObject enumObj, JSONObject moduleNames, String version) {
+    private void parseEnum(JSONObject enumObj, JSONObject moduleNames, String version, String url) {
         String key = enumObj.keySet().toArray(new String[0])[0];
         JSONObject[] jsonArray = (JSONObject[]) enumObj.getJSONArray(key).toArray(new JSONObject[0]);
 
@@ -294,16 +295,16 @@ public class TdtDbManage {
             obj.put("constName", key);
             obj.put("constValue", jsonObject.getString("const_value"));
             obj.put("constDesc", jsonObject.getOrDefault("const_desc", "无"));
-            setIdUrlAddTimeVersion(jsonObject, version);
-            setModuleNames(jsonObject, moduleNames);
+            setIdUrlAddTimeVersion(obj, version, url);
+            setModuleNames(obj, moduleNames);
 
             enumArray.add(obj);
         }
     }
 
-    private void setIdUrlAddTimeVersion(JSONObject obj, String version) {
+    private void setIdUrlAddTimeVersion(JSONObject obj, String version, String url) {
         obj.put("id", UUID.randomUUID().toString());
-        obj.put("fromUrl", obj.getOrDefault("url", "无"));
+        obj.put("fromUrl", url);
         obj.put("addTime", new Date());
         obj.put("version", version);
     }
@@ -323,7 +324,7 @@ public class TdtDbManage {
         for (TdtPageModel pageModel : pageDataList) {
             List<JSONObject> methodList = pageModel.getMethodList();
             if (methodList != null && methodList.size() > 0) {
-                parseMethodList(methodList, version, pageModel);
+                parseMethodList(methodList, version, pageModel.getPageUrl(), pageModel);
             }
         }
 
@@ -339,10 +340,10 @@ public class TdtDbManage {
      * @param version    version
      * @param pageModel  pageModel
      */
-    private void parseMethodList(List<JSONObject> methodList, String version, TdtPageModel pageModel) {
+    private void parseMethodList(List<JSONObject> methodList, String version, String url, TdtPageModel pageModel) {
         try {
             for (JSONObject methodObj : methodList) {
-                parseMethod(methodObj, version, pageModel);
+                parseMethod(methodObj, version, url, pageModel);
             }
         } catch (Exception e) {
             System.out.println("method parse error");
@@ -357,16 +358,16 @@ public class TdtDbManage {
      * @param version   version
      * @param pageModel page model
      */
-    private void parseMethod(JSONObject methodObj, String version, TdtPageModel pageModel) {
+    private void parseMethod(JSONObject methodObj, String version, String url, TdtPageModel pageModel) {
         Set<String> keys = methodObj.keySet();
 
         for (String key :
                 keys) {
-            parseMethod(methodObj.getJSONArray(key), version, key, pageModel);
+            parseMethod(methodObj.getJSONArray(key), version, url, key, pageModel);
         }
     }
 
-    private void parseMethod(JSONArray array, String version, String cate, TdtPageModel pageModel) {
+    private void parseMethod(JSONArray array, String version, String url, String cate, TdtPageModel pageModel) {
         JSONObject[] jsonObjects = (JSONObject[]) array.toArray(new JSONObject[0]);
         JSONObject obj;
         for (JSONObject jsonObject : jsonObjects) {
@@ -380,7 +381,7 @@ public class TdtDbManage {
 
             parseMethodNameAndParams(obj, pageModel);
 
-            setIdUrlAddTimeVersion(jsonObject, version);
+            setIdUrlAddTimeVersion(obj, version, url);
 
             methodArray.add(obj);
         }
@@ -407,24 +408,7 @@ public class TdtDbManage {
 
             if (Strings.isNullOrEmpty(params)) {
                 if (Objects.equal(methodObj.getString("methodCate"), "构造函数")) {
-                    //option object
-                    JSONObject menuItem = pageModel.getMenuModel().getItem(methodObj.getString("method_name") + "Options", TdtMenuModel.KEY_TYPE_ENUM.NAME);
-
-                    JSONObject paramObj = new JSONObject();
-                    if (menuItem == null) {
-                        methodObj.put("params", paramObj);
-                        return;
-                    }
-
-                    JSONObject tempObj = new JSONObject();
-
-                    tempObj.put("type", menuItem.get("name"));
-                    tempObj.put("need", false);
-                    tempObj.put("desc", "属性对象");
-                    paramObj.put("opts", tempObj);
-
-                    methodObj.put("params", paramObj);
-
+                    parseConstructMethod(methodObj, pageModel);
                     return;
                 }
 
@@ -472,10 +456,6 @@ public class TdtDbManage {
                         tempObj.put("type", param[1].trim());
                         paramObj.put(param[0].trim(), tempObj);
                     }
-
-                    if (Objects.equal(methodDesc, "无")) {
-                        tempObj.put("desc", "无");
-                    }
                 }
 
                 if (!Strings.isNullOrEmpty(noNecessaryParams)) {
@@ -497,29 +477,21 @@ public class TdtDbManage {
                             tempObj.put("type", param[1].trim());
                             paramObj.put(param[0].trim(), tempObj);
                         }
-
-                        if (Objects.equal(methodDesc, "无")) {
-                            tempObj.put("desc", "无");
-                        }
                     }
                 }
 
-                //parse param desc
-                if (!Objects.equal(methodDesc, "无")) {
-                    Set<String> keys = paramObj.keySet();
+                Set<String> keys = paramObj.keySet();
+                for (String key : keys) {
+                    pattern = key + "(:|：)([^：：</]+)<?";
+                    compile = Pattern.compile(pattern);
+                    matcher = compile.matcher(methodDesc);
 
-                    for (String key : keys) {
-                        pattern = key + "(:|：)([^：：</]+)<?";
-                        compile = Pattern.compile(pattern);
-                        matcher = compile.matcher(methodDesc);
-
-                        if (matcher.find()) {
-                            paramObj.getJSONObject(key).put("desc", matcher.group(2).trim());
-                            continue;
-                        }
-
-                        paramObj.getJSONObject(key).put("desc", "无");
+                    if (matcher.find()) {
+                        paramObj.getJSONObject(key).put("desc", matcher.group(2).trim());
+                        continue;
                     }
+
+                    paramObj.getJSONObject(key).put("desc", "无");
                 }
 
                 methodObj.put("params", paramObj);
@@ -530,28 +502,31 @@ public class TdtDbManage {
         }
 
         if (Objects.equal(methodObj.getString("methodCate"), "构造函数")) {
-            //option object
-            JSONObject menuItem = pageModel.getMenuModel().getItem(methodObj.getString("method_name") + "Options", TdtMenuModel.KEY_TYPE_ENUM.NAME);
-
-            JSONObject paramObj = new JSONObject();
-            if (menuItem == null) {
-                methodObj.put("params", paramObj);
-                return;
-            }
-
-            JSONObject tempObj = new JSONObject();
-
-            tempObj.put("type", menuItem.get("name"));
-            tempObj.put("need", false);
-            tempObj.put("desc", "属性对象");
-            paramObj.put("opts", tempObj);
-
-            methodObj.put("params", paramObj);
-
+            parseConstructMethod(methodObj, pageModel);
             return;
         }
 
         throw new IllegalArgumentException("invalid method sign");
+    }
+
+    private void parseConstructMethod(JSONObject methodObj, TdtPageModel pageModel) {
+        //option object
+        JSONObject menuItem = pageModel.getMenuModel().getItem(methodObj.getString("method_name") + "Options", TdtMenuModel.KEY_TYPE_ENUM.NAME);
+
+        JSONObject paramObj = new JSONObject();
+        if (menuItem == null) {
+            methodObj.put("params", paramObj);
+            return;
+        }
+
+        JSONObject tempObj = new JSONObject();
+
+        tempObj.put("type", menuItem.get("name"));
+        tempObj.put("need", false);
+        tempObj.put("desc", "属性对象");
+        paramObj.put("opts", tempObj);
+
+        methodObj.put("params", paramObj);
     }
 
     public static void main(String[] args) {
@@ -564,13 +539,5 @@ public class TdtDbManage {
         tdtDbManage.parseMethodNameAndParams(methodObj, null);
 
         System.out.println(methodObj.toString());
-//
-//        methodObj = new JSONObject();
-//        methodObj.put("rawMethodSign", "getDistance(start:LngLat,end:LngLat)");
-//        methodObj.put("methodDesc", "返回两点之间的距离，单位是米。<br />参数说明：<br />start：起点地理坐标。<br />end：终点地理坐标。");
-//
-//        tdtDbManage.parseMethodNameAndParams(methodObj);
-//
-//        System.out.println(methodObj.toString());
     }
 }

@@ -19,6 +19,7 @@ import java.util.*;
  * @version: 1.0
  */
 public class TdtPageModel {
+    private String pageUrl;
     private TdtMenuModel menuModel;
     private JSONObject clazzObj;
 
@@ -36,23 +37,27 @@ public class TdtPageModel {
         this.menuModel = menuModel;
     }
 
+    public String getPageUrl() {
+        return pageUrl;
+    }
+
     public TdtPageModel parsePage(Page page) {
         Html html = page.getHtml();
-        String url = page.getUrl().toString();
+        this.pageUrl = page.getUrl().toString();
 
         List<List<Selectable>> selectables = parseHtml(html);
         if (selectables == null) {
             throw new IllegalArgumentException("html is empty");
         }
 
-        if (isClass(selectables, url)) {
+        if (isClass(selectables, pageUrl)) {
             //parse clazz
-            parseClazz(selectables, url);
+            parseClazz(selectables, pageUrl);
             return this;
         }
 
         //parse option
-        parseOption(selectables, url);
+        parseOption(selectables, pageUrl);
 
         return this;
     }
@@ -541,7 +546,11 @@ public class TdtPageModel {
             throw new IllegalArgumentException("cant not find option");
         }
 
-        String name = item.getString("name");
+        String name = item.getString("name");//set module name
+
+        List<String> names = menuModel.getModuleNameByPid(item.getInteger("pId") + "");
+        //set module name
+        setModuleNames(this.moduleNames, names);
 
         //parse option
         this.optionObj = parseOptionInfo(name, selectables, url, item);
@@ -563,7 +572,6 @@ public class TdtPageModel {
         JSONObject obj = new JSONObject();
 
         obj.put("name", name);
-        obj.put("url", url);
         obj.put("obj_desc", selectables.get(0).get(0).regex("<p>([\\s\\S]+)</p>").get().trim());
         obj.put("detail", parseOptionDetail(selectables, name));
 
@@ -719,7 +727,6 @@ public class TdtPageModel {
         JSONObject obj = new JSONObject();
 
         obj.put("name", name);
-        obj.put("url", url);
 
         List<Selectable> nodes = selectables.get(0).get(0).nodes();
         if (nodes == null || nodes.size() == 0) {
