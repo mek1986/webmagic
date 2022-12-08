@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="../css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <div class="new">
+    <strong>TransitRoute</strong><span> </span>
+   </div>
+   <p>用于获取公交路线规划方案。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4">构造函数</td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>TransitRoute(map:Map ,opts:TransitRouteOptions)</td>
+      <td>创建一个公交导航实例。<br> 参数说明：<br> map：地图对象。<br> opts：详见TransitRouteOptions类。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4">方法</td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>search(start:LngLat,end:LngLat)</td>
+      <td>none</td>
+      <td>发起检索。<br> 参数说明：<br> start：起点坐标。<br> end：终点坐标。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getResults()</td>
+      <td bgcolor="#f5f5f5">TransitRouteResult</td>
+      <td bgcolor="#f5f5f5">返回最近一次检索的结果。</td>
+     </tr>
+     <tr>
+      <td>clearResults()</td>
+      <td>none</td>
+      <td>清除最近一次检索的结果。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setPolicy(policy:Number)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">设置路线规划策略，参数为策略常量。<br> 参数说明：<br> policy：策略常量。常量如下：<br> TMAP_TRANSIT_POLICY_LEAST_TIME = 1表示最少时间<br> TMAP_TRANSIT_POLICY_LEAST_TRANSFER = 2表示最少换乘<br> TMAP_TRANSIT_POLICY_LEAST_WALKING = 4表示最少步行<br> TMAP_TRANSIT_POLICY_AVOID_SUBWAYS = 8表示不乘地铁</td>
+     </tr>
+     <tr>
+      <td>setSearchCompleteCallback(fun:Function)</td>
+      <td>none</td>
+      <td>设置检索结束后的回调函数。<br> 参数说明：<br> fun：回调函数。回调函数参数为TransitRouteResult，具体内容详见TransitRouteResult类。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getStatus()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">返回状态码。<br> 状态码如下：<br> 0表示正常返回线路；<br> 1表示找不到起点；<br> 2表示找不到终点；<br> 3表示规划不出线路；<br> 4表示起终点距离200米以内，不返回线路；<br> 5表示起终点距离500米内，返回线路；<br> 6表示输入参数错误</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

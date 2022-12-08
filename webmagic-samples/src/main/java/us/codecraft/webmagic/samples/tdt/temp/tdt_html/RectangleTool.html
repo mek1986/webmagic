@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>RectangleTool</h3>
+   <p>矩形工具，用来实现在地图上选择一个矩形区域或绘制矩形的功能。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>RectangleTool(map:Map[,opts:RectToolOptions])</td>
+      <td>创建一个RectangleTool控件。<br>参数说明：<br>map ：地图对象<br>opts：详见RectangleToolOptions类</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>clear()</td>
+      <td>none</td>
+      <td>清除所有该控件在地图上绘制的矩形图形。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getRectangles()</td>
+      <td bgcolor="#f5f5f5">Array&lt;Rectangle&gt;</td>
+      <td bgcolor="#f5f5f5">返回工具左右绘制的矩形。</td>
+     </tr>
+     <tr>
+      <td>open()</td>
+      <td>boolean</td>
+      <td>开启画矩形工具。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">close()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">关闭画矩形工具。</td>
+     </tr>
+     <tr>
+      <td>addEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>添加事件监听函数</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">removeEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">移除事件监听函数</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>描述</strong></td>
+     </tr>
+     <tr>
+      <td>draw</td>
+      <td>{type,target,currentBounds,currentRectangle,allRectangles }</td>
+      <td>用户每次完成拉框操作时触发事件。<br>参数说明：<br>currentBounds：用户拉框选择的地理范围。<br>currentRectangle：用户绘制的矩形图形对象。<br>allRectangles：所有绘制的矩形对象。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

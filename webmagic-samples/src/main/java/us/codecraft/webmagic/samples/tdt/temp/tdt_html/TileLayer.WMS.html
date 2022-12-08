@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>TileLayer.WMS</h3>
+   <p>通过此类实现在地图上叠加自定义的WMS地图图块层。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>TileLayer.WMS(opts:TileLayer.WMSOptions)</td>
+      <td>以指定的参数创建TileLayer.WMS对象,这个对象是在地图上叠加自定义栅格地图。<br>参数说明：<br>opts：WMS属性对象，请参考TileLayer.WMSOptions。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>setOpacity(opacity:Number)</td>
+      <td>this</td>
+      <td>改变图层的透明度。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setZIndex(zIndex:Number)</td>
+      <td bgcolor="#f5f5f5">this</td>
+      <td bgcolor="#f5f5f5">设置图层的叠放顺序。</td>
+     </tr>
+     <tr>
+      <td>refresh ()</td>
+      <td>this</td>
+      <td>重新加载所有添加到此 TileLayer 的可见瓦片。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setUrl(url:String)</td>
+      <td bgcolor="#f5f5f5">this</td>
+      <td bgcolor="#f5f5f5">更新图层的URL地址并重绘他们。</td>
+     </tr>
+     <tr>
+      <td>getContainer()</td>
+      <td>HTMLElement</td>
+      <td>瓦片的标签容器。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">添加事件监听函数</td>
+     </tr>
+     <tr>
+      <td>removeEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>移除事件监听函数</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>描述</strong></td>
+     </tr>
+     <tr>
+      <td>loading</td>
+      <td>{type, target}</td>
+      <td>当瓦片图层开始加载瓦片时触发。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">load</td>
+      <td bgcolor="#f5f5f5">{type, target}</td>
+      <td bgcolor="#f5f5f5">当瓦片图层加载完可见瓦片后触发。</td>
+     </tr>
+     <tr>
+      <td>tileloadstart</td>
+      <td>{type, target, coords, tile }</td>
+      <td>瓦片请求和开始加载时触发。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">tileload</td>
+      <td bgcolor="#f5f5f5">{type, target, coords, tile }</td>
+      <td bgcolor="#f5f5f5">在加载单个瓦片时触发。</td>
+     </tr>
+     <tr>
+      <td>tileunload</td>
+      <td>{type, target, coords, tile }</td>
+      <td>在单个瓦片被移除时触发。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">tileerror</td>
+      <td bgcolor="#f5f5f5">{type, target, coords, tile }</td>
+      <td bgcolor="#f5f5f5">单个瓦片错误时触发。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

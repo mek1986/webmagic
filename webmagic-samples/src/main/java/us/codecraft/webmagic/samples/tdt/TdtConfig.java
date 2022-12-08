@@ -16,8 +16,9 @@ final public class TdtConfig {
 
     /**
      * domain
+     * lbs.tianditu.gov.cn
      */
-    public final static String DOMAIN = "lbs.tianditu.gov.cn";
+    public final static String DOMAIN = "localhost:6001";
 
 
     /**
@@ -32,8 +33,9 @@ final public class TdtConfig {
 
     /**
      * content page url
+     * api/js4.0/
      */
-    public final static String CONTENT_PAGE_PREFIX = SITE_URL + "api/js4.0/";
+    public final static String CONTENT_PAGE_PREFIX = SITE_URL + "";
 
     /**
      * debug print prefix text
@@ -54,4 +56,9 @@ final public class TdtConfig {
      * content regex string
      */
     public final static String CONTENT_REGEX_STRING = ">([\\s\\S]+)<";
+
+    /**
+     * html file path
+     */
+    public final static String HTML_FILE_PATH = "D:\\temp\\tdt_html\\";
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>PolylineTool</h3>
+   <p>折线工具，可以通过事件来获取用户绘制的折线，包含测距功能。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>PolylineTool(map:Map[,opts:PolylineToolOptions])</td>
+      <td>创建一个PolylineTool控件。<br>参数说明：<br>map：地图对象。<br>opts：详见PolylineToolOptions类。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>setTips(text:String)</td>
+      <td>none</td>
+      <td>跟随鼠标移动的说明文字。<br>参数说明：<br>text：文本内容。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getDistance(LngLats:LngLat [])</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">计算一系列地理坐标点的距离总和。<br>参数说明：<br>LngLats：点坐标 LngLat数组。</td>
+     </tr>
+     <tr>
+      <td>endDraw()</td>
+      <td>none</td>
+      <td>完成一个折线的绘制，运行此方法相当于用户点击双击结束当前折线的绘制。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">clear()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">清空工具绘制所有线。</td>
+     </tr>
+     <tr>
+      <td>getPolylines ()</td>
+      <td>Array&lt;Polyline&gt;</td>
+      <td>获取所有编辑完成的线。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">open()</td>
+      <td bgcolor="#f5f5f5">boolean</td>
+      <td bgcolor="#f5f5f5">开启测距工具。</td>
+     </tr>
+     <tr>
+      <td>close()</td>
+      <td>none</td>
+      <td>关闭测距工具。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">添加事件监听函数</td>
+     </tr>
+     <tr>
+      <td>removeEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>移除事件监听函数</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>draw</td>
+      <td>{type,target,currentLnglats,currentDistance,currentPolyline,allPolylines }</td>
+      <td>用户每次完成拉框操作时触发事件。<br>参数说明：<br>currentLnglats：用户当前绘制的折线的点坐标数组。<br>currentDistance：用户当前绘制的折线的地理长度。<br>currentPolyline：当前测距所画线的对象。<br>allPolylines：返回所有工具绘制的线对象。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addpoint</td>
+      <td bgcolor="#f5f5f5">{type,target,currentLnglats,currentDistance,currentPolyline,allPolylines }</td>
+      <td bgcolor="#f5f5f5">用户测距过程中，每次点击底图添加节点时触发事件。<br>参数说明：<br>currentLnglats：用户当前绘制的折线的点坐标数组。<br>currentDistance：用户当前绘制的折线的地理长度。<br>currentPolyline：当前测距所画线的对象。<br>allPolylines：返回所有工具绘制的线对象。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

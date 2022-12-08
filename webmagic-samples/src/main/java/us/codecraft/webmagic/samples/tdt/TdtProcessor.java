@@ -59,6 +59,17 @@ public class TdtProcessor implements PageProcessor {
         }
     }
 
+    private void saveToFile(Page page) throws Exception {
+        String fileName = page.getUrl().regex("/([^/]+)\\.[a-zA-Z]+$").toString();
+
+        save(fileName, page.getHtml().get());
+    }
+
+    private void save(String fileName, String content) throws Exception {
+        TdtUtils.saveFile(TdtConfig.HTML_FILE_PATH + fileName + ".html", content);
+        System.out.println(fileName + " save success");
+    }
+
     /**
      * init menu model with Page object
      *

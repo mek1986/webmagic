@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="../css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <div class="new">
+    <strong>Route</strong><span> </span>
+   </div>
+   <p>此类表示一条驾车路线。 没有构造函数，通过RoutePlan.getRoute()方法获得。</p>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4">方法</td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>getNumSteps()</td>
+      <td>number</td>
+      <td>返回该段路线包含的关键点个数。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getStep(i:Number)</td>
+      <td bgcolor="#f5f5f5">Step</td>
+      <td bgcolor="#f5f5f5">返回索引指定的关键点。索引0表示第一个关键点。</td>
+     </tr>
+     <tr>
+      <td>getDistance()</td>
+      <td>number</td>
+      <td>返回该段路线距离。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getIndex()</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">返回该段路线在方案中的索引位置。</td>
+     </tr>
+     <tr>
+      <td>getPath()</td>
+      <td>Array&lt;LngLat&gt;</td>
+      <td>返回该段路线的坐标。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

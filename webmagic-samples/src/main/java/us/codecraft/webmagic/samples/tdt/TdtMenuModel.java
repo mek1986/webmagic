@@ -5,6 +5,8 @@ import com.google.common.base.Strings;
 import us.codecraft.webmagic.Page;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author: mek
@@ -52,7 +54,15 @@ public class TdtMenuModel {
             for (int i = 0; i < size; i++) {
                 String idKey = String.valueOf(MENU_ITEMS.get(i).getInteger("id"));
                 if (MENU_ITEMS.get(i).containsKey("file")) {
-                    String url = TdtConfig.CONTENT_PAGE_PREFIX + MENU_ITEMS.get(i).getString("file");
+//                    String url = TdtConfig.CONTENT_PAGE_PREFIX + MENU_ITEMS.get(i).getString("file");
+                    String url = MENU_ITEMS.get(i).getString("file");
+                    String pattern = "/([^/]+\\.[a-zA-Z0-9]+)$";
+                    Pattern compile = Pattern.compile(pattern);
+                    Matcher matcher = compile.matcher(url);
+                    if (matcher.find()) {
+                        url = TdtConfig.CONTENT_PAGE_PREFIX + matcher.group(1);
+                    }
+
                     //向集合中添加待抓取页面url
                     PAGE_URLS.add(url);
                     URL2_MENU_ITEMS.put(url, i);

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>GridlineLayerOptions</h3>
+   <p>通过此类实现在地图上叠加网格图层，用户可以自定义格网的像素大小、变现颜色、边线宽度透明度等一系列参数。</p>
+   <h4>属性</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>属性</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>类型</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>默认值</strong></td>
+      <td width="61%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>tileSize</td>
+      <td>number</td>
+      <td>256</td>
+      <td>设置格网图层的网格大小，单位是像素。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">minZoom</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">0</td>
+      <td bgcolor="#f5f5f5">显示格网图层的最小层级。</td>
+     </tr>
+     <tr>
+      <td>maxZoom</td>
+      <td>number</td>
+      <td>18</td>
+      <td>显示格网图层的最大层级。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">opacity</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">1</td>
+      <td bgcolor="#f5f5f5">设置格网图层的透明度。</td>
+     </tr>
+     <tr>
+      <td>outlineSize</td>
+      <td>object</td>
+      <td>{width:1, style:'solid', color:'#999'}</td>
+      <td>设置格网图层边线的颜色、宽度、线样式。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">textSize</td>
+      <td bgcolor="#f5f5f5">object</td>
+      <td bgcolor="#f5f5f5">{display:false, fontSize:'14', fontWeight:true,color:"black"}</td>
+      <td bgcolor="#f5f5f5">设置格网图层文字的样式，图层文字表现网格的行号、列号、层级。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

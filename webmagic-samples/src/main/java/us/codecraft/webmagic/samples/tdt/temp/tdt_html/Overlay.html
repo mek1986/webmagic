@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>Overlay</h3>
+   <p>叠加层类都直接或间接继承于此基类。如果希望在地图上显示自定义的叠加层对象类型，可以继承这一基类。</p>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>initialize(opt:JSON)</td>
+      <td>none</td>
+      <td>构造函数时传递参数，对OverlayOptions属性值进行赋值。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">onAdd(map:Map)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">向地图上添加叠加物。当调用map.addOverLay时，API将调用此方法。自定义叠加物时需要实现此方法。自定义叠加物时需要将覆盖物对应的HTML元素返回。<br>参数说明：<br>map：Map对象</td>
+     </tr>
+     <tr>
+      <td>onRemove()</td>
+      <td>none</td>
+      <td>移除叠加物，释放覆盖物对象所占用的内存。自定义叠加物时需要实现此方法。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">update()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">当地图状态发生变化时，由系统调用对覆盖物进行绘制。自定义覆盖物需要实现此方法。</td>
+     </tr>
+     <tr>
+      <td>show()</td>
+      <td>none</td>
+      <td>在地图上显示叠加层。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">hide()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">在地图上隐藏叠加层。</td>
+     </tr>
+     <tr>
+      <td>isHidden()</td>
+      <td>boolean</td>
+      <td>判断叠加层是否隐藏，返回 true 表示当前叠加层是隐藏的，否则是处于显示状态。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setOptions(opt:JSON)</td>
+      <td bgcolor="#f5f5f5">JSON</td>
+      <td bgcolor="#f5f5f5">对OverlayOptions属性值赋值。</td>
+     </tr>
+     <tr>
+      <td>getElement</td>
+      <td>HTMLElement</td>
+      <td>返回叠加物所在的容器的标签。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

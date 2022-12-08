@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>Control.OverviewMap</h3>
+   <p>鹰眼地图控件，用来显示一个鹰眼地图, 继承自Control基类，拥有基类的所有方法。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>Control.OverviewMap(opts:Control.OverviewMapOptions)</td>
+      <td>创建一个Control.OverviewMap控件。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>setButtonImage(imgOpen:String,imgClose:String)</td>
+      <td>none</td>
+      <td>设置鹰眼地图的按钮图片，要同时设置鹰眼地图打开和关闭状态下的两张图片。<br>imgOpen：鹰眼地图在打开状态下的按钮图片。<br>imgClose：鹰眼地图在关闭状态下的按钮图片。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setBorderColor(color:String)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">设置鹰眼地图和主地图之间空隙的背景颜色。</td>
+     </tr>
+     <tr>
+      <td>setRectBorderColor(color:String)</td>
+      <td>none</td>
+      <td>设置鹰眼地图上的矩形框边框颜色。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setRectBackColor(color:String)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">设置鹰眼地图上的矩形框背景颜色。</td>
+     </tr>
+     <tr>
+      <td>changeView()</td>
+      <td>none</td>
+      <td>切换鹰眼地图的开-合状态。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">isOpen()</td>
+      <td bgcolor="#f5f5f5">boolean</td>
+      <td bgcolor="#f5f5f5">返回该鹰眼的视图是否被打开。</td>
+     </tr>
+     <tr>
+      <td>getMiniMap()</td>
+      <td>Map</td>
+      <td>返回该鹰眼的地图对象。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">添加事件监听函数</td>
+     </tr>
+     <tr>
+      <td>removeEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>移除事件监听函数</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>描述</strong></td>
+     </tr>
+     <tr>
+      <td>viewchange</td>
+      <td>{ type, target, isOpen }</td>
+      <td>鹰眼视图控件的开合状态变化时触发事件。<br>参数说明：<br>isOpen：状态变化后鹰眼地图是否在打开的状态中。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

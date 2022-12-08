@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>MarkerClustererOptions</h3>
+   <p>用来解决加载大量标注点到地图上产生覆盖现象的问题，并提高性能。</p>
+   <h4>属性</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>属性</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>类型</strong></td>
+      <td width="12%" bgcolor="#2d94e4"><strong>默认值</strong></td>
+      <td width="57%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>markers</td>
+      <td>array</td>
+      <td>[]</td>
+      <td>要聚合的标注点数组。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">styles</td>
+      <td bgcolor="#f5f5f5">array</td>
+      <td bgcolor="#f5f5f5"></td>
+      <td bgcolor="#f5f5f5">自定义聚合后的图标风格，格式如下：<br> [ 
+       <blockquote>
+        {
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         url:'http://api.tianditu.gov.cn/img/map/cluster/heart30.png',
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         size:[30, 26], //图片大小
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         offset:new T.Point(-15, -13), //显示图片的偏移量
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         textColor:'#000000', //显示数字的颜色
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         textSize:8,//显示文字的大小
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         range:[0, 50],
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        }, {
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         url:'http://api.tianditu.gov.cn/img/map/cluster/heart40.png',
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         size:[42, 36],
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         offset:new T.Point(-20, -17),
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         textColor:'#ff0000',
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         textSize:10,
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         range:[50, 400],
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        }, {
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         url:'http://api.tianditu.gov.cn/img/map/cluster/heart50.png',
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         size:[52, 46],
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         soffset:new T.Point(-10, -22),
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         textColor:'white',
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         textSize:12,
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         range:[400, 500],
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        }
+       </blockquote> ]</td>
+     </tr>
+     <tr>
+      <td>girdSize</td>
+      <td>number</td>
+      <td>60</td>
+      <td>聚合计算时网格的像素大小，默认60。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">maxZoom</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">无穷大</td>
+      <td bgcolor="#f5f5f5">最大的聚合级别，大于该级别就不进行聚合。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

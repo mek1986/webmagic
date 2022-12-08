@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>Marker</h3>
+   <p>此类表示地图上一个图像标注。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>Marker(lnglat:TLngLat[,opts:MarkerOptions])</td>
+      <td>创建一个图像标注实例。lnglat参数指定了图像标注所在的地理位置。<br>参数说明：<br>lnglat：标注点的地理坐标。<br>opts：标注的属性对象，请参考MarkerOptions。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>getType()</td>
+      <td>number</td>
+      <td>叠加层类型。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getMap()</td>
+      <td bgcolor="#f5f5f5">Map</td>
+      <td bgcolor="#f5f5f5">返回标注所在的map对象。</td>
+     </tr>
+     <tr>
+      <td>setIcon(icon:Icon)</td>
+      <td>none</td>
+      <td>设置标注所用的图标对象。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getIcon()</td>
+      <td bgcolor="#f5f5f5">Icon</td>
+      <td bgcolor="#f5f5f5">返回标记显示时所使用的图标对象。</td>
+     </tr>
+     <tr>
+      <td>setLngLat (lnglat:LngLat)</td>
+      <td>none</td>
+      <td>设置标注所在的地理位置坐标。<br>参数说明：<br>lnglat：地理位置坐标。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getLngLat ()</td>
+      <td bgcolor="#f5f5f5">LngLat</td>
+      <td bgcolor="#f5f5f5">返回标注所在的地理位置坐标。</td>
+     </tr>
+     <tr>
+      <td>setZIndexOffset(num:Number)</td>
+      <td>none</td>
+      <td>设置z-index。<br>参数说明：<br>num：大于1的整数。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">enableDragging()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">开启标注拖拽功能。</td>
+     </tr>
+     <tr>
+      <td>disableDragging()</td>
+      <td>none</td>
+      <td>关闭标注拖拽功能。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setOpacity(opacity:Number)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">设置标注透明度。<br>参数说明：<br>opacity：取值范围0-1 之间。</td>
+     </tr>
+     <tr>
+      <td>openInfoWindow(infowin:InfoWindow)</td>
+      <td>none</td>
+      <td>打开信息窗。<br>参数说明：<br>infowin：InfoWindow对象。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">closeInfoWindow()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">关闭信息窗。</td>
+     </tr>
+     <tr>
+      <td>addEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>添加事件监听函数。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">removeEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">移除事件监听函数。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>描述</strong></td>
+     </tr>
+     <tr>
+      <td>click</td>
+      <td>{type,target,lnglat,containerPoint }</td>
+      <td>点击标注图标后会触发此事件。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">dblclick</td>
+      <td bgcolor="#f5f5f5">{type,target,lnglat,containerPoint }</td>
+      <td bgcolor="#f5f5f5">双击标注图标后会触发此事件。</td>
+     </tr>
+     <tr>
+      <td>mousedown</td>
+      <td>{type,target,lnglat,containerPoint }</td>
+      <td>鼠标在标注图标上按下触发此事件。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">mouseup</td>
+      <td bgcolor="#f5f5f5">{type,target,lnglat,containerPoint }</td>
+      <td bgcolor="#f5f5f5">鼠标在标注图标释放触发此事件。</td>
+     </tr>
+     <tr>
+      <td>mouseout</td>
+      <td>{type,target,lnglat,containerPoint }</td>
+      <td>鼠标离开标注图标时触发此事件。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">mouseover</td>
+      <td bgcolor="#f5f5f5">{type,target,lnglat,containerPoint }</td>
+      <td bgcolor="#f5f5f5">当鼠标进入标注图标区域时会触发此事件。</td>
+     </tr>
+     <tr>
+      <td>dragstart</td>
+      <td>{type,target }</td>
+      <td>当用户拖动标注图标时触发。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">drag</td>
+      <td bgcolor="#f5f5f5">{type,target,lnglat }</td>
+      <td bgcolor="#f5f5f5">当用户拖动标注图标时不断触发。</td>
+     </tr>
+     <tr>
+      <td>dragend</td>
+      <td>{type,target,lnglat }</td>
+      <td>当用户停止拖动标注图标时触发。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">remove</td>
+      <td bgcolor="#f5f5f5">{type,target }</td>
+      <td bgcolor="#f5f5f5">移除标注图标时触发。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

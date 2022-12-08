@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>LayerGroup</h3>
+   <p>此类是表示一个图层容器，用于存储T.Overlay的继承的图层。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>LayerGroup(layers:Array&lt;Overlay&gt;)</td>
+      <td>构建一个存储图层的容器。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>类型</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>addLayer(layer)</td>
+      <td>None</td>
+      <td>从容器中增加一个图层。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">removeLayer(layer)</td>
+      <td bgcolor="#f5f5f5">None</td>
+      <td bgcolor="#f5f5f5">从容器中移除一个图层。</td>
+     </tr>
+     <tr>
+      <td>hasLayer(layer)</td>
+      <td>Bool</td>
+      <td>判断图层是否在容器中。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getLayers()</td>
+      <td bgcolor="#f5f5f5">Array&lt;Overlay&gt;</td>
+      <td bgcolor="#f5f5f5">得到容器中的所有图层。</td>
+     </tr>
+     <tr>
+      <td>clearLayers()</td>
+      <td>None</td>
+      <td>清除容器中的所有图层。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">setZIndex()</td>
+      <td bgcolor="#f5f5f5">None</td>
+      <td bgcolor="#f5f5f5">设置容器Z值。</td>
+     </tr>
+     <tr>
+      <td>getLayer(id)</td>
+      <td>Overlay</td>
+      <td>通过ID获取其对应的图层。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getLayerId(layer)</td>
+      <td bgcolor="#f5f5f5">String</td>
+      <td bgcolor="#f5f5f5">获取容器中存在图层的唯一ID</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

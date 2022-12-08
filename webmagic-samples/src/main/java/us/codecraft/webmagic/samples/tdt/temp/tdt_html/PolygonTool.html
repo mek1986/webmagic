@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>PolygonTool</h3>
+   <p>多边形工具，可以通过事件来获取用户绘制的多边形，包含测面积功能。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>PolygonTool(map:Map[,opts:PolygonToolOptions])</td>
+      <td>创建一个PolygonTool 控件对象。<br>参数说明：<br>map：地图对象。<br>opts：详见PolygonToolOptions类。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>setTips(text:String)</td>
+      <td>none</td>
+      <td>跟随鼠标移动的说明文字。<br>参数说明：<br>text：文字内容。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getArea(points:LngLat [])</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">计算由地理点组成的多边形的面积。<br>参数说明：<br>points：点坐标LngLat数组。</td>
+     </tr>
+     <tr>
+      <td>endDraw()</td>
+      <td>none</td>
+      <td>完成一个多边形的绘制，运行此方法相当于用户点击双击结束当前多边形的绘制。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getPolygons()</td>
+      <td bgcolor="#f5f5f5">Array&lt;Polygon&gt;</td>
+      <td bgcolor="#f5f5f5">获得所有绘制的多边形。</td>
+     </tr>
+     <tr>
+      <td>clear()</td>
+      <td>none</td>
+      <td>清除所有绘制的多边形。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">open()</td>
+      <td bgcolor="#f5f5f5">boolean</td>
+      <td bgcolor="#f5f5f5">开启测面积工具。</td>
+     </tr>
+     <tr>
+      <td>close()</td>
+      <td>none</td>
+      <td>关闭侧面积工具。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">添加事件监听函数</td>
+     </tr>
+     <tr>
+      <td>removeEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>移除事件监听函数</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>描述</strong></td>
+     </tr>
+     <tr>
+      <td>draw</td>
+      <td>{type,target,currentLnglats,currentArea,currentPolygon,allPolygons }</td>
+      <td>用户双击完成一次折线绘制时触发事件。<br>参数说明：<br>currentLnglats：用户当前绘制的多边形的点坐标数组。<br>currentArea：用户最后绘制的多边形的地理面积。<br>currentPolygon：当前所画多边形的对象。<br>allPolygons： 获取工具所有绘制的多边形。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addpoint</td>
+      <td bgcolor="#f5f5f5">{type,target,currentLnglats,currentArea,currentPolygon,allPolygons }</td>
+      <td bgcolor="#f5f5f5">用户在多边形绘制过程中，每次点击底图添加节点时触发事件。 <br>参数说明：<br>currentLnglats：最后绘制的多边形的顶点坐标数组。<br>currentArea：用户最后绘制的折线的地理面积。<br>currentPolygon：当前临时绘制的多边形。<br>allPolygons:获取工具所有绘制的多边形。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

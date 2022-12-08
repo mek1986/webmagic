@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>MapOptions</h3>
+   <p>此类是地图API的核心类，用来实例化一个地图。</p>
+   <h4>属性</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>属性</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>类型</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>默认值</strong></td>
+      <td width="61%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>projection</td>
+      <td>String</td>
+      <td>"EPSG:900913"</td>
+      <td>指定地图的投影方式，目前支持的地图投影方式有：EPSG:900913(墨卡托投影)，EPSG:4326(大地平面投影)。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">minZoom</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">null</td>
+      <td bgcolor="#f5f5f5">地图允许展示的最小级别。</td>
+     </tr>
+     <tr>
+      <td>maxZoom</td>
+      <td>number</td>
+      <td>null</td>
+      <td>地图允许展示的最大级别。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">maxBounds</td>
+      <td bgcolor="#f5f5f5">LngLatBound</td>
+      <td bgcolor="#f5f5f5">null</td>
+      <td bgcolor="#f5f5f5">当这个选项被设置后，地图被限制在给定的地理边界内，当用户平移将地图拖动到视图以外的范围时会出现弹回的效果，并且也不允许缩小视图到给定范围以外的区域（这取决于地图的尺寸）。使用setMaxBounds方法可以动态地设置这种约束。</td>
+     </tr>
+     <tr>
+      <td>center</td>
+      <td>LngLat</td>
+      <td>null</td>
+      <td>地图的初始化中心点。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">zoom</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">null</td>
+      <td bgcolor="#f5f5f5">地图的初始化级别。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

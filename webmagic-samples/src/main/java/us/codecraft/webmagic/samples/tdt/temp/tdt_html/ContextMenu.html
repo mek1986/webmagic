@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>ContextMenu</h3>
+   <p>此类表示右键菜单。您可以在地图上添加自定义内容的右键菜单。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>ContextMenu</td>
+      <td>创建一个右键菜单实例。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>addItem(item:MenuItem)</td>
+      <td>none</td>
+      <td>添加菜单项。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getItem(index:Number)</td>
+      <td bgcolor="#f5f5f5">TMenuItem</td>
+      <td bgcolor="#f5f5f5">返回指定索引位置的菜单项，第一个菜单项的索引为0。</td>
+     </tr>
+     <tr>
+      <td>removeItem(item:MenuItem)</td>
+      <td>none</td>
+      <td>移除菜单项。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addSeparator()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">添加分隔符。</td>
+     </tr>
+     <tr>
+      <td>removeSeparator(index:Number)</td>
+      <td>none</td>
+      <td>移除指定索引位置的分隔符，第一个分隔符的索引为0。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getItems()</td>
+      <td bgcolor="#f5f5f5">array</td>
+      <td bgcolor="#f5f5f5">返回所有的TMenuItem，是一个数组。</td>
+     </tr>
+     <tr>
+      <td>getAllSeparato()</td>
+      <td>array</td>
+      <td>返回所有分割线，是一个数组。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">addEventListener(event:String, handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">添加事件监听函数</td>
+     </tr>
+     <tr>
+      <td>removeEventListener(event:String, handler:Function)</td>
+      <td>none</td>
+      <td>移除事件监听函数</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="10%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="21%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>描述</strong></td>
+     </tr>
+     <tr>
+      <td>open</td>
+      <td>{point,type,target }</td>
+      <td>右键菜单打开时触发事件，<br>参数说明：<br>point表示菜单开启时的像素坐标点。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">close</td>
+      <td bgcolor="#f5f5f5">{type,target }</td>
+      <td bgcolor="#f5f5f5">右键菜单关闭时触发事件。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

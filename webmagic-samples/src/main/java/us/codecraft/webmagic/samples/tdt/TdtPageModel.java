@@ -21,6 +21,11 @@ import java.util.*;
 public class TdtPageModel {
     private TdtMenuModel menuModel;
     private JSONObject clazzObj;
+
+    public TdtMenuModel getMenuModel() {
+        return menuModel;
+    }
+
     private JSONObject optionObj;
     private JSONObject moduleNames = new JSONObject();
     private List<JSONObject> enumList;

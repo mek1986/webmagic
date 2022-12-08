@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="../css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <div class="new">
+    <strong>BusLine</strong><span></span>
+   </div>
+   <p>此类表示T.BusLineSearch的检索结果，没有构造函数，通过T.BusLineSearch的setGetBusLineCompleteCallback回调函数的参数得到。</p>
+   <h4>属性</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4">属性</td>
+      <td width="8%" bgcolor="#2d94e4"><strong>类型</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>lineName</td>
+      <td>string</td>
+      <td>线路名称，如：68路。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">lineType</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">线路类型，1表示公交；2表示地铁；3表示磁悬浮。</td>
+     </tr>
+     <tr>
+      <td>length</td>
+      <td>number</td>
+      <td>线路的长度，单位米。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">linePoint</td>
+      <td bgcolor="#f5f5f5">string</td>
+      <td bgcolor="#f5f5f5">线路的详细点信息，格式：x,y;x,y;</td>
+     </tr>
+     <tr>
+      <td>startTime</td>
+      <td>string</td>
+      <td>始发车时间格式为：hh:mm 24小时制。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">endTime</td>
+      <td bgcolor="#f5f5f5">string</td>
+      <td bgcolor="#f5f5f5">末班车时间格式为：hh:mm 24小时制。</td>
+     </tr>
+     <tr>
+      <td>totalTime</td>
+      <td>number</td>
+      <td>公交线路的全程运营总时间，单位分钟。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">stationCount</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">该线路所具有的站点总数量。</td>
+     </tr>
+     <tr>
+      <td>interval</td>
+      <td>number</td>
+      <td>发车间隔，单位秒。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">ticketcal</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">计费模式，0表示单一；1表示按距离；2表示按站。</td>
+     </tr>
+     <tr>
+      <td>totalPrice</td>
+      <td>number</td>
+      <td>全程票价，单位分。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">startPrice</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">起步票价，单位分。</td>
+     </tr>
+     <tr>
+      <td>increasedPrice</td>
+      <td>number</td>
+      <td>递增距离票价，单位千米。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">increasedStep</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">车站递增票价，按站。</td>
+     </tr>
+     <tr>
+      <td>ismonTicket</td>
+      <td>number</td>
+      <td>是否支持月票，0表示不支持；1表示支持。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">isBidirectional</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">是否双向行驶，0表示单项；1表示双向。</td>
+     </tr>
+     <tr>
+      <td>isManual</td>
+      <td>number</td>
+      <td>是否人工售票，0表示有人；1表示无人。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">status</td>
+      <td bgcolor="#f5f5f5">number</td>
+      <td bgcolor="#f5f5f5">状态，0表示使用中；1表示非使用中</td>
+     </tr>
+     <tr>
+      <td>company</td>
+      <td>string</td>
+      <td>所属公交公司，公交线路所属公司。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4">属性</td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>getNumBusStations()</td>
+      <td>number</td>
+      <td>返回公交站点个数。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getBusStation(i:Number)</td>
+      <td bgcolor="#f5f5f5">JSON</td>
+      <td bgcolor="#f5f5f5">返回某一个具体的公交站信息。<br> 数据结构如下：<br> { 
+       <blockquote>
+        "lonlat":"116.430522,39.939852", //站点坐标
+       </blockquote>
+       <blockquote>
+        "name":"东直门外", //站点名称
+       </blockquote>
+       <blockquote>
+        "uuid":"122805" //站的id信息
+       </blockquote> }</td>
+     </tr>
+     <tr>
+      <td>getPath()</td>
+      <td>array</td>
+      <td>返回公交线地理坐标点数组。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

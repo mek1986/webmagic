@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="../css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>DoubleArrowTool</h3>
+   <p>构建一个绘制双箭头的工具类。</p>
+   <h4>构造函数</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="24%" bgcolor="#2d94e4"><strong>构造函数</strong></td>
+      <td width="76%" bgcolor="#2d94e4">说明</td>
+     </tr>
+     <tr>
+      <td>DoubleArrowTool(map:Map,options:DoubleArrowToolOptions)</td>
+      <td>构造一个绘制双箭头的工具。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>clear()</td>
+      <td>none</td>
+      <td>清空工具绘制所有双箭头。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getLayers()</td>
+      <td bgcolor="#f5f5f5">Array&lt;DoubleArrow&gt;</td>
+      <td bgcolor="#f5f5f5">获取所有编辑完成的双箭头。</td>
+     </tr>
+     <tr>
+      <td>open()</td>
+      <td>boolean</td>
+      <td>开启双箭头工具。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">close()</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">关闭双箭头工具。</td>
+     </tr>
+     <tr>
+      <td>addEventListener(event:String,handler:Function)</td>
+      <td>none</td>
+      <td>添加事件监听函数。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">removeEventListener(event:String,handler:Function)</td>
+      <td bgcolor="#f5f5f5">none</td>
+      <td bgcolor="#f5f5f5">移除事件监听函数。</td>
+     </tr>
+    </tbody>
+   </table>
+   <h4>事件</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>事件</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>参数</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>click</td>
+      <td>{type,target,currentLnglats,currentLayer,allLayers}</td>
+      <td>工具点击一次地图触发的事件。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">move</td>
+      <td bgcolor="#f5f5f5">{type,target,currentLnglats,currentLayer,allLayers}</td>
+      <td bgcolor="#f5f5f5">工具在绘制图形时移动鼠标的事件。</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>天地图API</title>
+  <link href="images/favicon.ico" type="image/x-icon" rel="Shortcut Icon">
+  <link href="../css/css.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <div class="content">
+   <h3>AdministrativeDivisionResult</h3>
+   <p>此类表示T. AdministrativeDivision的检索结果，没有构造函数。</p>
+   <h4>构造函数</h4>
+   <h4>方法</h4>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="classtable">
+    <tbody>
+     <tr class="tr_line1">
+      <td width="23%" bgcolor="#2d94e4"><strong>方法</strong></td>
+      <td width="8%" bgcolor="#2d94e4"><strong>返回值</strong></td>
+      <td width="69%" bgcolor="#2d94e4"><strong>说明</strong></td>
+     </tr>
+     <tr>
+      <td>getStatus()</td>
+      <td>numer</td>
+      <td>返回状态码，100表示正常，101表示没有查到结果。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getMsg()</td>
+      <td bgcolor="#f5f5f5">string</td>
+      <td bgcolor="#f5f5f5">返回响应信息。</td>
+     </tr>
+     <tr>
+      <td>getDataVersion()</td>
+      <td>LngLat</td>
+      <td>数据版本。</td>
+     </tr>
+     <tr>
+      <td bgcolor="#f5f5f5">getData()</td>
+      <td bgcolor="#f5f5f5">string</td>
+      <td bgcolor="#f5f5f5">返回行政区划数据信息。<br>
+       <blockquote>
+        {
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "returncode": "100", //返回状态码，100表示正常，101表示没有查到结果。
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "data": [{
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          "parents": {
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "name": "北京市", //行政区划名称
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "adminType": "province", //行政区划类别(省市县)
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "cityCode": "156110000" //行政区划码
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          {
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          "country": {
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "name": "中华人民共和国",
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "adminType": "country",
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "cityCode": "156000000"
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          }
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         }
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "level": 12, //行政区划等级
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "nameabbrevation": "海淀", //行政区划简称
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "name": "海淀区",
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "adminType": "county",
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "cityCode": "156110108",
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "lnt": 116.292384, //经度
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "lat": 39.958079, //纬度
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "englishabbrevation": "Haidian Dist.", //行政区划英文简称
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "english": "Haidian District", //行政区划英文名称
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "bound": "116.04257799999999,40.15974,116.388863,39.891777999999995", //行政区划范围
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          "points": [{
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          <blockquote>
+           "region":"116.236 40.117,116.234 40.107,116.236 40.106,116.238 40.105,116.238 40.104,116.239 40.104,116.239 40.104,116.24 40.104,116.25 40.103,116.25 40.103,116.251 40.103,116.252 40.104,116.253 40.104,116.253 40.104,116.253 40.105,116.253 40.105,116.253 40.106, "
+          </blockquote>
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         <blockquote>
+          }] //行政区划范围
+         </blockquote>
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         }],
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "dataversion": "2018-01-30", //数据版本(只返回最新数据版本日期)
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        <blockquote>
+         "msg": "ok" //返回响应信息
+        </blockquote>
+       </blockquote>
+       <blockquote>
+        }
+       </blockquote></td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>
