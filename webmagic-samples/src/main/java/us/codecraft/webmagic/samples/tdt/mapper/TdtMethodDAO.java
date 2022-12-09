@@ -3,6 +3,7 @@ package us.codecraft.webmagic.samples.tdt.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import us.codecraft.webmagic.samples.tdt.entity.TdtEnum;
 import us.codecraft.webmagic.samples.tdt.entity.TdtMethod;
 import us.codecraft.webmagic.samples.tdt.entity.TdtMethodExample;
 
@@ -29,4 +30,6 @@ public interface TdtMethodDAO {
     int updateByPrimaryKeySelective(TdtMethod record);
 
     int updateByPrimaryKey(TdtMethod record);
+
+    int batchInsert(List<TdtMethod> list);
 }

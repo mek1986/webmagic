@@ -8,12 +8,14 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import us.codecraft.webmagic.samples.tdt.entity.TdtClass;
-import us.codecraft.webmagic.samples.tdt.mapper.TdtClassDAO;
+import us.codecraft.webmagic.samples.tdt.entity.*;
+import us.codecraft.webmagic.samples.tdt.mapper.*;
 import us.codecraft.webmagic.samples.tdt.proxy.DaoMapperProxy;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +35,7 @@ public class TdtDbManage {
             throw new RuntimeException("sql factory is null");
         }
 
-        this.sqlSession = sqlSessionFactory.openSession();
+        this.sqlSession = sqlSessionFactory.openSession(false);
     }
 
     public SqlSession getSqlSession() {
@@ -41,7 +43,7 @@ public class TdtDbManage {
     }
 
     private static SqlSessionFactory sqlSessionFactory;
-    private final SqlSession sqlSession;
+    private SqlSession sqlSession;
 
     static {
         String resource = "mybatis-config.xml";
@@ -82,7 +84,7 @@ public class TdtDbManage {
     }
 
     public boolean save() {
-        if (sqlSession == null) {
+        if (this.sqlSession == null) {
             System.out.println("sql session is null");
             return false;
         }
@@ -110,9 +112,10 @@ public class TdtDbManage {
             parseMethodArray(version);
             parseEventArray(version);
 
-            saveToDb();
+            if (!saveToDb()) {
+                return false;
+            }
         } catch (Exception e) {
-            System.out.println("save error:" + e.getMessage());
             if (TdtConfig.DEBUG) {
                 e.printStackTrace();
             }
@@ -128,28 +131,119 @@ public class TdtDbManage {
         return true;
     }
 
-    private void saveToDb() {
+    private boolean saveToDb() throws SQLException {
+        Connection connection = this.sqlSession.getConnection();
         try {
+            connection.setAutoCommit(false);
+
             saveClassArray();
-//            saveOptionArray();
-//            saveOptionDetailArray();
-//            saveEnumArray();
-//            saveMethodArray();
-//            saveEventArray();
-//            saveModules();
+            saveOptionArray();
+            saveOptionDetailArray();
+            saveEnumArray();
+            saveMethodArray();
+            saveEventArray();
+            saveModules();
         } catch (Exception e) {
-            sqlSession.rollback();
-            throw new RuntimeException("db err");
+            connection.rollback();
+            System.out.println("save error:" + e.getMessage());
+            return false;
+        } finally {
+            connection.close();
         }
 
-        sqlSession.commit(true);
+        connection.commit();
+        return true;
     }
 
     public void saveClassArray() {
         JSONObject[] jsonObjects = (JSONObject[]) this.classArray.toArray(new JSONObject[0]);
         List<TdtClass> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtClass.class)).collect(Collectors.toList());
 
-        TdtClassDAO mapper = sqlSession.getMapper(TdtClassDAO.class);
+        TdtClassDAO mapper = DaoMapperProxy.getProxyInstance(TdtClassDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
+    }
+
+    public void saveOptionArray() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.optionArray.toArray(new JSONObject[0]);
+        List<TdtOption> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtOption.class)).collect(Collectors.toList());
+
+        TdtOptionDAO mapper = DaoMapperProxy.getProxyInstance(TdtOptionDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
+    }
+
+    public void saveOptionDetailArray() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.optionDetailArray.toArray(new JSONObject[0]);
+        List<TdtOptionDetail> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtOptionDetail.class)).collect(Collectors.toList());
+
+        TdtOptionDetailDAO mapper = DaoMapperProxy.getProxyInstance(TdtOptionDetailDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
+    }
+
+    public void saveEnumArray() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.enumArray.toArray(new JSONObject[0]);
+        List<TdtEnum> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtEnum.class)).collect(Collectors.toList());
+
+        TdtEnumDAO mapper = DaoMapperProxy.getProxyInstance(TdtEnumDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
+    }
+
+    public void saveMethodArray() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.methodArray.toArray(new JSONObject[0]);
+        List<TdtMethod> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtMethod.class)).collect(Collectors.toList());
+
+        TdtMethodDAO mapper = DaoMapperProxy.getProxyInstance(TdtMethodDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
+    }
+
+    public void saveEventArray() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.eventArray.toArray(new JSONObject[0]);
+        List<TdtEvent> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtEvent.class)).collect(Collectors.toList());
+
+        TdtEventDAO mapper = DaoMapperProxy.getProxyInstance(TdtEventDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
+    }
+
+    public void saveModules() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.modules.values().toArray(new JSONObject[0]);
+        List<TdtModule> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtModule.class)).collect(Collectors.toList());
+
+        TdtModuleDAO mapper = DaoMapperProxy.getProxyInstance(TdtModuleDAO.class);
         if (mapper.batchInsert(classes) != classes.size()) {
             throw new RuntimeException("save class err");
         }
@@ -231,7 +325,7 @@ public class TdtDbManage {
     private void parseModule(JSONObject moduleNames, String version) {
         JSONObject obj = new JSONObject();
 
-        obj.put("id", UUID.randomUUID());
+        obj.put("id", UUID.randomUUID().toString());
         obj.put("addTime", new Date());
         obj.put("version", version);
 
@@ -650,12 +744,12 @@ public class TdtDbManage {
     }
 
     public static void main(String[] args) {
-        TdtDbManage tdtDbManage = new TdtDbManage();
-        TdtClassDAO mapper = DaoMapperProxy.getProxyInstance(TdtClassDAO.class);
-        TdtClass tdtClass = mapper.selectByPrimaryKey("1");
-
-        System.out.println(tdtClass.toString());
-
-        System.out.println("success");
+//        TdtDbManage tdtDbManage = new TdtDbManage();
+//        TdtClassDAO mapper = DaoMapperProxy.getProxyInstance(TdtClassDAO.class);
+//        TdtClass tdtClass = mapper.selectByPrimaryKey("1");
+//
+//        System.out.println(tdtClass.toString());
+//
+//        System.out.println("success");
     }
 }

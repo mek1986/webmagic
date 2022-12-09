@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import us.codecraft.webmagic.samples.tdt.entity.TdtEnum;
 import us.codecraft.webmagic.samples.tdt.entity.TdtEnumExample;
+import us.codecraft.webmagic.samples.tdt.entity.TdtOption;
 
 
 public interface TdtEnumDAO {
@@ -29,4 +30,6 @@ public interface TdtEnumDAO {
     int updateByPrimaryKeySelective(TdtEnum record);
 
     int updateByPrimaryKey(TdtEnum record);
+
+    int batchInsert(List<TdtEnum> list);
 }

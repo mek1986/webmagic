@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : 本地
  Source Server Type    : MySQL
  Source Server Version : 50726
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 09/12/2022 18:28:22
+ Date: 10/12/2022 07:18:12
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `t_tdt_attr`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '属性描述表(暂时未用)' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '属性描述表(暂时未用)' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_class
@@ -47,7 +47,7 @@ CREATE TABLE `t_tdt_class`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '类描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '类描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_enum
@@ -64,7 +64,7 @@ CREATE TABLE `t_tdt_enum`  (
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '常量描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '常量描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_event
@@ -80,7 +80,7 @@ CREATE TABLE `t_tdt_event`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '事件描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '事件描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_method
@@ -99,7 +99,7 @@ CREATE TABLE `t_tdt_method`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '方法描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '方法描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_module
@@ -113,7 +113,7 @@ CREATE TABLE `t_tdt_module`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '模块描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '模块描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_option
@@ -129,7 +129,7 @@ CREATE TABLE `t_tdt_option`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_tdt_option_detail
@@ -146,6 +146,6 @@ CREATE TABLE `t_tdt_option_detail`  (
   `add_time` datetime(0) NOT NULL COMMENT '抓取时间',
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '抓取版本',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象详细信息描述表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象详细信息描述表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

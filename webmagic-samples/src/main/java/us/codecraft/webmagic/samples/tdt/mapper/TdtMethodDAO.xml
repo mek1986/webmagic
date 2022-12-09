@@ -311,4 +311,11 @@
       version = #{version,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <insert id="batchInsert">
+    insert into t_tdt_method(id,method_name,return_type,params,method_desc,raw_method_sign,method_cate,belong_class_name,from_url,add_time,version) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id},#{item.methodName},#{item.returnType},#{item.params},#{item.methodDesc},#{item.rawMethodSign},#{item.methodCate},#{item.belongClassName},#{item.fromUrl},#{item.addTime},#{item.version})
+    </foreach>
+  </insert>
 </mapper>

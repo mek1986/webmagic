@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import us.codecraft.webmagic.samples.tdt.entity.TdtEvent;
 import us.codecraft.webmagic.samples.tdt.entity.TdtEventExample;
+import us.codecraft.webmagic.samples.tdt.entity.TdtMethod;
 
 
 public interface TdtEventDAO {
@@ -29,4 +30,6 @@ public interface TdtEventDAO {
     int updateByPrimaryKeySelective(TdtEvent record);
 
     int updateByPrimaryKey(TdtEvent record);
+
+    int batchInsert(List<TdtEvent> list);
 }

@@ -21,8 +21,7 @@ public class MapperInterceptor<T> implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (TdtConfig.DEBUG) {
-            TdtUtils.printDebug("代理开始");
-            TdtUtils.printDebug("代理方法为:" + method);
+            TdtUtils.printDebug("代理开始","代理方法为:" + method);
         }
 
         Class<?> c = method.getDeclaringClass();

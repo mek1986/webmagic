@@ -263,4 +263,10 @@
       version = #{version,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <insert id="batchInsert">
+    insert into t_tdt_option(id,obj_name,obj_desc,module_name1,module_name2,from_url,add_time,version) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id},#{item.objName},#{item.objDesc},#{item.moduleName1},#{item.moduleName2},#{item.fromUrl},#{item.addTime},#{item.version})
+    </foreach>
+  </insert>
 </mapper>

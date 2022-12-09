@@ -3,6 +3,7 @@ package us.codecraft.webmagic.samples.tdt.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import us.codecraft.webmagic.samples.tdt.entity.TdtEvent;
 import us.codecraft.webmagic.samples.tdt.entity.TdtModule;
 import us.codecraft.webmagic.samples.tdt.entity.TdtModuleExample;
 
@@ -29,4 +30,6 @@ public interface TdtModuleDAO {
     int updateByPrimaryKeySelective(TdtModule record);
 
     int updateByPrimaryKey(TdtModule record);
+
+    int batchInsert(List<TdtModule> list);
 }
