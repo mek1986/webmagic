@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本地
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 50726
  Source Host           : localhost:3306
@@ -11,17 +11,17 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 09/12/2022 07:26:23
+ Date: 09/12/2022 18:28:22
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for t_attr
+-- Table structure for t_tdt_attr
 -- ----------------------------
-DROP TABLE IF EXISTS `t_attr`;
-CREATE TABLE `t_attr`  (
+DROP TABLE IF EXISTS `t_tdt_attr`;
+CREATE TABLE `t_tdt_attr`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `attr_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性名称',
   `attr_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性类型',
@@ -34,10 +34,10 @@ CREATE TABLE `t_attr`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '属性描述表(暂时未用)' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_class
+-- Table structure for t_tdt_class
 -- ----------------------------
-DROP TABLE IF EXISTS `t_class`;
-CREATE TABLE `t_class`  (
+DROP TABLE IF EXISTS `t_tdt_class`;
+CREATE TABLE `t_tdt_class`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `class_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类名',
   `class_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '类描述',
@@ -50,10 +50,10 @@ CREATE TABLE `t_class`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '类描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_enum
+-- Table structure for t_tdt_enum
 -- ----------------------------
-DROP TABLE IF EXISTS `t_enum`;
-CREATE TABLE `t_enum`  (
+DROP TABLE IF EXISTS `t_tdt_enum`;
+CREATE TABLE `t_tdt_enum`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `const_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '常量名',
   `const_value_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '常量值描述',
@@ -67,10 +67,10 @@ CREATE TABLE `t_enum`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '常量描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_event
+-- Table structure for t_tdt_event
 -- ----------------------------
-DROP TABLE IF EXISTS `t_event`;
-CREATE TABLE `t_event`  (
+DROP TABLE IF EXISTS `t_tdt_event`;
+CREATE TABLE `t_tdt_event`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `event_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '事件名称',
   `params` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '事件参数',
@@ -83,10 +83,10 @@ CREATE TABLE `t_event`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '事件描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_method
+-- Table structure for t_tdt_method
 -- ----------------------------
-DROP TABLE IF EXISTS `t_method`;
-CREATE TABLE `t_method`  (
+DROP TABLE IF EXISTS `t_tdt_method`;
+CREATE TABLE `t_tdt_method`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `method_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '方法名称',
   `return_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '返回值类型',
@@ -102,10 +102,10 @@ CREATE TABLE `t_method`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '方法描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_module
+-- Table structure for t_tdt_module
 -- ----------------------------
-DROP TABLE IF EXISTS `t_module`;
-CREATE TABLE `t_module`  (
+DROP TABLE IF EXISTS `t_tdt_module`;
+CREATE TABLE `t_tdt_module`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `module_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模块名称',
   `file_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模块所属文件名称',
@@ -116,10 +116,10 @@ CREATE TABLE `t_module`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '模块描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_option
+-- Table structure for t_tdt_option
 -- ----------------------------
-DROP TABLE IF EXISTS `t_option`;
-CREATE TABLE `t_option`  (
+DROP TABLE IF EXISTS `t_tdt_option`;
+CREATE TABLE `t_tdt_option`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `obj_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象名',
   `obj_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '无' COMMENT '对象描述',
@@ -132,10 +132,10 @@ CREATE TABLE `t_option`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象描述表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for t_option_detail
+-- Table structure for t_tdt_option_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `t_option_detail`;
-CREATE TABLE `t_option_detail`  (
+DROP TABLE IF EXISTS `t_tdt_option_detail`;
+CREATE TABLE `t_tdt_option_detail`  (
   `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `obj_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象名称',
   `attr_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象属性名称',
