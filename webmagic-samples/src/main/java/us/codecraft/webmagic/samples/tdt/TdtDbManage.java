@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import us.codecraft.webmagic.samples.tdt.entity.TdtClass;
 import us.codecraft.webmagic.samples.tdt.mapper.TdtClassDAO;
+import us.codecraft.webmagic.samples.tdt.proxy.DaoMapperProxy;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -650,34 +651,10 @@ public class TdtDbManage {
 
     public static void main(String[] args) {
         TdtDbManage tdtDbManage = new TdtDbManage();
-//        JSONObject methodObj = new JSONObject();
-//        methodObj.put("methodCate", "构造函数");
-//        methodObj.put("rawMethodSign", "在地图上加载一个标绘控件，该控件包含所有标绘图形的绘制类库。");
-//        methodObj.put("methodDesc", "创建一个地图标绘控件。<br>参数说明：<br>opts：比例尺属性对象，请参考Control.militarySymbolsOptions。");
-//
-//        tdtDbManage.parseMethodNameAndParams(methodObj, null);
-//
-//        System.out.println(methodObj.toString());
+        TdtClassDAO mapper = DaoMapperProxy.getProxyInstance(TdtClassDAO.class);
+        TdtClass tdtClass = mapper.selectByPrimaryKey("1");
 
-//        TdtClassDAO mapper = tdtDbManage.sqlSession.getMapper(TdtClassDAO.class);
-        TdtClassDAO mapper = (TdtClassDAO)TdtGlobalService.proxyMapper.proxyObject(TdtClassDAO.class);
-
-        List<TdtClass> classes = new ArrayList<>();
-        TdtClass tdtClass = new TdtClass();
-        tdtClass.setId("1");
-        classes.add(tdtClass);
-        tdtClass = new TdtClass();
-        tdtClass.setId("2");
-        classes.add(tdtClass);
-
-        if (mapper.batchInsert(classes) != classes.size()) {
-            System.out.println("error");
-
-            tdtDbManage.sqlSession.rollback();
-            return;
-        }
-
-        tdtDbManage.sqlSession.commit();
+        System.out.println(tdtClass.toString());
 
         System.out.println("success");
     }

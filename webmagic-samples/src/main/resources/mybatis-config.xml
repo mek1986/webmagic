@@ -7,12 +7,16 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="returnInstanceForEmptyRow" value="true"/>
     </settings>
+    <typeAliases>
+        <package name="us.codecraft.webmagic.samples.tdt.entity"/>
+    </typeAliases>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://127.0.0.1:3306/tdt_code??useUnicode=true&amp;characterEncoding=utf8mb4"/>
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://127.0.0.1:3306/tdt_code?useUnicode=true&amp;characterEncoding=utf8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
             </dataSource>
