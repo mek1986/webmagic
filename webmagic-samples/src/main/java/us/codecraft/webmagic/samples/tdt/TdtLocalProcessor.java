@@ -31,8 +31,6 @@ public class TdtLocalProcessor implements PageProcessor {
      */
     private TdtMenuModel menuModel = null;
 
-    private final TdtDbManage dbManage = new TdtDbManage();
-
     /**
      * Processes the page, extract URLs to fetch, extract the data and store.
      *
@@ -47,11 +45,11 @@ public class TdtLocalProcessor implements PageProcessor {
             return;
         }
 
-        dbManage.addPageData(new TdtPageModel(menuModel).parsePage(page));
-        if (dbManage.getPageDataList().size() >= menuModel.getPageModelSize()) {
+        TdtGlobalService.dbManage.addPageData(new TdtPageModel(menuModel).parsePage(page));
+        if (TdtGlobalService.dbManage.getPageDataList().size() >= menuModel.getPageModelSize()) {
             System.out.println("download finish");
 
-            if (dbManage.save()) {
+            if (TdtGlobalService.dbManage.save()) {
                 return;
             }
 

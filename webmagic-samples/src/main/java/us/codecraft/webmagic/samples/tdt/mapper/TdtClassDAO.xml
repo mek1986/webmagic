@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="us.codecraft.webmagic.samples.tdt.mapper.TdtClassDAO">
+  <resultMap id="BaseResultMap" type="us.codecraft.webmagic.samples.tdt.entity.TdtClass">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="class_desc" jdbcType="VARCHAR" property="classDesc" />
+    <result column="module_name1" jdbcType="VARCHAR" property="moduleName1" />
+    <result column="module_name2" jdbcType="VARCHAR" property="moduleName2" />
+    <result column="from_url" jdbcType="VARCHAR" property="fromUrl" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, class_name, class_desc, module_name1, module_name2, from_url, add_time, version
+  </sql>
+  <select id="selectByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClassExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_tdt_class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_tdt_class
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_tdt_class
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClassExample">
+    delete from t_tdt_class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClass">
+    insert into t_tdt_class (id, class_name, class_desc, 
+      module_name1, module_name2, from_url, 
+      add_time, version)
+    values (#{id,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{classDesc,jdbcType=VARCHAR}, 
+      #{moduleName1,jdbcType=VARCHAR}, #{moduleName2,jdbcType=VARCHAR}, #{fromUrl,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{version,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClass">
+    insert into t_tdt_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="classDesc != null">
+        class_desc,
+      </if>
+      <if test="moduleName1 != null">
+        module_name1,
+      </if>
+      <if test="moduleName2 != null">
+        module_name2,
+      </if>
+      <if test="fromUrl != null">
+        from_url,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null">
+        #{classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName1 != null">
+        #{moduleName1,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName2 != null">
+        #{moduleName2,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUrl != null">
+        #{fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClassExample" resultType="java.lang.Long">
+    select count(*) from t_tdt_class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_tdt_class
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.className != null">
+        class_name = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classDesc != null">
+        class_desc = #{record.classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName1 != null">
+        module_name1 = #{record.moduleName1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName2 != null">
+        module_name2 = #{record.moduleName2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUrl != null">
+        from_url = #{record.fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_tdt_class
+    set id = #{record.id,jdbcType=VARCHAR},
+      class_name = #{record.className,jdbcType=VARCHAR},
+      class_desc = #{record.classDesc,jdbcType=VARCHAR},
+      module_name1 = #{record.moduleName1,jdbcType=VARCHAR},
+      module_name2 = #{record.moduleName2,jdbcType=VARCHAR},
+      from_url = #{record.fromUrl,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClass">
+    update t_tdt_class
+    <set>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null">
+        class_desc = #{classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName1 != null">
+        module_name1 = #{moduleName1,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName2 != null">
+        module_name2 = #{moduleName2,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUrl != null">
+        from_url = #{fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtClass">
+    update t_tdt_class
+    set class_name = #{className,jdbcType=VARCHAR},
+      class_desc = #{classDesc,jdbcType=VARCHAR},
+      module_name1 = #{moduleName1,jdbcType=VARCHAR},
+      module_name2 = #{moduleName2,jdbcType=VARCHAR},
+      from_url = #{fromUrl,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchInsert">
+    insert into t_tdt_class(id,class_name,class_desc,module_name1,module_name2,from_url,add_time,version) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id},#{item.className},#{item.classDesc},#{item.moduleName1},#{item.moduleName2},#{item.fromUrl},#{item.addTime},#{item.version})
+    </foreach>
+  </insert>
+</mapper>

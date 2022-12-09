@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="us.codecraft.webmagic.samples.tdt.mapper.TdtMethodDAO">
+  <resultMap id="BaseResultMap" type="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="return_type" jdbcType="VARCHAR" property="returnType" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="method_desc" jdbcType="VARCHAR" property="methodDesc" />
+    <result column="raw_method_sign" jdbcType="VARCHAR" property="rawMethodSign" />
+    <result column="method_cate" jdbcType="VARCHAR" property="methodCate" />
+    <result column="belong_class_name" jdbcType="VARCHAR" property="belongClassName" />
+    <result column="from_url" jdbcType="VARCHAR" property="fromUrl" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, method_name, return_type, params, method_desc, raw_method_sign, method_cate, 
+    belong_class_name, from_url, add_time, version
+  </sql>
+  <select id="selectByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethodExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_tdt_method
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_tdt_method
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_tdt_method
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethodExample">
+    delete from t_tdt_method
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
+    insert into t_tdt_method (id, method_name, return_type, 
+      params, method_desc, raw_method_sign, 
+      method_cate, belong_class_name, from_url, 
+      add_time, version)
+    values (#{id,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, #{returnType,jdbcType=VARCHAR}, 
+      #{params,jdbcType=VARCHAR}, #{methodDesc,jdbcType=VARCHAR}, #{rawMethodSign,jdbcType=VARCHAR}, 
+      #{methodCate,jdbcType=VARCHAR}, #{belongClassName,jdbcType=VARCHAR}, #{fromUrl,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{version,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
+    insert into t_tdt_method
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="methodName != null">
+        method_name,
+      </if>
+      <if test="returnType != null">
+        return_type,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="methodDesc != null">
+        method_desc,
+      </if>
+      <if test="rawMethodSign != null">
+        raw_method_sign,
+      </if>
+      <if test="methodCate != null">
+        method_cate,
+      </if>
+      <if test="belongClassName != null">
+        belong_class_name,
+      </if>
+      <if test="fromUrl != null">
+        from_url,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="returnType != null">
+        #{returnType,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="methodDesc != null">
+        #{methodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="rawMethodSign != null">
+        #{rawMethodSign,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCate != null">
+        #{methodCate,jdbcType=VARCHAR},
+      </if>
+      <if test="belongClassName != null">
+        #{belongClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUrl != null">
+        #{fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethodExample" resultType="java.lang.Long">
+    select count(*) from t_tdt_method
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_tdt_method
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodName != null">
+        method_name = #{record.methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnType != null">
+        return_type = #{record.returnType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodDesc != null">
+        method_desc = #{record.methodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rawMethodSign != null">
+        raw_method_sign = #{record.rawMethodSign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodCate != null">
+        method_cate = #{record.methodCate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongClassName != null">
+        belong_class_name = #{record.belongClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUrl != null">
+        from_url = #{record.fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_tdt_method
+    set id = #{record.id,jdbcType=VARCHAR},
+      method_name = #{record.methodName,jdbcType=VARCHAR},
+      return_type = #{record.returnType,jdbcType=VARCHAR},
+      params = #{record.params,jdbcType=VARCHAR},
+      method_desc = #{record.methodDesc,jdbcType=VARCHAR},
+      raw_method_sign = #{record.rawMethodSign,jdbcType=VARCHAR},
+      method_cate = #{record.methodCate,jdbcType=VARCHAR},
+      belong_class_name = #{record.belongClassName,jdbcType=VARCHAR},
+      from_url = #{record.fromUrl,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
+    update t_tdt_method
+    <set>
+      <if test="methodName != null">
+        method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="returnType != null">
+        return_type = #{returnType,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="methodDesc != null">
+        method_desc = #{methodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="rawMethodSign != null">
+        raw_method_sign = #{rawMethodSign,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCate != null">
+        method_cate = #{methodCate,jdbcType=VARCHAR},
+      </if>
+      <if test="belongClassName != null">
+        belong_class_name = #{belongClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUrl != null">
+        from_url = #{fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
+    update t_tdt_method
+    set method_name = #{methodName,jdbcType=VARCHAR},
+      return_type = #{returnType,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      method_desc = #{methodDesc,jdbcType=VARCHAR},
+      raw_method_sign = #{rawMethodSign,jdbcType=VARCHAR},
+      method_cate = #{methodCate,jdbcType=VARCHAR},
+      belong_class_name = #{belongClassName,jdbcType=VARCHAR},
+      from_url = #{fromUrl,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

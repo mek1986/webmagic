@@ -4,10 +4,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import us.codecraft.webmagic.samples.tdt.entity.TdtClass;
+import us.codecraft.webmagic.samples.tdt.mapper.TdtClassDAO;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author: mek
@@ -18,6 +27,31 @@ import java.util.regex.Pattern;
  * @version: 1.0
  */
 public class TdtDbManage {
+    public TdtDbManage() {
+        if (sqlSessionFactory == null) {
+            throw new RuntimeException("sql factory is null");
+        }
+
+        this.sqlSession = sqlSessionFactory.openSession();
+    }
+
+    public SqlSession getSqlSession() {
+        return sqlSession;
+    }
+
+    private static SqlSessionFactory sqlSessionFactory;
+    private final SqlSession sqlSession;
+
+    static {
+        String resource = "mybatis-config.xml";
+        try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     private List<TdtPageModel> pageDataList = new ArrayList<>();
 
     private boolean isSaveing = false;
@@ -47,6 +81,11 @@ public class TdtDbManage {
     }
 
     public boolean save() {
+        if (sqlSession == null) {
+            System.out.println("sql session is null");
+            return false;
+        }
+
         if (pageDataList == null || pageDataList.size() == 0) {
             System.out.println("no data to save");
             return true;
@@ -69,6 +108,8 @@ public class TdtDbManage {
             parseEnumArray(version);
             parseMethodArray(version);
             parseEventArray(version);
+
+            saveToDb();
         } catch (Exception e) {
             System.out.println("save error:" + e.getMessage());
             if (TdtConfig.DEBUG) {
@@ -80,9 +121,41 @@ public class TdtDbManage {
             isSaveing = false;
         }
 
+        System.out.println(this.pageDataList.size() + " page saved");
         System.out.println("end save! success");
 
         return true;
+    }
+
+    private void saveToDb() {
+        try {
+            saveClassArray();
+//            saveOptionArray();
+//            saveOptionDetailArray();
+//            saveEnumArray();
+//            saveMethodArray();
+//            saveEventArray();
+//            saveModules();
+        } catch (Exception e) {
+            sqlSession.rollback();
+            throw new RuntimeException("db err");
+        }
+
+        sqlSession.commit(true);
+    }
+
+    public void saveClassArray() {
+        JSONObject[] jsonObjects = (JSONObject[]) this.classArray.toArray(new JSONObject[0]);
+        List<TdtClass> classes = Arrays.stream(jsonObjects).map(jsonObject -> jsonObject.toJavaObject(TdtClass.class)).collect(Collectors.toList());
+
+        TdtClassDAO mapper = sqlSession.getMapper(TdtClassDAO.class);
+        if (mapper.batchInsert(classes) != classes.size()) {
+            throw new RuntimeException("save class err");
+        }
+
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("class save success");
+        }
     }
 
     /**
@@ -161,10 +234,10 @@ public class TdtDbManage {
         obj.put("addTime", new Date());
         obj.put("version", version);
 
-        String[] keys = moduleNames.keySet().toArray(new String[0]);
-        if (keys.length == 1) {
+        String module1 = moduleNames.getString("module1");
+        String module2 = moduleNames.getString("module2");
+        if (Objects.equal(module2, "无")) {
             //super module
-            String module1 = moduleNames.getString(keys[0]);
             if (!TdtConfig.MODULE_NAME_2_FILE_NAME.containsKey(module1)) {
                 throw new IllegalArgumentException("can not find module1" + module1);
             }
@@ -182,15 +255,13 @@ public class TdtDbManage {
         }
 
         //super module and sub module
-        String module1 = moduleNames.getString(keys[0]);
-        String module2 = moduleNames.getString(keys[1]);
         if (!TdtConfig.MODULE_NAME_2_FILE_NAME.containsKey(module1)) {
             throw new IllegalArgumentException("can not find module1" + module1);
         }
 
-        obj.put("moduleName", module1);
+        obj.put("moduleName", module2);
         obj.put("fileMame", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
-        obj.put("pModuleName", module2);
+        obj.put("pModuleName", module1);
 
         String key = module1 + "-" + module2;
 
@@ -422,7 +493,7 @@ public class TdtDbManage {
             obj = new JSONObject();
 
             obj.put("belongClassName", jsonObject.getString("name"));
-            obj.put("returnType", jsonObject.getString("return_type"));
+            obj.put("returnType", jsonObject.getOrDefault("return_type", "none").toString());
             obj.put("rawMethodSign", jsonObject.getString("raw_method_sign"));
             obj.put("methodDesc", jsonObject.getOrDefault("method_desc", "无"));
             obj.put("methodCate", cate);
@@ -441,7 +512,7 @@ public class TdtDbManage {
      * @param methodObj method object
      * @param pageModel page model
      */
-    public void parseMethodNameAndParams(JSONObject methodObj, TdtPageModel pageModel) {
+    private void parseMethodNameAndParams(JSONObject methodObj, TdtPageModel pageModel) {
         String methodSign = methodObj.getString("rawMethodSign");
 
         String pattern = "([a-zA-Z0-9]+)\\s*(\\([^\\(\\))]*\\))?";
@@ -579,13 +650,35 @@ public class TdtDbManage {
 
     public static void main(String[] args) {
         TdtDbManage tdtDbManage = new TdtDbManage();
-        JSONObject methodObj = new JSONObject();
-        methodObj.put("methodCate", "构造函数");
-        methodObj.put("rawMethodSign", "在地图上加载一个标绘控件，该控件包含所有标绘图形的绘制类库。");
-        methodObj.put("methodDesc", "创建一个地图标绘控件。<br>参数说明：<br>opts：比例尺属性对象，请参考Control.militarySymbolsOptions。");
+//        JSONObject methodObj = new JSONObject();
+//        methodObj.put("methodCate", "构造函数");
+//        methodObj.put("rawMethodSign", "在地图上加载一个标绘控件，该控件包含所有标绘图形的绘制类库。");
+//        methodObj.put("methodDesc", "创建一个地图标绘控件。<br>参数说明：<br>opts：比例尺属性对象，请参考Control.militarySymbolsOptions。");
+//
+//        tdtDbManage.parseMethodNameAndParams(methodObj, null);
+//
+//        System.out.println(methodObj.toString());
 
-        tdtDbManage.parseMethodNameAndParams(methodObj, null);
+//        TdtClassDAO mapper = tdtDbManage.sqlSession.getMapper(TdtClassDAO.class);
+        TdtClassDAO mapper = (TdtClassDAO)TdtGlobalService.proxyMapper.proxyObject(TdtClassDAO.class);
 
-        System.out.println(methodObj.toString());
+        List<TdtClass> classes = new ArrayList<>();
+        TdtClass tdtClass = new TdtClass();
+        tdtClass.setId("1");
+        classes.add(tdtClass);
+        tdtClass = new TdtClass();
+        tdtClass.setId("2");
+        classes.add(tdtClass);
+
+        if (mapper.batchInsert(classes) != classes.size()) {
+            System.out.println("error");
+
+            tdtDbManage.sqlSession.rollback();
+            return;
+        }
+
+        tdtDbManage.sqlSession.commit();
+
+        System.out.println("success");
     }
 }

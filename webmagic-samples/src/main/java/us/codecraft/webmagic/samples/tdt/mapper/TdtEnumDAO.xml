@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="us.codecraft.webmagic.samples.tdt.mapper.TdtEnumDAO">
+  <resultMap id="BaseResultMap" type="us.codecraft.webmagic.samples.tdt.entity.TdtEnum">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="const_name" jdbcType="VARCHAR" property="constName" />
+    <result column="const_value_desc" jdbcType="VARCHAR" property="constValueDesc" />
+    <result column="const_value" jdbcType="VARCHAR" property="constValue" />
+    <result column="module_name1" jdbcType="VARCHAR" property="moduleName1" />
+    <result column="module_name2" jdbcType="VARCHAR" property="moduleName2" />
+    <result column="from_url" jdbcType="VARCHAR" property="fromUrl" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, const_name, const_value_desc, const_value, module_name1, module_name2, from_url, 
+    version, add_time
+  </sql>
+  <select id="selectByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnumExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_tdt_enum
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_tdt_enum
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_tdt_enum
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnumExample">
+    delete from t_tdt_enum
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnum">
+    insert into t_tdt_enum (id, const_name, const_value_desc, 
+      const_value, module_name1, module_name2, 
+      from_url, version, add_time
+      )
+    values (#{id,jdbcType=VARCHAR}, #{constName,jdbcType=VARCHAR}, #{constValueDesc,jdbcType=VARCHAR}, 
+      #{constValue,jdbcType=VARCHAR}, #{moduleName1,jdbcType=VARCHAR}, #{moduleName2,jdbcType=VARCHAR}, 
+      #{fromUrl,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnum">
+    insert into t_tdt_enum
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="constName != null">
+        const_name,
+      </if>
+      <if test="constValueDesc != null">
+        const_value_desc,
+      </if>
+      <if test="constValue != null">
+        const_value,
+      </if>
+      <if test="moduleName1 != null">
+        module_name1,
+      </if>
+      <if test="moduleName2 != null">
+        module_name2,
+      </if>
+      <if test="fromUrl != null">
+        from_url,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="constName != null">
+        #{constName,jdbcType=VARCHAR},
+      </if>
+      <if test="constValueDesc != null">
+        #{constValueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="constValue != null">
+        #{constValue,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName1 != null">
+        #{moduleName1,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName2 != null">
+        #{moduleName2,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUrl != null">
+        #{fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnumExample" resultType="java.lang.Long">
+    select count(*) from t_tdt_enum
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_tdt_enum
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.constName != null">
+        const_name = #{record.constName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.constValueDesc != null">
+        const_value_desc = #{record.constValueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.constValue != null">
+        const_value = #{record.constValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName1 != null">
+        module_name1 = #{record.moduleName1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName2 != null">
+        module_name2 = #{record.moduleName2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUrl != null">
+        from_url = #{record.fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_tdt_enum
+    set id = #{record.id,jdbcType=VARCHAR},
+      const_name = #{record.constName,jdbcType=VARCHAR},
+      const_value_desc = #{record.constValueDesc,jdbcType=VARCHAR},
+      const_value = #{record.constValue,jdbcType=VARCHAR},
+      module_name1 = #{record.moduleName1,jdbcType=VARCHAR},
+      module_name2 = #{record.moduleName2,jdbcType=VARCHAR},
+      from_url = #{record.fromUrl,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnum">
+    update t_tdt_enum
+    <set>
+      <if test="constName != null">
+        const_name = #{constName,jdbcType=VARCHAR},
+      </if>
+      <if test="constValueDesc != null">
+        const_value_desc = #{constValueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="constValue != null">
+        const_value = #{constValue,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName1 != null">
+        module_name1 = #{moduleName1,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName2 != null">
+        module_name2 = #{moduleName2,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUrl != null">
+        from_url = #{fromUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtEnum">
+    update t_tdt_enum
+    set const_name = #{constName,jdbcType=VARCHAR},
+      const_value_desc = #{constValueDesc,jdbcType=VARCHAR},
+      const_value = #{constValue,jdbcType=VARCHAR},
+      module_name1 = #{moduleName1,jdbcType=VARCHAR},
+      module_name2 = #{moduleName2,jdbcType=VARCHAR},
+      from_url = #{fromUrl,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

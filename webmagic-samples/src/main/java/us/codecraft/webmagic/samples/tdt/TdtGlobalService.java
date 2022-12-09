@@ -2,6 +2,7 @@ package us.codecraft.webmagic.samples.tdt;
 
 import com.google.common.base.Strings;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.samples.tdt.cglib.ProxyMapper;
 
 import java.io.File;
 
@@ -14,6 +15,8 @@ import java.io.File;
  */
 public class TdtGlobalService {
     public static Spider SPIDER;
+    public static TdtDbManage dbManage=new TdtDbManage();
+    public static ProxyMapper proxyMapper=new ProxyMapper();
 
     public static void saveUrl2File() {
         File path = new File(TdtConfig.HTML_FILE_PATH);
