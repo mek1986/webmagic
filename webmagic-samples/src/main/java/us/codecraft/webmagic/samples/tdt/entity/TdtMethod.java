@@ -15,6 +15,8 @@ public class TdtMethod implements Serializable {
      */
     private String methodName;
 
+    private String methodCall;
+
     /**
      * 返回值类型
      */
@@ -76,6 +78,14 @@ public class TdtMethod implements Serializable {
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;
+    }
+
+    public String getMethodCall() {
+        return methodCall;
+    }
+
+    public void setMethodCall(String methodCall) {
+        this.methodCall = methodCall;
     }
 
     public String getReturnType() {
@@ -164,6 +174,7 @@ public class TdtMethod implements Serializable {
         TdtMethod other = (TdtMethod) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getMethodName() == null ? other.getMethodName() == null : this.getMethodName().equals(other.getMethodName()))
+            && (this.getMethodCall() == null ? other.getMethodCall() == null : this.getMethodCall().equals(other.getMethodCall()))
             && (this.getReturnType() == null ? other.getReturnType() == null : this.getReturnType().equals(other.getReturnType()))
             && (this.getParams() == null ? other.getParams() == null : this.getParams().equals(other.getParams()))
             && (this.getMethodDesc() == null ? other.getMethodDesc() == null : this.getMethodDesc().equals(other.getMethodDesc()))
@@ -181,6 +192,7 @@ public class TdtMethod implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getMethodName() == null) ? 0 : getMethodName().hashCode());
+        result = prime * result + ((getMethodCall() == null) ? 0 : getMethodCall().hashCode());
         result = prime * result + ((getReturnType() == null) ? 0 : getReturnType().hashCode());
         result = prime * result + ((getParams() == null) ? 0 : getParams().hashCode());
         result = prime * result + ((getMethodDesc() == null) ? 0 : getMethodDesc().hashCode());
@@ -201,6 +213,7 @@ public class TdtMethod implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", methodName=").append(methodName);
+        sb.append(", methodCall=").append(methodCall);
         sb.append(", returnType=").append(returnType);
         sb.append(", params=").append(params);
         sb.append(", methodDesc=").append(methodDesc);

@@ -57,7 +57,7 @@ public class TdtDbManage {
 
     private List<TdtPageModel> pageDataList = new ArrayList<>();
 
-    private boolean isSaveing = false;
+    private boolean isSaving = false;
 
     private final JSONArray classArray = new JSONArray();
     private final JSONArray optionArray = new JSONArray();
@@ -94,12 +94,12 @@ public class TdtDbManage {
             return true;
         }
 
-        if (isSaveing) {
-            System.out.println("正在保存中，请稍后再试");
+        if (isSaving) {
+            System.out.println("saving now...try later!");
             return false;
         }
 
-        isSaveing = true;
+        isSaving = true;
 
         System.out.println("begin save data to db");
 
@@ -122,7 +122,7 @@ public class TdtDbManage {
 
             return false;
         } finally {
-            isSaveing = false;
+            isSaving = false;
         }
 
         System.out.println(this.pageDataList.size() + " page saved");
@@ -145,13 +145,14 @@ public class TdtDbManage {
             saveModules();
         } catch (Exception e) {
             connection.rollback();
+            connection.close();
             System.out.println("save error:" + e.getMessage());
             return false;
-        } finally {
-            connection.close();
         }
 
         connection.commit();
+        connection.close();
+
         return true;
     }
 
@@ -338,7 +339,7 @@ public class TdtDbManage {
             }
 
             obj.put("moduleName", module1);
-            obj.put("fileMame", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
+            obj.put("fileName", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
             obj.put("pModuleName", "0");
 
             if (!this.modules.containsKey(module1)) {
@@ -355,7 +356,7 @@ public class TdtDbManage {
         }
 
         obj.put("moduleName", module2);
-        obj.put("fileMame", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
+        obj.put("fileName", TdtConfig.MODULE_NAME_2_FILE_NAME.get(module1));
         obj.put("pModuleName", module1);
 
         String key = module1 + "-" + module2;
@@ -508,7 +509,7 @@ public class TdtDbManage {
 
             obj.put("constName", key);
             obj.put("constValue", jsonObject.getString("const_value"));
-            obj.put("constDesc", jsonObject.getOrDefault("const_desc", "无"));
+            obj.put("constValueDesc", jsonObject.getOrDefault("const_value_desc", "无"));
             setIdUrlAddTimeVersion(obj, version, url);
             setModuleNames(obj, moduleNames);
 
@@ -595,6 +596,10 @@ public class TdtDbManage {
 
             parseMethodNameAndParams(obj, pageModel);
 
+            if (!obj.containsKey("methodCall")) {
+                obj.put("methodCall", obj.getString("methodName") + "()");
+            }
+
             setIdUrlAddTimeVersion(obj, version, url);
 
             methodArray.add(obj);
@@ -616,7 +621,7 @@ public class TdtDbManage {
 
         if (matcher.find()) {
             //parse method name
-            methodObj.put("method_name", matcher.group(1).trim());
+            methodObj.put("methodName", matcher.group(1).trim());
 
             String params = matcher.group(2);
 
@@ -653,45 +658,18 @@ public class TdtDbManage {
                 String[] split = necessaryParams.split(",");
                 JSONObject paramObj = new JSONObject();
                 //if param don't have name,i is used to generate name
-                int i = 1;
+                int i = 0;
 
+                List<String> paramNames = new ArrayList<>();
                 //parse necessary params
-                for (String s : split) {
-                    String[] param = s.trim().split(":");
-                    JSONObject tempObj = new JSONObject();
-
-                    tempObj.put("need", true);
-                    if (param.length == 1) {
-                        //only have param type
-                        tempObj.put("type", param[0].trim());
-                        //param name
-                        paramObj.put("var" + (++i), tempObj);
-                    } else {
-                        tempObj.put("type", param[1].trim());
-                        paramObj.put(param[0].trim(), tempObj);
-                    }
-                }
+                i = parseParams(split, paramObj, paramNames, i);
 
                 if (!Strings.isNullOrEmpty(noNecessaryParams)) {
-                    //parse no necessary params
                     noNecessaryParams = noNecessaryParams.replace("[,", "").replace("]", "");
                     split = noNecessaryParams.split(",");
 
-                    for (String s : split) {
-                        String[] param = s.trim().split(":");
-                        JSONObject tempObj = new JSONObject();
-
-                        tempObj.put("need", false);
-                        if (param.length == 1) {
-                            //only have param type
-                            tempObj.put("type", param[0].trim());
-                            //param name
-                            paramObj.put("var" + (++i), tempObj);
-                        } else {
-                            tempObj.put("type", param[1].trim());
-                            paramObj.put(param[0].trim(), tempObj);
-                        }
-                    }
+                    //parse no necessary params
+                    i = parseParams(split, paramObj, paramNames, i);
                 }
 
                 Set<String> keys = paramObj.keySet();
@@ -709,6 +687,9 @@ public class TdtDbManage {
                 }
 
                 methodObj.put("params", paramObj);
+                if (paramNames.size() > 0) {
+                    methodObj.put("methodCall", methodObj.getString("methodName") + "(" + String.join(",", paramNames) + ")");
+                }
 
                 //return
                 return;
@@ -716,6 +697,7 @@ public class TdtDbManage {
         }
 
         if (Objects.equal(methodObj.getString("methodCate"), "构造函数")) {
+            methodObj.put("methodName", pageModel.getClazzObj().getString("name"));
             parseConstructMethod(methodObj, pageModel);
             return;
         }
@@ -723,9 +705,33 @@ public class TdtDbManage {
         throw new IllegalArgumentException("invalid method sign");
     }
 
+    private int parseParams(String[] split, JSONObject paramObj, List<String> paramNames, int i) {
+        for (String s : split) {
+            String[] param = s.trim().split(":");
+            JSONObject tempObj = new JSONObject();
+
+            tempObj.put("need", true);
+            if (param.length == 1) {
+                //only have param type
+                tempObj.put("type", param[0].trim());
+                //param name
+                String name = "var" + (++i);
+                paramObj.put(name, tempObj);
+                paramNames.add(name);
+            } else {
+                tempObj.put("type", param[1].trim());
+                paramObj.put(param[0].trim(), tempObj);
+                paramNames.add(param[0].trim());
+            }
+        }
+
+        return i;
+    }
+
     private void parseConstructMethod(JSONObject methodObj, TdtPageModel pageModel) {
         //option object
-        JSONObject menuItem = pageModel.getMenuModel().getItem(methodObj.getString("method_name") + "Options", TdtMenuModel.KEY_TYPE_ENUM.NAME);
+        String key = methodObj.getString("methodName") + "Options";
+        JSONObject menuItem = pageModel.getMenuModel().getItem(key, TdtMenuModel.KEY_TYPE_ENUM.NAME);
 
         JSONObject paramObj = new JSONObject();
         if (menuItem == null) {
@@ -735,10 +741,11 @@ public class TdtDbManage {
 
         JSONObject tempObj = new JSONObject();
 
-        tempObj.put("type", menuItem.get("name"));
+        tempObj.put("type", key);
         tempObj.put("need", false);
         tempObj.put("desc", "属性对象");
         paramObj.put("opts", tempObj);
+        methodObj.put("methodCall", methodObj.getString("methodName") + "(opts)");
 
         methodObj.put("params", paramObj);
     }

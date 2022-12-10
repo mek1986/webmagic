@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="method_call" jdbcType="VARCHAR" property="methodCall" />
     <result column="return_type" jdbcType="VARCHAR" property="returnType" />
     <result column="params" jdbcType="VARCHAR" property="params" />
     <result column="method_desc" jdbcType="VARCHAR" property="methodDesc" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, method_name, return_type, params, method_desc, raw_method_sign, method_cate, 
-    belong_class_name, from_url, add_time, version
+    id, method_name, method_call, return_type, params, method_desc, raw_method_sign, 
+    method_cate, belong_class_name, from_url, add_time, version
   </sql>
   <select id="selectByExample" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethodExample" resultMap="BaseResultMap">
     select
@@ -115,14 +116,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
-    insert into t_tdt_method (id, method_name, return_type, 
-      params, method_desc, raw_method_sign, 
-      method_cate, belong_class_name, from_url, 
-      add_time, version)
-    values (#{id,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, #{returnType,jdbcType=VARCHAR}, 
-      #{params,jdbcType=VARCHAR}, #{methodDesc,jdbcType=VARCHAR}, #{rawMethodSign,jdbcType=VARCHAR}, 
-      #{methodCate,jdbcType=VARCHAR}, #{belongClassName,jdbcType=VARCHAR}, #{fromUrl,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{version,jdbcType=VARCHAR})
+    insert into t_tdt_method (id, method_name, method_call, 
+      return_type, params, method_desc, 
+      raw_method_sign, method_cate, belong_class_name, 
+      from_url, add_time, version
+      )
+    values (#{id,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, #{methodCall,jdbcType=VARCHAR}, 
+      #{returnType,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{methodDesc,jdbcType=VARCHAR}, 
+      #{rawMethodSign,jdbcType=VARCHAR}, #{methodCate,jdbcType=VARCHAR}, #{belongClassName,jdbcType=VARCHAR}, 
+      #{fromUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{version,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
     insert into t_tdt_method
@@ -132,6 +135,9 @@
       </if>
       <if test="methodName != null">
         method_name,
+      </if>
+      <if test="methodCall != null">
+        method_call,
       </if>
       <if test="returnType != null">
         return_type,
@@ -167,6 +173,9 @@
       </if>
       <if test="methodName != null">
         #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCall != null">
+        #{methodCall,jdbcType=VARCHAR},
       </if>
       <if test="returnType != null">
         #{returnType,jdbcType=VARCHAR},
@@ -212,6 +221,9 @@
       <if test="record.methodName != null">
         method_name = #{record.methodName,jdbcType=VARCHAR},
       </if>
+      <if test="record.methodCall != null">
+        method_call = #{record.methodCall,jdbcType=VARCHAR},
+      </if>
       <if test="record.returnType != null">
         return_type = #{record.returnType,jdbcType=VARCHAR},
       </if>
@@ -248,6 +260,7 @@
     update t_tdt_method
     set id = #{record.id,jdbcType=VARCHAR},
       method_name = #{record.methodName,jdbcType=VARCHAR},
+      method_call = #{record.methodCall,jdbcType=VARCHAR},
       return_type = #{record.returnType,jdbcType=VARCHAR},
       params = #{record.params,jdbcType=VARCHAR},
       method_desc = #{record.methodDesc,jdbcType=VARCHAR},
@@ -266,6 +279,9 @@
     <set>
       <if test="methodName != null">
         method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCall != null">
+        method_call = #{methodCall,jdbcType=VARCHAR},
       </if>
       <if test="returnType != null">
         return_type = #{returnType,jdbcType=VARCHAR},
@@ -300,6 +316,7 @@
   <update id="updateByPrimaryKey" parameterType="us.codecraft.webmagic.samples.tdt.entity.TdtMethod">
     update t_tdt_method
     set method_name = #{methodName,jdbcType=VARCHAR},
+      method_call = #{methodCall,jdbcType=VARCHAR},
       return_type = #{returnType,jdbcType=VARCHAR},
       params = #{params,jdbcType=VARCHAR},
       method_desc = #{methodDesc,jdbcType=VARCHAR},
@@ -313,9 +330,9 @@
   </update>
 
   <insert id="batchInsert">
-    insert into t_tdt_method(id,method_name,return_type,params,method_desc,raw_method_sign,method_cate,belong_class_name,from_url,add_time,version) values
+    insert into t_tdt_method(id,method_name,method_call,return_type,params,method_desc,raw_method_sign,method_cate,belong_class_name,from_url,add_time,version) values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id},#{item.methodName},#{item.returnType},#{item.params},#{item.methodDesc},#{item.rawMethodSign},#{item.methodCate},#{item.belongClassName},#{item.fromUrl},#{item.addTime},#{item.version})
+      (#{item.id},#{item.methodName},#{item.methodCall},#{item.returnType},#{item.params},#{item.methodDesc},#{item.rawMethodSign},#{item.methodCate},#{item.belongClassName},#{item.fromUrl},#{item.addTime},#{item.version})
     </foreach>
   </insert>
 </mapper>

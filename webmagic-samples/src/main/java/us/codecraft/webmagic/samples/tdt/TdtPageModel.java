@@ -104,12 +104,16 @@ public class TdtPageModel {
             for (Selectable node :
                     tdNodes) {
                 String title = node.regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
-                if (Objects.equals("方法", title)) {
+                if (!Strings.isNullOrEmpty(title) && "构造函数".equals(title)) {
+                    return true;
+                }
+
+                if (title.contains("方法")) {
                     method = true;
                     continue;
                 }
 
-                if (Objects.equals("类型", title)) {
+                if ("类型".equals(title)) {
                     type = true;
                     continue;
                 }
@@ -230,6 +234,9 @@ public class TdtPageModel {
         String content;
         for (int i = 0; i < size; i++) {
             content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
+            if (!TdtGlobalService.titleSet.contains(content)) {
+                TdtGlobalService.titleSet.add(content);
+            }
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is method in enum");
@@ -280,7 +287,7 @@ public class TdtPageModel {
                     continue;
                 }
 
-                if (Objects.equals("类型", title)) {
+                if (!Strings.isNullOrEmpty(title) && title.contains("类型")) {
                     type = true;
                     continue;
                 }
@@ -358,6 +365,7 @@ public class TdtPageModel {
         title2NameMap.put("方法", "raw_method_sign");
         title2NameMap.put("构造函数", "raw_method_sign");
         title2NameMap.put("函数", "raw_method_sign");
+        title2NameMap.put("类型", "return_type");
         title2NameMap.put("返回值", "return_type");
         title2NameMap.put("返回类型", "return_type");
         title2NameMap.put("描述", "method_desc");
@@ -367,6 +375,9 @@ public class TdtPageModel {
         String content;
         for (int i = 0; i < size; i++) {
             content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
+            if (!TdtGlobalService.titleSet.contains(content)) {
+                TdtGlobalService.titleSet.add(content);
+            }
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is method in enum");
@@ -404,7 +415,7 @@ public class TdtPageModel {
         //find enum
         for (int i = 0; i < tableSize; i++) {
             String title = tableNodes.get(i).xpath("tr").nodes().get(0).xpath("td").nodes().get(0).regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
-            if (Objects.equals("常量", title)) {
+            if (!Strings.isNullOrEmpty(title) && title.contains("常量")) {
                 indexList.add(i);
                 break;
             }
@@ -479,6 +490,10 @@ public class TdtPageModel {
                     }
 
                     if (!Strings.isNullOrEmpty(s)) {
+                        if (s.length() > 1000) {
+                            s = s.substring(0, 10) + "...(内容过长已截断，详细信息请查看官网:" + pageUrl + ")...";
+                        }
+
                         obj.put(map.get(j), s);
                         break;
                     }
@@ -517,6 +532,9 @@ public class TdtPageModel {
         String content;
         for (int i = 0; i < size; i++) {
             content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
+            if (!TdtGlobalService.titleSet.contains(content)) {
+                TdtGlobalService.titleSet.add(content);
+            }
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is empty in enum");
@@ -593,7 +611,7 @@ public class TdtPageModel {
         //find attr
         for (int i = 0; i < tableSize; i++) {
             String title = tableNodes.get(i).xpath("tr").nodes().get(0).xpath("td").nodes().get(0).regex(TdtConfig.TITLE_REGEX_STRING).get().trim();
-            if (Objects.equals("属性", title) || Objects.equals("方法", title)) {
+            if (title.contains("属性") || title.contains("方法")) {
                 index = i;
                 break;
             }
@@ -646,6 +664,9 @@ public class TdtPageModel {
         String content;
         for (int i = 0; i < size; i++) {
             content = titleNodes.get(i).regex(TdtConfig.TITLE_REGEX_STRING).toString().trim();
+            if (!TdtGlobalService.titleSet.contains(content)) {
+                TdtGlobalService.titleSet.add(content);
+            }
 
             if (Strings.isNullOrEmpty(content)) {
                 TdtUtils.printDebug("title content is empty in option detail");
@@ -653,7 +674,7 @@ public class TdtPageModel {
             }
 
             if (!title2NameMap.containsKey(content)) {
-                TdtUtils.printDebug("title content is not exist in option detail");
+                TdtUtils.printDebug("title content is not exist in option detail:" + content);
                 System.exit(TdtConfig.EXIT_CODE);
             }
 
@@ -700,7 +721,7 @@ public class TdtPageModel {
         setModuleNames(this.moduleNames, names);
 
         //parse clazz
-        this.clazzObj = parseClazzInfo(selectables, url, name, item);
+        this.clazzObj = parseClazzInfo(selectables, name, item);
         //parse enum
         this.enumList = parseEnumList(selectables, url);
         //parse method
@@ -717,12 +738,11 @@ public class TdtPageModel {
      * parse clazz info
      *
      * @param selectables selectables
-     * @param url         url
      * @param name        name
      * @param item        module item info
      * @return clazz obj
      */
-    private JSONObject parseClazzInfo(List<List<Selectable>> selectables, String url, String name, JSONObject item) {
+    private JSONObject parseClazzInfo(List<List<Selectable>> selectables, String name, JSONObject item) {
         //class object
         JSONObject obj = new JSONObject();
 

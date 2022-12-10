@@ -1,9 +1,13 @@
 package us.codecraft.webmagic.samples.tdt;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ConcurrentHashMultiset;
+import com.google.common.collect.Sets;
 import us.codecraft.webmagic.Spider;
 
 import java.io.File;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * @author: ifelse
@@ -14,7 +18,8 @@ import java.io.File;
  */
 public class TdtGlobalService {
     public static Spider SPIDER;
-    public static TdtDbManage dbManage=new TdtDbManage();
+    public static TdtDbManage dbManage = new TdtDbManage();
+    public static Set<String> titleSet = Sets.newConcurrentHashSet();
 
     public static void saveUrl2File() {
         File path = new File(TdtConfig.HTML_FILE_PATH);

@@ -265,6 +265,76 @@ public class TdtMethodExample {
             return (Criteria) this;
         }
 
+        public Criteria andMethodCallIsNull() {
+            addCriterion("method_call is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallIsNotNull() {
+            addCriterion("method_call is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallEqualTo(String value) {
+            addCriterion("method_call =", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallNotEqualTo(String value) {
+            addCriterion("method_call <>", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallGreaterThan(String value) {
+            addCriterion("method_call >", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallGreaterThanOrEqualTo(String value) {
+            addCriterion("method_call >=", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallLessThan(String value) {
+            addCriterion("method_call <", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallLessThanOrEqualTo(String value) {
+            addCriterion("method_call <=", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallLike(String value) {
+            addCriterion("method_call like", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallNotLike(String value) {
+            addCriterion("method_call not like", value, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallIn(List<String> values) {
+            addCriterion("method_call in", values, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallNotIn(List<String> values) {
+            addCriterion("method_call not in", values, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallBetween(String value1, String value2) {
+            addCriterion("method_call between", value1, value2, "methodCall");
+            return (Criteria) this;
+        }
+
+        public Criteria andMethodCallNotBetween(String value1, String value2) {
+            addCriterion("method_call not between", value1, value2, "methodCall");
+            return (Criteria) this;
+        }
+
         public Criteria andReturnTypeIsNull() {
             addCriterion("return_type is null");
             return (Criteria) this;

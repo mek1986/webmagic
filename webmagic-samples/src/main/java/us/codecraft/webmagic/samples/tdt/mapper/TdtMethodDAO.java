@@ -1,12 +1,10 @@
 package us.codecraft.webmagic.samples.tdt.mapper;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
-import us.codecraft.webmagic.samples.tdt.entity.TdtEnum;
+import org.apache.ibatis.annotations.Param;
 import us.codecraft.webmagic.samples.tdt.entity.TdtMethod;
 import us.codecraft.webmagic.samples.tdt.entity.TdtMethodExample;
-
 
 public interface TdtMethodDAO {
     long countByExample(TdtMethodExample example);

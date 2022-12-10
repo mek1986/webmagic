@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: mek
@@ -22,12 +23,12 @@ final public class TdtUtils {
      * @param texts content texts
      */
     public static void printDebug(String... texts) {
+        System.out.println("[tdt DEBUG info]");
         for (String text :
                 texts) {
-            System.out.println("[tdt DEBUG info]");
             System.out.println(TdtConfig.DEBUG_PREFIX_TEXT + text);
-            System.out.println("[end tdt DEBUG]");
         }
+        System.out.println("[end tdt DEBUG]");
     }
 
     /**
