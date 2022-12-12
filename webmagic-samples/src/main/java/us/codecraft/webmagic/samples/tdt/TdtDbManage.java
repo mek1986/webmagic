@@ -594,7 +594,12 @@ public class TdtDbManage {
             obj.put("methodDesc", jsonObject.getOrDefault("method_desc", "无"));
             obj.put("methodCate", cate);
 
-            parseMethodNameAndParams(obj, pageModel);
+            //method rewrite
+            JSONObject retObj = parseMethodNameAndParams(obj, pageModel);
+            if (retObj != null) {
+                setIdUrlAddTimeVersion(retObj, version, url);
+                methodArray.add(retObj);
+            }
 
             if (!obj.containsKey("methodCall")) {
                 obj.put("methodCall", obj.getString("methodName") + "()");
@@ -611,8 +616,9 @@ public class TdtDbManage {
      *
      * @param methodObj method object
      * @param pageModel page model
+     * @return simple method object,if don't have,return null
      */
-    private void parseMethodNameAndParams(JSONObject methodObj, TdtPageModel pageModel) {
+    private JSONObject parseMethodNameAndParams(JSONObject methodObj, TdtPageModel pageModel) {
         String methodSign = methodObj.getString("rawMethodSign");
 
         String pattern = "([a-zA-Z0-9]+)\\s*(\\([^\\(\\))]*\\))?";
@@ -628,11 +634,11 @@ public class TdtDbManage {
             if (Strings.isNullOrEmpty(params)) {
                 if (Objects.equal(methodObj.getString("methodCate"), "构造函数")) {
                     parseConstructMethod(methodObj, pageModel);
-                    return;
+                    return null;
                 }
 
                 methodObj.put("params", new JSONObject());
-                return;
+                return null;
             }
 
             params = params.replace("(", "").replace(")", "");
@@ -640,7 +646,7 @@ public class TdtDbManage {
             if (Strings.isNullOrEmpty(params)) {
                 //no params
                 methodObj.put("params", new JSONObject());
-                return;
+                return null;
             }
 
             pattern = "([^\\[\\]]+)\\s*(\\[[^\\[\\]]+\\])?";
@@ -662,14 +668,18 @@ public class TdtDbManage {
 
                 List<String> paramNames = new ArrayList<>();
                 //parse necessary params
-                i = parseParams(split, paramObj, paramNames, i);
+                i = parseParams(split, paramObj, paramNames, i, true);
+                JSONObject retObj = null;
 
                 if (!Strings.isNullOrEmpty(noNecessaryParams)) {
+                    retObj = JSONObject.parseObject(methodObj.toString());
+                    retObj.put("params", JSONObject.parseObject(paramObj.toString()));
+                    retObj.put("methodCall", methodObj.getString("methodName") + "(" + String.join(",", paramNames) + ")");
+
                     noNecessaryParams = noNecessaryParams.replace("[,", "").replace("]", "");
                     split = noNecessaryParams.split(",");
-
                     //parse no necessary params
-                    i = parseParams(split, paramObj, paramNames, i);
+                    parseParams(split, paramObj, paramNames, i, false);
                 }
 
                 Set<String> keys = paramObj.keySet();
@@ -680,10 +690,19 @@ public class TdtDbManage {
 
                     if (matcher.find()) {
                         paramObj.getJSONObject(key).put("desc", matcher.group(2).trim());
+
+                        if (retObj != null && retObj.getJSONObject("params").containsKey(key)) {
+                            retObj.getJSONObject("params").getJSONObject(key).put("desc", matcher.group(2).trim());
+                        }
+
                         continue;
                     }
 
                     paramObj.getJSONObject(key).put("desc", "无");
+
+                    if (retObj != null && retObj.getJSONObject("params").containsKey(key)) {
+                        retObj.getJSONObject("params").getJSONObject(key).put("desc", "无");
+                    }
                 }
 
                 methodObj.put("params", paramObj);
@@ -692,25 +711,25 @@ public class TdtDbManage {
                 }
 
                 //return
-                return;
+                return retObj;
             }
         }
 
         if (Objects.equal(methodObj.getString("methodCate"), "构造函数")) {
             methodObj.put("methodName", pageModel.getClazzObj().getString("name"));
             parseConstructMethod(methodObj, pageModel);
-            return;
+            return null;
         }
 
         throw new IllegalArgumentException("invalid method sign");
     }
 
-    private int parseParams(String[] split, JSONObject paramObj, List<String> paramNames, int i) {
+    private int parseParams(String[] split, JSONObject paramObj, List<String> paramNames, int i, boolean need) {
         for (String s : split) {
             String[] param = s.trim().split(":");
             JSONObject tempObj = new JSONObject();
 
-            tempObj.put("need", true);
+            tempObj.put("need", need);
             if (param.length == 1) {
                 //only have param type
                 tempObj.put("type", param[0].trim());
