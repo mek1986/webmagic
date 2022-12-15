@@ -9,7 +9,7 @@
     <properties>
         <mybatis.version>3.5.10</mybatis.version>
         <mysql.version>8.0.29</mysql.version>
-        <freemarker.version>2.3.23</freemarker.version>
+        <freemarker.version>2.3.31</freemarker.version>
     </properties>
     <modelVersion>4.0.0</modelVersion>
 
