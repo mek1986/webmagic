@@ -17,6 +17,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-selenium</artifactId>
+            <version>0.8.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webmagic-core</artifactId>
             <version>${project.version}</version>
@@ -75,8 +80,16 @@
             <resource>
                 <directory>src/main/java/</directory>
                 <includes>
-                    <include>**/*.xml</include>
+                    <include>**/**.xml</include>
                     <include>**/**.tpl</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/**.xml</include>
+                    <include>**/**.tpl</include>
+                    <include>driver/*.exe</include>
                 </includes>
             </resource>
         </resources>

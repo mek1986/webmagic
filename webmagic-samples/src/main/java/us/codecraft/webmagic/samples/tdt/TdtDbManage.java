@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import org.apache.ibatis.io.Resources;
+import com.google.common.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -47,7 +47,7 @@ public class TdtDbManage {
 
     static {
         String resource = "mybatis-config.xml";
-        try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
+        try (InputStream inputStream = Resources.getResource(resource).openStream()) {
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         } catch (IOException e) {
             System.out.println(e.getMessage());

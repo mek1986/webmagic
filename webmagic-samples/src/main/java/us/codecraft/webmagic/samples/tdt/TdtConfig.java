@@ -63,13 +63,12 @@ final public class TdtConfig {
     /**
      * html file path
      */
-    public final static String HTML_FILE_PATH = "D:\\temp\\tdt_html\\";
+    public final static String HTML_FILE_PATH = "D:/temp/tdt_html/";
 
     /**
      * module name 2 file name map
      */
     public final static Map<String, String> MODULE_NAME_2_FILE_NAME = new HashMap<>();
-
     static {
         initModuleName2FileName();
     }

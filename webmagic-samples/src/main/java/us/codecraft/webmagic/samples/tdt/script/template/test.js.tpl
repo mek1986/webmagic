@@ -2,7 +2,9 @@ let classes = ${content};
 
 let notExist = {};
 let superClass = {};
+let extendInfos = {};
 let classesLen = classes.length;
+let outJson = {};
 
 for (let i = 0; i < classesLen; i++) {
     let curClass = classes[i];
@@ -22,6 +24,7 @@ for (let i = 0; i < classesLen; i++) {
                 }
 
                 superClass[compareClass.name].push(curClass.name);
+                extendInfos[curClass.name] = compareClass.name;
             }
         } else {
             if (!curObj) {
@@ -31,4 +34,8 @@ for (let i = 0; i < classesLen; i++) {
     }
 }
 
-console.log(superClass);
+outJson['super']= superClass;
+outJson['child']= extendInfos;
+outJson['notExist']= notExist;
+
+document.getElementById('content').innerHtml = JSON.stringify(outJson);

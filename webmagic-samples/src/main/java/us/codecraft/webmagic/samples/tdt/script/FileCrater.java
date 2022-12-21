@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.core.ParseException;
 import freemarker.template.*;
+import us.codecraft.webmagic.samples.tdt.TdtConfig;
 import us.codecraft.webmagic.samples.tdt.entity.TdtClass;
 import us.codecraft.webmagic.samples.tdt.mapper.TdtClassDAO;
 import us.codecraft.webmagic.samples.tdt.proxy.DaoMapperProxy;
@@ -59,17 +60,17 @@ public class FileCrater {
 
 
         Template temp = cfg.getTemplate("test.js.tpl");
-        String path="d:\\temp\\js\\";
+        String path = TdtConfig.HTML_FILE_PATH;
         File dir = new File(path);
 
-        if(!dir.exists()){
-            if(!dir.mkdirs()){
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
                 System.out.println("create output dir error");
                 return false;
             }
         }
 
-        try (OutputStream os = new FileOutputStream(path+"test.js"); Writer out = new OutputStreamWriter(os);) {
+        try (OutputStream os = new FileOutputStream(path + "test.js"); Writer out = new OutputStreamWriter(os);) {
             temp.process(obj, out);
         } catch (FileNotFoundException | ParseException | MalformedTemplateNameException | TemplateException e) {
             e.printStackTrace();

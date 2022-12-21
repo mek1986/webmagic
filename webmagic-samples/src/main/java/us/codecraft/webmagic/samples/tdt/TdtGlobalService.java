@@ -1,5 +1,6 @@
 package us.codecraft.webmagic.samples.tdt;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.Sets;
@@ -18,6 +19,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class TdtGlobalService {
     public static Spider SPIDER;
+    public static JSONObject helpInfo;
     public static TdtDbManage dbManage = new TdtDbManage();
     public static Set<String> titleSet = Sets.newConcurrentHashSet();
 
@@ -53,6 +55,11 @@ public class TdtGlobalService {
         }
 
         return content.split(",");
+    }
+
+    public static boolean generate() {
+
+        return true;
     }
 
     public static void main(String[] args) {

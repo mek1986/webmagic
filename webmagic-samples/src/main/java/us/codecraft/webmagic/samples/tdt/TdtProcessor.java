@@ -1,14 +1,26 @@
 package us.codecraft.webmagic.samples.tdt;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.samples.tdt.script.FileCrater;
 import us.codecraft.webmagic.selector.Json;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,22 +51,63 @@ public class TdtProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         if (menuModel == null) {
-            initMenuModel(page);
-            menuModel.addUrlToPage(page);
-
+            parseInitTreeFile(page);
             return;
         }
 
+
         TdtGlobalService.dbManage.addPageData(new TdtPageModel(menuModel).parsePage(page));
         if (TdtGlobalService.dbManage.getPageDataList().size() >= menuModel.getPageModelSize()) {
-            System.out.println("download finish");
-
-            if (TdtGlobalService.dbManage.save()) {
-                return;
-            }
-
-            System.out.println("some error happen when save data to db");
+            finishDownload(page);
         }
+    }
+
+    private void finishDownload(Page page) {
+        System.out.println("download finish");
+
+        if (TdtGlobalService.dbManage.save()) {
+            FileCrater fileCrater = null;
+            try {
+                fileCrater = new FileCrater();
+                fileCrater.createFile();
+                parseClassInfoPage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        System.out.println("some error happen when save data to db");
+    }
+
+    private void parseInitTreeFile(Page page) {
+        initMenuModel(page);
+        menuModel.addUrlToPage(page);
+    }
+
+    private void parseClassInfoPage() {
+        System.setProperty("webdriver.chrome.driver",
+                this.getClass().getResource("/driver/chromedriver.exe").getPath());
+
+        String path = TdtConfig.SITE_URL + "getClassInfo.html";
+        ChromeDriver driver = new ChromeDriver();
+        driver.get(path);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String classInfo = driver.findElementById("content").getText();
+        if (TdtConfig.DEBUG) {
+            TdtUtils.printDebug("classInfo" + classInfo);
+        }
+
+        TdtGlobalService.helpInfo = JSONObject.parseObject(classInfo);
+        TdtGlobalService.generate();
+
+        driver.quit();
     }
 
     private void saveToFile(Page page) throws Exception {
@@ -116,8 +169,8 @@ public class TdtProcessor implements PageProcessor {
     public static void main(String[] args) {
         Spider spider = Spider.create(new TdtProcessor());
         TdtGlobalService.SPIDER = spider;
-        spider.setSpiderListeners(Lists.newArrayList(new TdtSpiderErrorListener()));
-        spider.thread(5)
+        spider.setSpiderListeners(Lists.newArrayList(new TdtSpiderErrorListener()))
+                .thread(5)
                 .addUrl(TdtConfig.MENU_PAGE_PREFIX + "initTree.js")
                 .run();
 
