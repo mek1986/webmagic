@@ -63,6 +63,11 @@ public class TdtLocalProcessor implements PageProcessor {
             try {
                 fileCrater = new FileCrater();
                 fileCrater.createFile();
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 parseClassInfoPage();
             } catch (IOException e) {
                 e.printStackTrace();

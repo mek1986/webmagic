@@ -59,13 +59,13 @@ public class TdtDbManage {
 
     private boolean isSaving = false;
 
-    private final JSONArray classArray = new JSONArray();
-    private final JSONArray optionArray = new JSONArray();
-    private final JSONArray optionDetailArray = new JSONArray();
-    private final JSONArray enumArray = new JSONArray();
-    private final JSONArray methodArray = new JSONArray();
-    private final JSONArray eventArray = new JSONArray();
-    private final JSONObject modules = new JSONObject();
+    public final JSONArray classArray = new JSONArray();
+    public final JSONArray optionArray = new JSONArray();
+    public final JSONArray optionDetailArray = new JSONArray();
+    public final JSONArray enumArray = new JSONArray();
+    public final JSONArray methodArray = new JSONArray();
+    public final JSONArray eventArray = new JSONArray();
+    public final JSONObject modules = new JSONObject();
 
     public List<TdtPageModel> getPageDataList() {
         return pageDataList;
@@ -145,13 +145,11 @@ public class TdtDbManage {
             saveModules();
         } catch (Exception e) {
             connection.rollback();
-            connection.close();
             System.out.println("save error:" + e.getMessage());
             return false;
         }
 
         connection.commit();
-        connection.close();
 
         return true;
     }

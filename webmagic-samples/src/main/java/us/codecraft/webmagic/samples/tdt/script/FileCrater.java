@@ -59,7 +59,7 @@ public class FileCrater {
         obj.put("content", jsonArray.toString());
 
 
-        Template temp = cfg.getTemplate("getClassInfo.html.tpl");
+        Template temp = cfg.getTemplate("test.js.tpl");
         String path = TdtConfig.HTML_FILE_PATH;
         File dir = new File(path);
 
@@ -70,7 +70,7 @@ public class FileCrater {
             }
         }
 
-        try (OutputStream os = new FileOutputStream(path + "getClassInfo.html"); Writer out = new OutputStreamWriter(os);) {
+        try (OutputStream os = new FileOutputStream(path + "test.js"); Writer out = new OutputStreamWriter(os);) {
             temp.process(obj, out);
         } catch (FileNotFoundException | ParseException | MalformedTemplateNameException | TemplateException e) {
             e.printStackTrace();
