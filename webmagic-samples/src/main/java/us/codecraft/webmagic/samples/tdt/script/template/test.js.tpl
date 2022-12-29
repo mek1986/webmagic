@@ -38,4 +38,4 @@ outJson['super']= superClass;
 outJson['child']= extendInfos;
 outJson['notExist']= notExist;
 
-document.getElementById('content').innerHtml = JSON.stringify(outJson);
+document.getElementById('content').innerHTML = JSON.stringify(outJson);

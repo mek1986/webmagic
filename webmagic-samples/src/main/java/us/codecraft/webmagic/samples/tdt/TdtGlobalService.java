@@ -24,6 +24,7 @@ public class TdtGlobalService {
     public static TdtDbManage dbManage = new TdtDbManage();
     public static Set<String> titleSet = Sets.newConcurrentHashSet();
     public static Map<String, JSONObject> classHelp = new HashMap<>();
+    public static Map<String, JSONObject> moduleMap = new HashMap<>();
 
     public static void saveUrl2File() {
         File path = new File(TdtConfig.HTML_FILE_PATH);
@@ -66,6 +67,7 @@ public class TdtGlobalService {
     }
 
     private static void buildModule() {
+        initModuleMap();
         setClassList();
         setMethodList();
         setEventList();
@@ -73,19 +75,30 @@ public class TdtGlobalService {
         setEnumList();
 
         if (TdtConfig.DEBUG) {
-            JSONObject[] objects = dbManage.modules.values().toArray(new JSONObject[0]);
+            JSONObject[] objects = moduleMap.values().toArray(new JSONObject[0]);
             for (JSONObject obj :
                     objects) {
-                if (Objects.equal(obj.getString("pModuleName"), "0")) {
-                    TdtUtils.printDebug("模块信息:", obj.toString());
-                }
+                TdtUtils.printDebug("模块信息:", obj.toString());
+            }
+        }
+    }
+
+    private static void initModuleMap() {
+        JSONObject[] jsonObjects = dbManage.modules.values().toArray(new JSONObject[0]);
+        for (JSONObject jsonObject : jsonObjects) {
+            if (Objects.equal(jsonObject.getString("pModuleName"), "0")) {
+                JSONObject obj = new JSONObject();
+                obj.put("fileName", jsonObject.getString("fileName"));
+                obj.put("version", jsonObject.getString("version"));
+                obj.put("moduleName", jsonObject.getString("moduleName"));
+                moduleMap.put(jsonObject.getString("moduleName"), obj);
             }
         }
     }
 
     private static void setEnumList() {
         for (JSONObject obj : dbManage.enumArray.toJavaList(JSONObject.class)) {
-            JSONObject module = dbManage.modules.getJSONObject(obj.getString("moduleName1"));
+            JSONObject module = moduleMap.get(obj.getString("moduleName1"));
             List<JSONObject> enumList = (ArrayList) module.getOrDefault("enumList", new ArrayList<>());
             enumList.add(obj);
             module.put("enumList", enumList);
@@ -133,7 +146,7 @@ public class TdtGlobalService {
                 obj.put("parent", helpInfo.getJSONObject("child").getString(className));
             }
 
-            JSONObject module = dbManage.modules.getJSONObject(obj.getString("moduleName1"));
+            JSONObject module = moduleMap.get(obj.getString("moduleName1"));
             List<JSONObject> classList = (ArrayList) module.getOrDefault("classList", new ArrayList<>());
             classList.add(obj);
             module.put("classList", classList);
