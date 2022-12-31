@@ -594,10 +594,10 @@ public class TdtDbManage {
 
             //method rewrite
             JSONObject retObj = parseMethodNameAndParams(obj, pageModel);
-            if (retObj != null) {
-                setIdUrlAddTimeVersion(retObj, version, url);
-                methodArray.add(retObj);
-            }
+//            if (retObj != null) {
+//                setIdUrlAddTimeVersion(retObj, version, url);
+//                methodArray.add(retObj);
+//            }
 
             if (!obj.containsKey("methodCall")) {
                 obj.put("methodCall", obj.getString("methodName") + "()");

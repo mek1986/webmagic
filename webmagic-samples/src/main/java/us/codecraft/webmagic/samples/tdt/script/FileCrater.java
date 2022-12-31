@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: ifelse
@@ -69,6 +70,32 @@ public class FileCrater {
                 return false;
             }
         }
+
+        try (OutputStream os = new FileOutputStream(path + "getClassInfo.html"); Writer out = new OutputStreamWriter(os);) {
+            temp.process(obj, out);
+        } catch (FileNotFoundException | ParseException | MalformedTemplateNameException | TemplateException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean createFile(String filename, String templateFileName, JSONObject content, Map<String, JSONObject> methodHelp) throws IOException {
+        Template temp = cfg.getTemplate(templateFileName);
+        String path = TdtConfig.JS_FILE_PATH;
+        File dir = new File(path);
+
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
+                System.out.println("create output dir error");
+                return false;
+            }
+        }
+
+        JSONObject obj = new JSONObject();
+        obj.put("content", content);
+        obj.put("methodHelp", methodHelp);
 
         try (OutputStream os = new FileOutputStream(path + "getClassInfo.html"); Writer out = new OutputStreamWriter(os);) {
             temp.process(obj, out);

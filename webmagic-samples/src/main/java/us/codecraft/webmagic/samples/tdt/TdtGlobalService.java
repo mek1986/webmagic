@@ -6,10 +6,15 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.Sets;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.samples.tdt.script.FileCrater;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author: ifelse
@@ -24,6 +29,7 @@ public class TdtGlobalService {
     public static TdtDbManage dbManage = new TdtDbManage();
     public static Set<String> titleSet = Sets.newConcurrentHashSet();
     public static Map<String, JSONObject> classHelp = new HashMap<>();
+    public static Map<String, JSONObject> methodHelp = new HashMap<>();
     public static Map<String, JSONObject> moduleMap = new HashMap<>();
 
     public static void saveUrl2File() {
@@ -60,8 +66,20 @@ public class TdtGlobalService {
         return content.split(",");
     }
 
-    public static boolean generate() {
+    public static boolean generate() throws IOException {
         buildModule();
+
+        FileCrater fileCrater = new FileCrater();
+        JSONObject[] objects = moduleMap.values().toArray(new JSONObject[0]);
+        for (JSONObject obj :
+                objects) {
+            if (fileCrater.createFile(obj.getString("fileName"), "module.js.tpl", obj, methodHelp)) {
+                System.out.println(obj.getString("fileName") + "生成成功");
+                continue;
+            }
+
+            System.out.println(obj.getString("fileName") + "生成失败");
+        }
 
         return true;
     }
@@ -86,28 +104,40 @@ public class TdtGlobalService {
     private static void initModuleMap() {
         JSONObject[] jsonObjects = dbManage.modules.values().toArray(new JSONObject[0]);
         for (JSONObject jsonObject : jsonObjects) {
+            JSONObject obj = new JSONObject();
+            obj.put("fileName", jsonObject.getString("fileName"));
+            obj.put("version", jsonObject.getString("version"));
+            obj.put("pModuleName", "0");
+            obj.put("addTime", jsonObject.get("addTime"));
             if (Objects.equal(jsonObject.getString("pModuleName"), "0")) {
-                JSONObject obj = new JSONObject();
-                obj.put("fileName", jsonObject.getString("fileName"));
-                obj.put("version", jsonObject.getString("version"));
                 obj.put("moduleName", jsonObject.getString("moduleName"));
                 moduleMap.put(jsonObject.getString("moduleName"), obj);
+                continue;
             }
+
+            obj.put("moduleName", jsonObject.getString("pModuleName"));
+            moduleMap.put(jsonObject.getString("pModuleName"), obj);
         }
     }
 
     private static void setEnumList() {
+        JSONObject enums = new JSONObject();
         for (JSONObject obj : dbManage.enumArray.toJavaList(JSONObject.class)) {
             JSONObject module = moduleMap.get(obj.getString("moduleName1"));
-            List<JSONObject> enumList = (ArrayList) module.getOrDefault("enumList", new ArrayList<>());
-            enumList.add(obj);
-            module.put("enumList", enumList);
+            JSONObject e = (JSONObject) module.getOrDefault("enums", new JSONObject());
+            List<JSONObject> list = (ArrayList) e.getOrDefault(obj.getString("constName"), new ArrayList<>());
+            list.add(obj);
+            e.put(obj.getString("constName"), list);
+            module.put("enums", e);
         }
     }
 
     private static void setOption() {
         for (JSONObject obj : dbManage.optionDetailArray.toJavaList(JSONObject.class)) {
             JSONObject clazz = classHelp.get(obj.getString("objName").replace("Options", ""));
+            if (clazz == null) {
+                continue;
+            }
             List<JSONObject> optionDetailList = (ArrayList) clazz.getOrDefault("optionDetailList", new ArrayList<>());
             optionDetailList.add(obj);
             clazz.put("optionDetailList", optionDetailList);
@@ -117,6 +147,9 @@ public class TdtGlobalService {
     private static void setEventList() {
         for (JSONObject obj : dbManage.eventArray.toJavaList(JSONObject.class)) {
             JSONObject clazz = classHelp.get(obj.getString("belongClassName"));
+            if (clazz == null) {
+                continue;
+            }
             List<JSONObject> methodList = (ArrayList) clazz.getOrDefault("eventList", new ArrayList<>());
             methodList.add(obj);
             clazz.put("eventList", methodList);
@@ -126,9 +159,63 @@ public class TdtGlobalService {
     private static void setMethodList() {
         for (JSONObject obj : dbManage.methodArray.toJavaList(JSONObject.class)) {
             JSONObject clazz = classHelp.get(obj.getString("belongClassName"));
+            if (clazz == null) {
+                continue;
+            }
             List<JSONObject> methodList = (ArrayList) clazz.getOrDefault("methodList", new ArrayList<>());
             methodList.add(obj);
+            String methodCall = obj.getString("methodCall");
+            String pattern = "\\(([^()]+)\\)";
+            Pattern compile = Pattern.compile(pattern);
+            Matcher matcher = compile.matcher(methodCall);
+            String p = "";
+            if (matcher.find()) {
+                String group = matcher.group(1);
+                p = group;
+                String[] params = group.split(",");
+                obj.put("paramsName", params);
+            }
+
             clazz.put("methodList", methodList);
+            methodHelp.put(obj.getString("methodName"), obj);
+        }
+
+        for (JSONObject obj : dbManage.methodArray.toJavaList(JSONObject.class)) {
+            JSONObject clazz = classHelp.get(obj.getString("belongClassName"));
+            if (clazz == null) {
+                continue;
+            }
+
+            String p = "";
+            if (clazz.getString("parent") != null) {
+                JSONObject parentMethod = methodHelp.get(clazz.getString("parent"));
+                if (parentMethod != null) {
+                    String methodCall = parentMethod.getString("methodCall");
+                    String pattern = "\\(([^()]+)\\)";
+                    Pattern compile = Pattern.compile(pattern);
+                    Matcher matcher = compile.matcher(methodCall);
+                    if (matcher.find()) {
+                        String group = matcher.group(1);
+                        String[] params = group.split(",");
+                        if (obj.containsKey("paramsName")) {
+                            String[] paramsNames = obj.getObject("paramsName", String[].class);
+                            Set<String> paramsNamesSet = Arrays.stream(paramsNames).collect(Collectors.toSet());
+                            if (params.length >= paramsNames.length) {
+                                for (String s :
+                                        params) {
+                                    if (!paramsNamesSet.contains(s)) {
+                                        obj.getJSONObject("params").put(s, parentMethod.getJSONObject("params").getJSONObject(s));
+                                    }
+                                }
+                                p = group;
+                                obj.put("paramsName", params);
+                            }
+                        }
+                    }
+                }
+            }
+
+            obj.put("paramsBody", "(" + p + ")");
         }
     }
 
@@ -144,6 +231,8 @@ public class TdtGlobalService {
 
             if (helpInfo.getJSONObject("child").containsKey(className)) {
                 obj.put("parent", helpInfo.getJSONObject("child").getString(className));
+            } else {
+                obj.put("parent", null);
             }
 
             JSONObject module = moduleMap.get(obj.getString("moduleName1"));

@@ -78,7 +78,7 @@ public class TdtLocalProcessor implements PageProcessor {
         menuModel.addUrlToPage(page);
     }
 
-    private void parseClassInfoPage() {
+    private void parseClassInfoPage() throws IOException {
         System.setProperty("webdriver.chrome.driver",
                 this.getClass().getResource("/driver/chromedriver.exe").getPath());
 

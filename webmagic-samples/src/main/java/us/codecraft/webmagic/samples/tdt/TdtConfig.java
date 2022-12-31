@@ -66,6 +66,11 @@ final public class TdtConfig {
     public final static String HTML_FILE_PATH = "D:/temp/tdt_html/";
 
     /**
+     * js file path
+     */
+    public final static String JS_FILE_PATH = "D:/temp/js/";
+
+    /**
      * module name 2 file name map
      */
     public final static Map<String, String> MODULE_NAME_2_FILE_NAME = new HashMap<>();
