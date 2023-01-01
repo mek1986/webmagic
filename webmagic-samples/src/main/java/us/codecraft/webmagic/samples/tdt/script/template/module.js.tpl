@@ -1,26 +1,26 @@
-;!(function (win, $) {
+;!(function (win, $, T) {
     /**
-     * ${content.moduleName}
      * @version ${content.version}
-     * @create_time ${classItem.addTime}
+     * @create_time ${content.addTime?string["yyyy-MM-dd HH:mm:ss"]}
      */
 
     "use strict";
 
     <#if content.classList??>
     <#list content.classList as classItem>
-    <#if classItem.parent==null>
+    <#if !classItem.parent??>
     /**
-     * ${classItem.classDesc}<br>
+     * ${classItem.classDesc}<p>
      * @crawl_url ${classItem.fromUrl}
      */
-    class ${classItem.className} {
+    class ${classItem.className?replace(".", "")} {
+        <#if classItem.methodList??>
         <#list classItem.methodList as methodItem>
         /**
-         * ${methodItem.methodDesc}<br>
+         * ${methodItem.methodDesc}<p>
          <#if methodItem.paramsName??>
          <#list methodItem.paramsName as p>
-         * @param ${p} ${methodItem.params[p].desc} [${methodItem.params[p].type},<#if methodItem.params[p].need>必传<#else>非必传</#if>]<br>
+         * @param ${p} ${methodItem.params[p].desc} [${methodItem.params[p].type},<#if methodItem.params[p].need>必传<#else>非必传</#if>]<p>
          </#list>
          </#if>
          <#if methodItem.returnType!="none">
@@ -29,56 +29,21 @@
          */
         <#if methodItem.methodName == classItem.className>constructor${methodItem.paramsBody}<#else>${methodItem.methodCall}</#if> {
             <#if methodItem.methodName == classItem.className>
-            <!-- 构造函数 -->
-            this.obj = new T.${methodItem.methodCall};
-            Object.defineProperty(this, 'obj', {
-                get() {
-                    return obj;
-                },
-                set(v) {
-                    if(!(v instanceof T.${classItem.className})){
-                        throw 'type not match!';
-                    }
-
-                    obj = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            <#if classItem.optionDetailList??>
-            <!-- options -->
-            Object.defineProperty(this, 'options', {
-                get() {
-                    return {
-                        <#list classItem.optionDetailList as detail>
-                        //${detail.attrDesc} [${detail.attrType}]
-                        ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#else>${detail.attrDefaultValuel}</#if>,
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
-            </#if>
+            <#-- 构造函数 -->
+            this.obj = new T.${classItem.className}${methodItem.paramsBody};
 
             <#if classItem.eventList??>
-            <!-- 事件列表 -->
-            Object.defineProperty(this, 'events', {
-                get() {
-                    return {
-                        <#list classItem.eventList as detail>
-                        //${detail.eventDesc} [回调参数：${detail.params}]
-                        ${detail.eventName}: '${detail.eventName}',
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
+            <#-- 事件列表 -->
+            this.events = {
+                <#list classItem.eventList as detail>
+                //${detail.eventDesc} [回调参数：${detail.params}]
+                ${detail.eventName}: '${detail.eventName}',
+                </#list>
+            }
+
             </#if>
             <#else>
-            <!-- 普通函数 -->
+            <#-- 普通函数 -->
             if(!this.obj){
                 throw "not initialize correct";
             }
@@ -87,64 +52,30 @@
         }
 
         </#list>
+        </#if>
 
         <#if !methodHelp[classItem.className]??>
         /**
-         * 构造函数<br>
+         * 构造函数
          */
         constructor() {
             this.obj = null;
-            Object.defineProperty(this, 'obj', {
-                get() {
-                    return obj;
-                },
-                set(v) {
-                    if(!(v instanceof T.${classItem.className})){
-                        throw 'type not match!';
-                    }
-
-                    obj = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            <#if classItem.optionDetailList??>
-            <!-- options -->
-            Object.defineProperty(this, 'options', {
-                get() {
-                    return {
-                        <#list classItem.optionDetailList as detail>
-                        //${detail.attrDesc} [${detail.attrType}]
-                        ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#else>${detail.attrDefaultValuel}</#if>,
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
-            </#if>
 
             <#if classItem.eventList??>
-            <!-- 事件列表 -->
-            Object.defineProperty(this, 'events', {
-                get() {
-                    return {
-                        <#list classItem.eventList as detail>
-                        //${detail.eventDesc} [回调参数：${detail.params}]
-                        ${detail.eventName}: '${detail.eventName}',
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
+            <#-- 事件列表 -->
+            this.events = {
+                <#list classItem.eventList as detail>
+                //${detail.eventDesc} [回调参数：${detail.params}]
+                ${detail.eventName}: '${detail.eventName}',
+                </#list>
+            }
+
             </#if>
         }
         </#if>
 
         <#if content.eventList??>
-        <!-- 事件 -->
+        <#-- 事件 -->
         /**
          * 添加事件回调
          * @param eventName 事件名称
@@ -170,27 +101,32 @@
         }
         </#if>
     }
-    win.tdt.clz.${classItem.className} = ${classItem.className};
+    /**
+     * ${classItem.classDesc}<p>
+     */
+    win.tdt.clz.${classItem.className?replace(".", "")} = ${classItem.className?replace(".", "")};
+
     </#if>
     </#list>
     </#if>
 
     <#if content.classList??>
     <#list content.classList as classItem>
-    <#if classItem.parent!=null>
+    <#if classItem.parent??>
     /**
-     * ${classItem.classDesc}<br>
+     * ${classItem.classDesc}<p>
      * @crawl_url ${classItem.fromUrl}
      * @version ${content.version}
-     * @create_time ${classItem.addTime}
+     * @create_time ${classItem.addTime?string["yyyy-MM-dd HH:mm:ss"]}
      */
-    class ${classItem.className} extents win.tdt.clz.${classItem.parent} {
+    class ${classItem.className?replace(".", "")} extends ${classItem.parent?replace(".", "")} {
+        <#if classItem.methodList??>
         <#list classItem.methodList as methodItem>
         /**
-         * ${methodItem.methodDesc}<br>
+         * ${methodItem.methodDesc}<p>
          <#if methodItem.paramsName??>
          <#list methodItem.paramsName as p>
-         * @param ${p} ${methodItem.params[p].desc} [${methodItem.params[p].type},<#if methodItem.params[p].need>必传<#else>非必传</#if>]<br>
+         * @param ${p} ${methodItem.params[p].desc} [${methodItem.params[p].type},<#if methodItem.params[p].need>必传<#else>非必传</#if>]<p>
          </#list>
          </#if>
          <#if methodItem.returnType!="none">
@@ -199,56 +135,27 @@
          */
         <#if methodItem.methodName == classItem.className>constructor${methodItem.paramsBody}<#else>${methodItem.methodCall}</#if> {
             <#if methodItem.methodName == classItem.className>
-            <!-- 构造函数 -->
-            this.obj = new T.${methodItem.methodCall};
-            Object.defineProperty(this, 'obj', {
-                get() {
-                    return obj;
-                },
-                set(v) {
-                    if(!(v instanceof T.${classItem.className})){
-                        throw 'type not match!';
-                    }
-
-                    obj = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            <#if classItem.optionDetailList??>
-            <!-- options -->
-            Object.defineProperty(this, 'options', {
-                get() {
-                    return {
-                        <#list classItem.optionDetailList as detail>
-                        //${detail.attrDesc} [${detail.attrType}]
-                        ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#else>${detail.attrDefaultValuel}</#if>,
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
+            <#-- 构造函数 -->
+            <#if methodHelp[classItem.parent]??>
+            super${methodHelp[classItem.parent].paramsBody};
+            <#else>
+            super()
             </#if>
+
+            this.obj = new T.${classItem.className}${methodItem.paramsBody};
 
             <#if classItem.eventList??>
-            <!-- 事件列表 -->
-            Object.defineProperty(this, 'events', {
-                get() {
-                    return {
-                        <#list classItem.eventList as detail>
-                        //${detail.eventDesc} [回调参数：${detail.params}]
-                        ${detail.eventName}: '${detail.eventName}',
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
+            <#-- 事件列表 -->
+            this.events = {
+                <#list classItem.eventList as detail>
+                //${detail.eventDesc} [回调参数：${detail.params}]
+                ${detail.eventName}: '${detail.eventName}',
+                </#list>
+            }
+
             </#if>
             <#else>
-            <!-- 普通函数 -->
+            <#-- 普通函数 -->
             if(!this.obj){
                 throw "not initialize correct";
             }
@@ -257,64 +164,31 @@
         }
 
         </#list>
+        </#if>
 
         <#if !methodHelp[classItem.className]??>
         /**
-         * 构造函数<br>
+         * 构造函数
          */
         constructor() {
+            super();
             this.obj = null;
-            Object.defineProperty(this, 'obj', {
-                get() {
-                    return obj;
-                },
-                set(v) {
-                    if(!(v instanceof T.${classItem.className})){
-                        throw 'type not match!';
-                    }
-
-                    obj = v;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            <#if classItem.optionDetailList??>
-            <!-- options -->
-            Object.defineProperty(this, 'options', {
-                get() {
-                    return {
-                        <#list classItem.optionDetailList as detail>
-                        //${detail.attrDesc} [${detail.attrType}]
-                        ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#else>${detail.attrDefaultValuel}</#if>,
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
-            </#if>
 
             <#if classItem.eventList??>
-            <!-- 事件列表 -->
-            Object.defineProperty(this, 'events', {
-                get() {
-                    return {
-                        <#list classItem.eventList as detail>
-                        //${detail.eventDesc} [回调参数：${detail.params}]
-                        ${detail.eventName}: '${detail.eventName}',
-                        </#list>
-                    }
-                },
-                enumerable: true,
-                configurable: false
-            });
+            <#-- 事件列表 -->
+            this.events = {
+                <#list classItem.eventList as detail>
+                //${detail.eventDesc} [回调参数：${detail.params}]
+                ${detail.eventName}: '${detail.eventName}',
+                </#list>
+            }
+
             </#if>
         }
         </#if>
 
         <#if content.eventList??>
-        <!-- 事件 -->
+        <#-- 事件 -->
         /**
          * 添加事件回调
          * @param eventName 事件名称
@@ -340,21 +214,38 @@
         }
         </#if>
     }
-    win.tdt.clz.${classItem.className} = ${classItem.className};
+    /**
+     * ${classItem.classDesc}<p>
+     */
+    win.tdt.clz.${classItem.className?replace(".", "")} = ${classItem.className?replace(".", "")};
+
     </#if>
     </#list>
     </#if>
 
     <#if content.enums??>
-    <#assing keys = content.enums?keys>
+    <#assign keys = content.enums?keys>
     <#list keys as key>
-    <#list content.enums[key] as enumItem>
-    win.tdt.enum.${key} = {
+    win.tdt.enum.${key?replace(".","")} = {
+        <#list content.enums[key] as enumItem>
         //${enumItem.constValueDesc}
         ${enumItem.constValue}: ${enumItem.constValue},
+        </#list>
     };
 
     </#list>
-    </#list>
     </#if>
-})(window, jQuery);
+
+    <#list content.classList as classItem>
+    <#if classItem.optionDetailList??>
+    <#-- options -->
+    win.tdt.options.${classItem.optionDetailList[0].objName?replace(".","")} = {
+        <#list classItem.optionDetailList as detail>
+        //${detail.attrDesc} [${detail.attrType}]
+        ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#elseif detail.attrDefaultValue?contains("(")>new T.${detail.attrDefaultValue}<#elseif detail.attrDefaultValue=="*">new T.Icon.Default()<#else>${detail.attrDefaultValue}</#if>,
+        </#list>
+    };
+
+    </#if>
+    </#list>
+})(window, jQuery,T);

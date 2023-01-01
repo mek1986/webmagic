@@ -97,7 +97,7 @@ public class FileCrater {
         obj.put("content", content);
         obj.put("methodHelp", methodHelp);
 
-        try (OutputStream os = new FileOutputStream(path + "getClassInfo.html"); Writer out = new OutputStreamWriter(os);) {
+        try (OutputStream os = new FileOutputStream(path + filename); Writer out = new OutputStreamWriter(os);) {
             temp.process(obj, out);
         } catch (FileNotFoundException | ParseException | MalformedTemplateNameException | TemplateException e) {
             e.printStackTrace();

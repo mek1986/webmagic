@@ -435,7 +435,17 @@ public class TdtDbManage {
         obj.put("attrName", detailObj.getString("attr_name"));
         obj.put("attrType", detailObj.getString("attr_type"));
         obj.put("attrDesc", detailObj.getOrDefault("attr_desc", "无"));
-        obj.put("attrDefaultValue", detailObj.getOrDefault("attr_default_value", "无"));
+        String dv = (String) detailObj.getOrDefault("attr_default_value", "\"无\"");
+        String pattern = "[\\u4e00-\\u9fa5]";
+        Pattern compile = Pattern.compile(pattern);
+        Matcher matcher = compile.matcher(dv);
+        if (matcher.find()) {
+            if (!dv.contains("\"") && !dv.contains("'")) {
+                dv = "\"" + dv + "\"";
+            }
+        }
+
+        obj.put("attrDefaultValue", dv);
         setIdUrlAddTimeVersion(obj, version, url);
 
         return obj;
@@ -619,7 +629,7 @@ public class TdtDbManage {
     private JSONObject parseMethodNameAndParams(JSONObject methodObj, TdtPageModel pageModel) {
         String methodSign = methodObj.getString("rawMethodSign");
 
-        String pattern = "([a-zA-Z0-9]+)\\s*(\\([^\\(\\))]*\\))?";
+        String pattern = "([a-zA-Z0-9\\.]+)\\s*(\\([^\\(\\))]*\\))?";
         Pattern compile = Pattern.compile(pattern);
         Matcher matcher = compile.matcher(methodSign);
 
@@ -737,8 +747,9 @@ public class TdtDbManage {
                 paramNames.add(name);
             } else {
                 tempObj.put("type", param[1].trim());
-                paramObj.put(param[0].trim(), tempObj);
-                paramNames.add(param[0].trim());
+                String name = param[0].trim().replace("<br>", "");
+                paramObj.put(name, tempObj);
+                paramNames.add(name);
             }
         }
 

@@ -92,6 +92,13 @@ public class TdtLocalProcessor implements PageProcessor {
             e.printStackTrace();
         }
 
+        driver.executeScript("location.reload()");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         String classInfo = driver.findElementById("content").getText();
         if (TdtConfig.DEBUG) {
             TdtUtils.printDebug("classInfo" + classInfo);
