@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+import com.waylau.uicompressor.App;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.samples.tdt.script.FileCrater;
 
@@ -89,14 +90,6 @@ public class TdtGlobalService {
         setEventList();
         setOption();
         setEnumList();
-
-        if (TdtConfig.DEBUG) {
-            JSONObject[] objects = moduleMap.values().toArray(new JSONObject[0]);
-            for (JSONObject obj :
-                    objects) {
-                TdtUtils.printDebug("模块信息:", obj.toString());
-            }
-        }
     }
 
     private static void initModuleMap() {
@@ -184,7 +177,7 @@ public class TdtGlobalService {
 
             obj.put("paramsBody", "(" + p + ")");
             clazz.put("methodList", methodList);
-            methodHelp.put(clazz.getString("className")+"-"+obj.getString("methodName"), obj);
+            methodHelp.put(clazz.getString("className") + "-" + obj.getString("methodName"), obj);
         }
 
         for (JSONObject obj : dbManage.methodArray.toJavaList(JSONObject.class)) {
@@ -195,7 +188,7 @@ public class TdtGlobalService {
 
             String p = "";
             if (clazz.getString("parent") != null) {
-                JSONObject parentMethod = methodHelp.get(clazz.getString("parent")+"-"+clazz.getString("parent"));
+                JSONObject parentMethod = methodHelp.get(clazz.getString("parent") + "-" + clazz.getString("parent"));
                 if (parentMethod != null) {
                     String methodCall = parentMethod.getString("methodCall");
                     String pattern = "\\(([^()]+)\\)";
