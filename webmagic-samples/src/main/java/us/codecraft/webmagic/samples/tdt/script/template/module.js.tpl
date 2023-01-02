@@ -14,6 +14,26 @@
      * @crawl_url ${classItem.fromUrl}
      */
     class ${classItem.className?replace(".", "")} {
+        <#if classItem.eventList??>
+        <#-- 事件列表 -->
+        static events = {
+            <#list classItem.eventList as detail>
+            //${detail.eventDesc} [回调参数：${detail.params}]
+            ${detail.eventName}: '${detail.eventName}',
+            </#list>
+        }
+
+        </#if>
+        <#if classItem.optionDetailList??>
+        <#-- options -->
+        static options = {
+            <#list classItem.optionDetailList as detail>
+            //${detail.attrDesc} [${detail.attrType}]
+            ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#elseif detail.attrDefaultValue?contains("(")>new T.${detail.attrDefaultValue}<#elseif detail.attrDefaultValue=="*">new T.Icon.Default()<#else>${detail.attrDefaultValue}</#if>,
+            </#list>
+        };
+
+        </#if>
         <#if classItem.methodList??>
         <#list classItem.methodList as methodItem>
         /**
@@ -32,16 +52,6 @@
             <#-- 构造函数 -->
             this.obj = new T.${classItem.className}${methodItem.paramsBody};
 
-            <#if classItem.eventList??>
-            <#-- 事件列表 -->
-            this.events = {
-                <#list classItem.eventList as detail>
-                //${detail.eventDesc} [回调参数：${detail.params}]
-                ${detail.eventName}: '${detail.eventName}',
-                </#list>
-            }
-
-            </#if>
             <#else>
             <#-- 普通函数 -->
             if(!this.obj){
@@ -60,17 +70,6 @@
          */
         constructor() {
             this.obj = null;
-
-            <#if classItem.eventList??>
-            <#-- 事件列表 -->
-            this.events = {
-                <#list classItem.eventList as detail>
-                //${detail.eventDesc} [回调参数：${detail.params}]
-                ${detail.eventName}: '${detail.eventName}',
-                </#list>
-            }
-
-            </#if>
         }
         </#if>
 
@@ -120,6 +119,26 @@
      * @create_time ${classItem.addTime?string["yyyy-MM-dd HH:mm:ss"]}
      */
     class ${classItem.className?replace(".", "")} extends ${classItem.parent?replace(".", "")} {
+        <#if classItem.eventList??>
+        <#-- 事件列表 -->
+        static events = {
+            <#list classItem.eventList as detail>
+            //${detail.eventDesc} [回调参数：${detail.params}]
+            ${detail.eventName}: '${detail.eventName}',
+            </#list>
+        }
+
+        </#if>
+        <#if classItem.optionDetailList??>
+        <#-- options -->
+        static options = {
+            <#list classItem.optionDetailList as detail>
+            //${detail.attrDesc} [${detail.attrType}]
+            ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#elseif detail.attrDefaultValue?contains("(")>new T.${detail.attrDefaultValue}<#elseif detail.attrDefaultValue=="*">new T.Icon.Default()<#else>${detail.attrDefaultValue}</#if>,
+            </#list>
+        };
+
+        </#if>
         <#if classItem.methodList??>
         <#list classItem.methodList as methodItem>
         /**
@@ -143,17 +162,6 @@
             </#if>
 
             this.obj = new T.${classItem.className}${methodItem.paramsBody};
-
-            <#if classItem.eventList??>
-            <#-- 事件列表 -->
-            this.events = {
-                <#list classItem.eventList as detail>
-                //${detail.eventDesc} [回调参数：${detail.params}]
-                ${detail.eventName}: '${detail.eventName}',
-                </#list>
-            }
-
-            </#if>
             <#else>
             <#-- 普通函数 -->
             if(!this.obj){
@@ -173,17 +181,6 @@
         constructor() {
             super();
             this.obj = null;
-
-            <#if classItem.eventList??>
-            <#-- 事件列表 -->
-            this.events = {
-                <#list classItem.eventList as detail>
-                //${detail.eventDesc} [回调参数：${detail.params}]
-                ${detail.eventName}: '${detail.eventName}',
-                </#list>
-            }
-
-            </#if>
         }
         </#if>
 
@@ -235,17 +232,4 @@
 
     </#list>
     </#if>
-
-    <#list content.classList as classItem>
-    <#if classItem.optionDetailList??>
-    <#-- options -->
-    win.tdt.options.${classItem.optionDetailList[0].objName?replace(".","")} = {
-        <#list classItem.optionDetailList as detail>
-        //${detail.attrDesc} [${detail.attrType}]
-        ${detail.attrName}: <#if detail.attrDefaultValue=="无">null<#elseif detail.attrDefaultValue?contains("(")>new T.${detail.attrDefaultValue}<#elseif detail.attrDefaultValue=="*">new T.Icon.Default()<#else>${detail.attrDefaultValue}</#if>,
-        </#list>
-    };
-
-    </#if>
-    </#list>
 })(window, jQuery,T);
