@@ -1,4 +1,4 @@
-;!(function (win, $, T) {
+;!(function (win, $) {
     /**
      * @version ${content.version}
      * @create_time ${content.addTime?string["yyyy-MM-dd HH:mm:ss"]}
@@ -232,4 +232,4 @@
 
     </#list>
     </#if>
-})(window, jQuery,T);
+})(window, jQuery);
