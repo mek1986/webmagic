@@ -184,7 +184,7 @@ public class TdtGlobalService {
 
             obj.put("paramsBody", "(" + p + ")");
             clazz.put("methodList", methodList);
-            methodHelp.put(obj.getString("methodName"), obj);
+            methodHelp.put(clazz.getString("className")+"-"+obj.getString("methodName"), obj);
         }
 
         for (JSONObject obj : dbManage.methodArray.toJavaList(JSONObject.class)) {
@@ -195,7 +195,7 @@ public class TdtGlobalService {
 
             String p = "";
             if (clazz.getString("parent") != null) {
-                JSONObject parentMethod = methodHelp.get(clazz.getString("parent"));
+                JSONObject parentMethod = methodHelp.get(clazz.getString("parent")+"-"+clazz.getString("parent"));
                 if (parentMethod != null) {
                     String methodCall = parentMethod.getString("methodCall");
                     String pattern = "\\(([^()]+)\\)";

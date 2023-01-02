@@ -64,7 +64,7 @@
         </#list>
         </#if>
 
-        <#if !methodHelp[classItem.className]??>
+        <#if !methodHelp[classItem.className+"-"+classItem.className]??>
         /**
          * 构造函数
          */
@@ -73,7 +73,7 @@
         }
         </#if>
 
-        <#if content.eventList??>
+        <#if classItem.eventList??&&!methodHelp[classItem.className+"-addEventListener"]??>
         <#-- 事件 -->
         /**
          * 添加事件回调
@@ -155,8 +155,8 @@
         <#if methodItem.methodName == classItem.className>constructor${methodItem.paramsBody}<#else>${methodItem.methodCall}</#if> {
             <#if methodItem.methodName == classItem.className>
             <#-- 构造函数 -->
-            <#if methodHelp[classItem.parent]??>
-            super${methodHelp[classItem.parent].paramsBody};
+            <#if methodHelp[classItem.parent+"-"+classItem.parent]??>
+            super${methodHelp[classItem.parent+"-"+classItem.parent].paramsBody};
             <#else>
             super()
             </#if>
@@ -174,7 +174,7 @@
         </#list>
         </#if>
 
-        <#if !methodHelp[classItem.className]??>
+        <#if !methodHelp[classItem.className+"-"+classItem.className]??>
         /**
          * 构造函数
          */
@@ -184,7 +184,7 @@
         }
         </#if>
 
-        <#if content.eventList??>
+        <#if classItem.eventList??&&!methodHelp[classItem.className+"-addEventListener"]??>
         <#-- 事件 -->
         /**
          * 添加事件回调
