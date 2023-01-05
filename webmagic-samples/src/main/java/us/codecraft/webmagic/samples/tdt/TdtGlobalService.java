@@ -1,15 +1,21 @@
 package us.codecraft.webmagic.samples.tdt;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.waylau.uicompressor.App;
+import org.apache.http.HttpRequestFactory;
+import sun.net.www.http.HttpClient;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.downloader.HttpClientGenerator;
 import us.codecraft.webmagic.samples.tdt.script.FileCrater;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,17 +76,29 @@ public class TdtGlobalService {
 
         FileCrater fileCrater = new FileCrater();
         JSONObject[] objects = moduleMap.values().toArray(new JSONObject[0]);
-        for (JSONObject obj :
-                objects) {
-            if (fileCrater.createFile(obj.getString("fileName"), "module.js.tpl", obj, methodHelp)) {
-                System.out.println(obj.getString("fileName") + "生成成功");
-                continue;
-            }
-
-            System.out.println(obj.getString("fileName") + "生成失败");
+        if (!fileCrater.createFile(objects[0].getString("fileName"), "module.js.tpl", objects[0], methodHelp)) {
+            System.out.println(objects[0].getString("fileName") + "生成失败");
+            return false;
         }
 
+        System.out.println(objects[0].getString("fileName") + "生成成功");
+//        encodeCoreJsFile();
+
         return true;
+    }
+
+    private static void encodeCoreJsFile() throws IOException {
+        //code is encode type,can be in these values [None,Numeric,Normal]
+        URL localhost = new URL("http://localhost:6001/example-file.php?code=Normal");
+        URLConnection con = localhost.openConnection();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));) {
+            String content;
+
+            while ((content = bufferedReader.readLine()) != null) {
+                System.out.println(content);
+            }
+        }
     }
 
     private static void buildModule() {

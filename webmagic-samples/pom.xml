@@ -66,8 +66,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/ui-compressor-1.2.0.jar</systemPath>
         </dependency>
 
         <dependency>
