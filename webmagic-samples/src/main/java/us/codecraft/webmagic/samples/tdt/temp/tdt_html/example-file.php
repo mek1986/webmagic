@@ -2,16 +2,17 @@
 // you can pass this script to PHP CLI to convert your file.
 
 // adapt these 2 paths to your files.
-require 'JsPacker.php';
+require 'class.JavaScriptPacker.php';
 
 $src = 'd:\temp\js\core.js';
 $out = 'd:\temp\js\core.min.js';
+$encode = $_GET['code'];
 
-//$encodes = JavaScriptPacker::getEncoding();
+$encodes = JavaScriptPacker::getEncoding();
 
-//if (empty($encode) || !isset($encodes[$encode])) {
-//    $encode = "None";
-//}
+if (empty($encode) || !isset($encodes[$encode])) {
+    $encode = "None";
+}
 
 // or uncomment these lines to use the argc and argv passed by CLI :
 /*
@@ -29,7 +30,8 @@ $script = file_get_contents($src);
 
 $t1 = microtime(true);
 
-$packed = JsPacker::pack($script);
+$packer = new JavaScriptPacker($script, $encode, true, false);
+$packed = $packer->pack();
 
 $t2 = microtime(true);
 $time = sprintf('%.4f', ($t2 - $t1));

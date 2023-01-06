@@ -21,7 +21,7 @@
             //${detail.eventDesc} [回调参数：${detail.params}]
             ${detail.eventName}: '${detail.eventName}',
             </#list>
-        }
+        };
 
         </#if>
         <#if classItem.optionDetailList??>
@@ -126,7 +126,7 @@
             //${detail.eventDesc} [回调参数：${detail.params}]
             ${detail.eventName}: '${detail.eventName}',
             </#list>
-        }
+        };
 
         </#if>
         <#if classItem.optionDetailList??>
@@ -158,7 +158,7 @@
             <#if methodHelp[classItem.parent+"-"+classItem.parent]??>
             super${methodHelp[classItem.parent+"-"+classItem.parent].paramsBody};
             <#else>
-            super()
+            super();
             </#if>
 
             this.obj = new T.${classItem.className}${methodItem.paramsBody};
