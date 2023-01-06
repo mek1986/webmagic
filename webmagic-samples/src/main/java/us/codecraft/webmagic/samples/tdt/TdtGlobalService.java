@@ -82,14 +82,13 @@ public class TdtGlobalService {
         }
 
         System.out.println(objects[0].getString("fileName") + "生成成功");
-//        encodeCoreJsFile();
+        encodeCoreJsFile();
 
         return true;
     }
 
     private static void encodeCoreJsFile() throws IOException {
-        //code is encode type,can be in these values [None,Numeric,Normal]
-        URL localhost = new URL("http://localhost:6001/example-file.php?code=Normal");
+        URL localhost = new URL("http://localhost:6001/example-file.php");
         URLConnection con = localhost.openConnection();
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));) {

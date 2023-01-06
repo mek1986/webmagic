@@ -148,7 +148,7 @@ class JavaScriptPacker {
 		// remove white-space
 		$parser->add('/(\\b|\\x24)\\s+(\\b|\\x24)/', '$2 $3');
 		$parser->add('/([+\\-])\\s+([+\\-])/', '$2 $3');
-		$parser->add('/\\s+/', '');
+		$parser->add('/([^\\S]+)(\r\n)\s*?([ \t]*)/', '$2$3$4');
 		// done
 		return $parser->exec($script);
 	}
