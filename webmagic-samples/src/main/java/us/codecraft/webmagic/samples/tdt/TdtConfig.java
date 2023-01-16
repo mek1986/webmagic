@@ -21,7 +21,7 @@ final public class TdtConfig {
      * domain
      * lbs.tianditu.gov.cn
      */
-    public final static String DOMAIN = "localhost:6001";
+    public final static String DOMAIN = "192.168.1.203:6001";
 
 
     /**

@@ -13,7 +13,25 @@
      * ${classItem.classDesc}<p>
      * @crawl_url ${classItem.fromUrl}
      */
-    class ${classItem.className?replace(".", "")} {
+    class ${classItem.className?replace(".", "")} {               
+        #obj = null;
+        
+        getObj(){
+            return this.#obj;                
+        }
+        
+        setObj(obj){
+            if(this.#obj!=null){                
+                throw "can not change obj";                              
+            }
+            
+            if(!(obj instanceof T.${classItem.className})){                
+                throw "obj type is not match";                              
+            }
+            
+            this.#obj = obj;
+        }
+        
         <#if classItem.eventList??>
         <#-- 事件列表 -->
         static events = {
@@ -50,14 +68,14 @@
         <#if methodItem.methodName == classItem.className>constructor${methodItem.paramsBody}<#else>${methodItem.methodCall}</#if> {
             <#if methodItem.methodName == classItem.className>
             <#-- 构造函数 -->
-            this.obj = new T.${classItem.className}${methodItem.paramsBody};
+            this.#obj = new T.${classItem.className}${methodItem.paramsBody};
 
             <#else>
             <#-- 普通函数 -->
-            if(!this.obj){
+            if(!this.#obj){
                 throw "not initialize correct";
             }
-            return this.obj.${methodItem.methodCall};
+            return this.#obj.${methodItem.methodCall};
             </#if>
         }
 
@@ -69,7 +87,7 @@
          * 构造函数
          */
         constructor() {
-            this.obj = null;
+            this.#obj = null;
         }
         </#if>
 
@@ -81,10 +99,10 @@
          * @param callback 事件回调
          */
         addEventListener(eventName, callback) {
-            if(!this.obj){
+            if(!this.#obj){
                 throw "not initialize correct";
             }
-            this.obj.addEventListener(eventName, callback);
+            this.#obj.addEventListener(eventName, callback);
         }
 
         /**
@@ -93,10 +111,10 @@
          * @param callback 事件回调
          */
         removeEventListener(eventName, callback) {
-            if(!this.obj){
+            if(!this.#obj){
                 throw "not initialize correct";
             }
-            this.obj.removeEventListener(eventName, callback);
+            this.#obj.removeEventListener(eventName, callback);
         }
         </#if>
     }
@@ -119,6 +137,24 @@
      * @create_time ${classItem.addTime?string["yyyy-MM-dd HH:mm:ss"]}
      */
     class ${classItem.className?replace(".", "")} extends ${classItem.parent?replace(".", "")} {
+        #obj = null;
+                
+        getObj(){
+            return this.#obj;
+        }
+
+        setObj(obj){
+            if(this.#obj!=null){
+                throw "can not change obj";
+            }
+
+            if(!(obj instanceof T.${classItem.className})){
+                throw "obj type is not match";
+            }
+
+            this.#obj = obj;
+        }
+
         <#if classItem.eventList??>
         <#-- 事件列表 -->
         static events = {
@@ -161,13 +197,13 @@
             super();
             </#if>
 
-            this.obj = new T.${classItem.className}${methodItem.paramsBody};
+            this.#obj = new T.${classItem.className}${methodItem.paramsBody};
             <#else>
             <#-- 普通函数 -->
-            if(!this.obj){
+            if(!this.#obj){
                 throw "not initialize correct";
             }
-            return this.obj.${methodItem.methodCall};
+            return this.#obj.${methodItem.methodCall};
             </#if>
         }
 
@@ -180,7 +216,7 @@
          */
         constructor() {
             super();
-            this.obj = null;
+            this.#obj = null;
         }
         </#if>
 
@@ -192,10 +228,10 @@
          * @param callback 事件回调
          */
         addEventListener(eventName, callback) {
-            if(!this.obj){
+            if(!this.#obj){
                 throw "not initialize correct";
             }
-            this.obj.addEventListener(eventName, callback);
+            this.#obj.addEventListener(eventName, callback);
         }
 
         /**
@@ -204,10 +240,10 @@
          * @param callback 事件回调
          */
         removeEventListener(eventName, callback) {
-            if(!this.obj){
+            if(!this.#obj){
                 throw "not initialize correct";
             }
-            this.obj.removeEventListener(eventName, callback);
+            this.#obj.removeEventListener(eventName, callback);
         }
         </#if>
     }
