@@ -128,7 +128,7 @@ public class TdtGlobalService {
 //            moduleMap.put(jsonObject.getString("pModuleName"), obj);
 //        }
         JSONObject obj = new JSONObject();
-        obj.put("fileName", "core.js");
+        obj.put("fileName", "core_dev.js");
         obj.put("version", jsonObjects[0].getString("version"));
         obj.put("pModuleName", "0");
         obj.put("addTime", jsonObjects[0].get("addTime"));

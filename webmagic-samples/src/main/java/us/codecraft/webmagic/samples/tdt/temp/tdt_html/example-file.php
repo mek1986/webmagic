@@ -4,8 +4,8 @@
 // adapt these 2 paths to your files.
 require 'class.JavaScriptPacker.php';
 
-$src = 'd:\temp\js\core.js';
-$out = 'd:\temp\js\core.min.js';
+$src = 'd:\temp\js\core_dev.js';
+$out = 'd:\temp\js\core.js';
 $encode = $_GET['code'];
 
 $encodes = JavaScriptPacker::getEncoding();
